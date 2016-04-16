@@ -17,6 +17,12 @@ $(function () {
 
 function init_chart(){
 
+  Highcharts.setOptions({
+    lang: {
+        thousandsSep: ','
+    }
+  });
+
   $.when($.get('/data/SOR_Charts_Draft_04082016.csv')).then(
     function(data){
       var rent_data = $.csv.toObjects(data);
@@ -37,17 +43,19 @@ function init_chart(){
 
       var series_data = [];
       series_data.push({
-            name: 'Renter-Occupied',
-            data: cleaned_data[0]
+            name: 'Owner-Occupied',
+            data: cleaned_data[1],
+            color: '#C0CAE6'
           });
 
       series_data.push({
-            name: 'Owner-Occupied',
-            data: cleaned_data[1]
+            name: 'Renter-Occupied',
+            data: cleaned_data[0],
+            color: '#527AB8'
           });
 
-      console.log(series_data);
-      console.log(years)
+      // console.log(series_data);
+      // console.log(years)
 
       $('#chart').highcharts({
         chart: {
@@ -55,7 +63,7 @@ function init_chart(){
         },
         credits: { enabled: false },
         title: {
-            text: 'Renter-occupied vs Owner-occupied housing: 2000 - 2014'
+            text: 'Cook County Renter-occupied vs Owner-occupied housing: 2000 - 2014'
         },
         xAxis: {
             categories: years,
@@ -68,11 +76,16 @@ function init_chart(){
             title: {
                 text: 'Percent'
             },
-            max: 65,
-            min: 55
+            labels: {
+              formatter: function () {
+                return this.value + '%';
+              }
+            },
+            max: 50,
+            min: 30
         },
         tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f})<br/>',
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} households)<br/>',
             shared: true
         },
         plotOptions: {
