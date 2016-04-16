@@ -17,88 +17,138 @@ $(function () {
 
 function init_chart(){
 
-  $.when($.get('/data/cook_puma_trend_by_quarter_q2.csv')).then(
+  $.when($.get('/data/SOR_Charts_Draft_04082016.csv')).then(
     function(data){
-      var puma_data = $.csv.toObjects(data);
-      var series_data = [];
+      var rent_data = $.csv.toObjects(data);
+      var cleaned_data = [];
+      var years = [];
 
-      $.each(puma_data, function(k, v){
-        puma_lookup[v['PumaID']] = v;
-        var data = [];
-        for (var year = 2000; year <= 2015; year++) {
-          for (var quarter = 1; quarter < 5; quarter++) {
-            if (v[ year + 'Q' + quarter ] != undefined)
-              data.push(parseFloat(v[ year + 'Q' + quarter ]));
-          }
-        }
+      //format numbers
+      $.each(rent_data, function(row_id, row){
+        var row_data = [];
+        $.each(row, function(col_id, col){
+          row_data.push(parseInt(col.replace(/,/g,'')));
 
-        chart_series[v['PumaID']] = k;
-        series_data.push({name: v['PumaID'], data: data, lineWidth: 2});
-
+          if(years.indexOf(col_id) == -1)
+            years.push(col_id);
+        });
+        cleaned_data.push(row_data);
       });
-  
-      // initialize chart
-      chart = new Highcharts.Chart({
+
+      var series_data = [];
+      series_data.push({
+            name: 'Renter-Occupied',
+            data: cleaned_data[0]
+          });
+
+      series_data.push({
+            name: 'Owner-Occupied',
+            data: cleaned_data[1]
+          });
+
+      console.log(series_data);
+      console.log(years)
+
+      $('#chart').highcharts({
         chart: {
-            renderTo: 'chart'
-        },
-        title: {
-            text: "Cook County House Price Index: Jan 2000 - June 2015",
-            x: -20 //center
+            type: 'area'
         },
         credits: { enabled: false },
-        xAxis: { type: 'datetime' },
+        title: {
+            text: 'Renter-occupied vs Owner-occupied housing: 2000 - 2014'
+        },
+        xAxis: {
+            categories: years,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
         yAxis: {
             title: {
-                text: 'Price Change Since 2000'
+                text: 'Percent'
             },
-            labels: {
-                formatter: function() {
-                    return this.value + ' %';
-                }
-            },
+            max: 65,
+            min: 55
         },
         tooltip: {
-          crosshairs: true,
-          formatter: function() {
-            var val = this.y;
-            if (this.y >= 0)
-              val = "+" + this.y;
-            var s = "<strong>" + puma_lookup[this.series.name].Name + "</strong><br />" + Highcharts.dateFormat("%B %Y", this.x) + "<br />Price change since 2000: " + val + "%";
-            
-            return s;
-          }
-        },
-        legend: {
-          enabled: false
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f})<br/>',
+            shared: true
         },
         plotOptions: {
-          series: {
-            marker: {
-              radius: 0,
-              states: {
-                hover: {
-                  enabled: true,
-                  radius: 5
+            area: {
+                stacking: 'percent',
+                lineColor: '#ffffff',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 1,
+                    lineColor: '#ffffff'
                 }
-              }
-            },
-            pointInterval: (3 * 30.4 * 24 * 3600 * 1000),  
-            pointStart: Date.UTC(2000, 2, 15),
-            shadow: false,
-            states: {
-               hover: {
-                  lineWidth: 10
-               }
-            },
-            events: {
-              mouseOver: function () {
-                chart.series[this.index].group.toFront();
-              }
             }
-          }
         },
         series: series_data
-      });
+    });
+
+
+
+
+    //   // initialize chart
+    //   chart = new Highcharts.Chart({
+    //     chart: {
+    //         renderTo: 'chart',
+    //         type: 'area'
+    //     },
+    //     title: {
+    //         text: "Renter-occupied vs Owner-occupied housing: 2000 - 2014",
+    //         x: -20 //center
+    //     },
+    //     credits: { enabled: false },
+    //     yAxis: {
+    //         title: {
+    //             text: 'Percent'
+    //         },
+    //         labels: {
+    //             formatter: function() {
+    //                 return this.value + ' %';
+    //             }
+    //         },
+    //     },
+    //     xAxis: {
+    //       categories: years,
+    //       tickmarkPlacement: 'on',
+    //       title: {
+    //           enabled: false
+    //       }
+    //     },
+    //     tooltip: {
+    //       crosshairs: true,
+    //       formatter: function() {
+    //         return "<strong>" + this.series.name + "</strong><br />" + this.x + "<br />" + this.y + "%";
+    //       }
+    //     },
+    //     legend: {
+    //       enabled: false
+    //     },
+    //     plotOptions: {
+    //       series: {
+    //         marker: {
+    //           radius: 0,
+    //           states: {
+    //             hover: {
+    //               enabled: true,
+    //               radius: 5
+    //             }
+    //           }
+    //         },
+    //         shadow: false,
+    //         states: {
+    //            hover: {
+    //               lineWidth: 10
+    //            }
+    //         }
+    //       }
+    //     },
+    //     series: series_data
+    //   });
     });
 }
