@@ -92,10 +92,17 @@ function init_chart(){
             area: {
                 stacking: 'percent',
                 lineColor: '#ffffff',
-                lineWidth: 1,
+                lineWidth: 2,
                 marker: {
                     lineWidth: 1,
-                    lineColor: '#ffffff'
+                    lineColor: '#ffffff',
+                    symbol: 'square'
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                      return this.percentage.toFixed(1) + '%';
+                    }
                 }
             }
         },
