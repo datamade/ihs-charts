@@ -111,10 +111,15 @@ function init_chart_1(el, series_data, years){
       yAxis: {
           title: {
               text: 'Percent'
-          }
+          },
+          labels: {
+            formatter: function () {
+              return this.value + '%';
+            }
+          },
       },
       tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} households<br/>',
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%<br/>',
           shared: true
       },
       plotOptions: {
@@ -123,6 +128,12 @@ function init_chart_1(el, series_data, years){
                   lineWidth: 1,
                   lineColor: '#ffffff',
                   symbol: 'square'
+              },
+              dataLabels: {
+                  enabled: true,
+                  formatter: function () {
+                    return this.y.toFixed(1) + '%';
+                  }
               }
           }
       },
