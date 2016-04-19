@@ -11,7 +11,7 @@ $(function () {
     }
   });
 
-  $.when($.get('data/SOR_Charts_Draft_04082016.csv')).then(
+  $.when($.get('data/1-tenure.csv')).then(
     function(data){
       var rent_data = $.csv.toObjects(data);
       var cleaned_data = [];
@@ -194,6 +194,9 @@ function init_chart_3(el, series_data, years){
     });
 
     $(el).highcharts({
+      chart: {
+          alignTicks: false
+      },
       credits: { enabled: false },
       title: {
           text: 'Cook County Renter-occupied vs Owner-occupied housing: 2000 - 2014'
@@ -209,8 +212,7 @@ function init_chart_3(el, series_data, years){
           title: {
               text: 'Households'
           },
-          min: 0,
-          max: 1200000
+          min: 0
       },{
           title: {
               text: 'Percent'
