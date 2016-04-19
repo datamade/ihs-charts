@@ -11,7 +11,7 @@ $(function () {
     }
   });
 
-  $.when($.get('/data/SOR_Charts_Draft_04082016.csv')).then(
+  $.when($.get('data/SOR_Charts_Draft_04082016.csv')).then(
     function(data){
       var rent_data = $.csv.toObjects(data);
       var cleaned_data = [];

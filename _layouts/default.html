@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>{{site.name}}</title>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description"        content="{{ site.description }}">
+    <meta name="author"             content="{{ site.author }}">
+
+    <!-- Facebook metadata -->
+    <meta property="og:site_name"   content="{{ site.name }}">
+    <meta property="og:title"       content="{{ site.name }}">
+    <meta property="og:type"        content="article">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:url"         content="{{ site.url }}">
+    <meta property="og:image"       content="{{ site.image }}">
+
+    <!-- Twitter metadata -->
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:site"       content="@HousingStudies">
+    <meta name="twitter:creator"    content="@DataMade">
+    <meta name="twitter:description" content="{{ site.description }}">
+    <meta name="twitter:title"      content="{{ site.name }}">
+    <meta name="twitter:url"        content="{{ site.url }}">
+    <meta name="twitter:image"  content="{{site.url}}{{ site.image }}">
+
+    <link rel="icon" href="images/favicon.ico">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="/lib/jquery.min.js"></script>
+    <script src="/lib/bootstrap.min.js"></script>
+    <script src="/lib/highcharts.js"></script>
+    <script src="/lib/pattern-fill-v2.js"></script>
+    <script src="/lib/jquery.csv.min.js"></script>
+    <script src="/lib/jquery.dataTables.min.js"></script>
+    <script src="/lib/dataTables.bootstrap.js"></script>
+
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class='row'>
+        
+        {{content}}
+
+      </div>
+    </div><!-- /.container -->
+
+    <script src="/js/analytics_lib.js"></script>
+    
+  </body>
+</html>
