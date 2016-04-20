@@ -1,23 +1,20 @@
+Highcharts.setOptions({
+    lang: {
+        thousandsSep: ','
+    },
+    chart: {
+        style: {
+            fontFamily: '"ColaborateThinRegular", sans-serif'
+        }
+    }
+});
+
 var ChartHelper = ChartHelper || {};
 var ChartHelper = {
 
     colors: ['#C0CAE6', '#527AB8'],
     cleaned_data: [],
     categories: [],
-
-    init_highcharts: function(){
-
-        Highcharts.setOptions({
-            lang: {
-                thousandsSep: ','
-            },
-            chart: {
-                style: {
-                    fontFamily: '"ColaborateThinRegular", sans-serif'
-                }
-            }
-        });
-    },
 
     clean_csv_data: function(data){
         var obj_data = $.csv.toObjects(data);
@@ -77,29 +74,35 @@ var ChartHelper = {
       );
     },
 
-    load_data: function(csv) {
-        $.when($.get(csv)).then(
-        function(data){
-          var obj_data = $.csv.toObjects(data);
-          
-          cleaned_data = [];
-          categories = [];
+    make_bar_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
 
-          series_data = [];
-          series_data.push({
-                name: 'Owner-Occupied',
-                data: cleaned_data[1],
-                color: ChartHelper.colors[0]
-              });
-
-          series_data.push({
-                name: 'Renter-Occupied',
-                data: cleaned_data[0],
-                color: ChartHelper.colors[1]
-              });
-
-        init_chart_0('#chart_0', series_data, years);
-        init_chart_1('#chart_1', series_data, years);
+      $(el).highcharts({
+        chart: {
+          type: 'column'
+        },
+        credits: { enabled: false },
+        title: {
+          text: chart_title
+        },
+        xAxis: {
+          categories: categories,
+          tickmarkPlacement: 'on',
+          title: {
+              enabled: false
+          }
+        },
+        yAxis: {
+          title: {
+              text: yaxis_title
+          },
+          min: 0
+        },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} '+yaxis_title+'<br/>',
+          shared: true
+        },
+        series: series_data
       });
+
     }
 }

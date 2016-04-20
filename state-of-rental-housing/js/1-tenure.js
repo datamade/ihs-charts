@@ -18,41 +18,11 @@ $(function () {
             color: '#527AB8'
           });
 
-    init_chart_0('#chart_0', series_data, years);
-    init_chart_1('#chart_1', series_data, years);
+      ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Cook County Renter-occupied vs Owner-occupied housing: 2000 - 2014', '', 'Households')
+      init_chart_1('#chart_1', series_data, years);
   });
 });
 
-function init_chart_0(el, series_data, years){
-
-    $(el).highcharts({
-      chart: {
-          type: 'column'
-      },
-      credits: { enabled: false },
-      title: {
-          text: 'Cook County Renter-occupied vs Owner-occupied housing: 2000 - 2014'
-      },
-      xAxis: {
-          categories: years,
-          tickmarkPlacement: 'on',
-          title: {
-              enabled: false
-          }
-      },
-      yAxis: {
-          title: {
-              text: 'Households'
-          },
-          min: 0
-      },
-      tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} households<br/>',
-          shared: true
-      },
-      series: series_data
-  });
-}
 
 function init_chart_1(el, series_data, years){
 
