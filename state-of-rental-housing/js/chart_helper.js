@@ -129,5 +129,42 @@ var ChartHelper = {
         series: series_data
       });
 
+    },
+
+    make_small_chart: function(el, series_data, categories, chart_title){
+
+      $(el).highcharts({
+        chart: {
+          type: 'column'
+        },
+        credits: { enabled: false },
+        title: {
+          text: chart_title
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+          categories: categories,
+          tickmarkPlacement: 'on',
+          title: {
+              enabled: false
+          }
+        },
+        yAxis: {
+          title: {
+              enabled: false
+          },
+          // min: 0
+        },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} <br/>',
+          shared: true
+        },
+        series: series_data
+      });
+
     }
+
+
 }
