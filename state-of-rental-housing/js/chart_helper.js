@@ -39,7 +39,7 @@ var ChartHelper = {
             // get rid of commas, parse int
             row_data.push(parseInt(val.replace(/,/g,'')));
           } else if (number_type == 'percentage'){
-            row_data.push(Math.round(parseFloat(val)*100));
+            row_data.push(parseFloat(val)*100);
           } else{
             // do nothing
             row_data.push(val);
@@ -67,6 +67,43 @@ var ChartHelper = {
       $(el).highcharts({
         chart: {
           type: 'column'
+        },
+        credits: { enabled: false },
+        title: {
+          text: chart_title
+        },
+        xAxis: {
+          categories: categories,
+          tickmarkPlacement: 'on',
+          title: {
+              enabled: false
+          }
+        },
+        yAxis: {
+          title: {
+              text: yaxis_title
+          },
+          min: 0
+        },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} '+yaxis_title+'<br/>',
+          shared: true
+        },
+        series: series_data
+      });
+
+    },
+
+    make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
+
+      $(el).highcharts({
+        chart: {
+          type: 'bar'
+        },
+        plotOptions: {
+            series: {
+                stacking: 'percent'
+            }
         },
         credits: { enabled: false },
         title: {

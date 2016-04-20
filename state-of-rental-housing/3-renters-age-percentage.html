@@ -1,0 +1,23 @@
+---
+layout: chart
+name: 'Renters Age - Percentage'
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/3-renters-age-percentage.csv')).then(
+      function(data){
+
+        [series_data, categories] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+
+        ChartHelper.make_composition_chart('#chart_0', series_data, categories, 'Annual Composition of Renter Households by Age, 2007-2014', '', '')
+    });
+  });
+
+</script>

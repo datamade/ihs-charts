@@ -1,0 +1,23 @@
+---
+layout: chart
+name: 'Renters Age - Total'
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/3-renters-age-total.csv')).then(
+      function(data){
+
+        [series_data, categories] = ChartHelper.prep_chart_data(data, 'row', 'count');
+
+        ChartHelper.make_bar_chart('#chart_0', series_data, categories, 'Renter Households by Age, 2007-2014', '', 'Households')
+    });
+  });
+
+</script>
