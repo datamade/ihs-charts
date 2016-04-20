@@ -1,6 +1,6 @@
 ---
 layout: chart
-name: 'Renters Age - Percentage'
+name: 'Renters Age - Composition'
 ---
 
 
@@ -11,7 +11,7 @@ name: 'Renters Age - Percentage'
 
   $(function () {
 
-    $.when($.get('data/3-renters-age-percentage.csv')).then(
+    $.when($.get('data/3-renters-age-composition.csv')).then(
       function(data){
 
         [series_data, categories] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
