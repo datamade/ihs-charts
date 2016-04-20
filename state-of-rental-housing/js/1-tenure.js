@@ -3,7 +3,7 @@ $(function () {
   $.when($.get('data/1-tenure.csv')).then(
     function(data){
 
-      [cleaned_data, years] = ChartHelper.clean_csv_data(data)
+      [cleaned_data, years] = clean_csv_data(data)
 
       var series_data = [];
       series_data.push({
@@ -22,6 +22,28 @@ $(function () {
       init_chart_1('#chart_1', series_data, years);
   });
 });
+
+function clean_csv_data(data){
+  // this is just for the first chart, where there are only col labels
+    var obj_data = $.csv.toObjects(data);
+      
+    _cleaned_data = [];
+    _categories = [];
+
+    //format numbers
+    $.each(obj_data, function(row_id, row){
+        var row_data = [];
+        $.each(row, function(col_id, col){
+          row_data.push(parseInt(col.replace(/,/g,'')));
+
+          if(_categories.indexOf(col_id) == -1)
+            _categories.push(col_id);
+        });
+        _cleaned_data.push(row_data);
+    });
+
+    return [_cleaned_data, _categories]
+}
 
 
 function init_chart_1(el, series_data, years){

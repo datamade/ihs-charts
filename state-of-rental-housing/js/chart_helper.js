@@ -16,28 +16,8 @@ var ChartHelper = {
     cleaned_data: [],
     categories: [],
 
-    clean_csv_data: function(data){
-        var obj_data = $.csv.toObjects(data);
-          
-        _cleaned_data = [];
-        _categories = [];
 
-        //format numbers
-        $.each(obj_data, function(row_id, row){
-            var row_data = [];
-            $.each(row, function(col_id, col){
-              row_data.push(parseInt(col.replace(/,/g,'')));
-
-              if(_categories.indexOf(col_id) == -1)
-                _categories.push(col_id);
-            });
-            _cleaned_data.push(row_data);
-        });
-
-        return [_cleaned_data, _categories]
-    },
-
-    prep_chart_data: function(data, primary_dimension){
+    prep_chart_data: function(data, primary_dimension, number_type){
       // preps a matrix-esque csv w/ labels for rows & columns
       if(primary_dimension == 'row'){
         var csv_arrays = this.transpose($.csv.toArrays(data))
@@ -55,7 +35,15 @@ var ChartHelper = {
         var row_data = []
         // format numbers
         $.each(row.slice(1), function(i, val){
+          if(number_type == 'count'){
+            // get rid of commas, parse int
             row_data.push(parseInt(val.replace(/,/g,'')));
+          } else if (number_type == 'percentage'){
+            row_data.push(Math.round(parseFloat(val)*100));
+          } else{
+            // do nothing
+            row_data.push(val);
+          }
         });
 
         series_data.push({
