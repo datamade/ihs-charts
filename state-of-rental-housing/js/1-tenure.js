@@ -2,21 +2,8 @@ $(function () {
 
   $.when($.get('data/1-tenure.csv')).then(
     function(data){
-      var rent_data = $.csv.toObjects(data);
-      var cleaned_data = [];
-      var years = [];
 
-      //format numbers
-      $.each(rent_data, function(row_id, row){
-        var row_data = [];
-        $.each(row, function(col_id, col){
-          row_data.push(parseInt(col.replace(/,/g,'')));
-
-          if(years.indexOf(col_id) == -1)
-            years.push(col_id);
-        });
-        cleaned_data.push(row_data);
-      });
+      [cleaned_data, years] = ChartHelper.clean_csv_data(data)
 
       var series_data = [];
       series_data.push({

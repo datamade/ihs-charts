@@ -38,7 +38,44 @@ var ChartHelper = {
         });
 
         return [_cleaned_data, _categories]
-    }
+    },
+
+    prep_chart_data: function(data, primary_dimension){
+      // preps a matrix-esque csv w/ labels for rows & columns
+      if(primary_dimension == 'row'){
+        var csv_arrays = this.transpose($.csv.toArrays(data))
+      } else{
+        var csv_arrays = $.csv.toArrays(data);
+      }
+
+      var series_data = []
+      var col_names = csv_arrays[0].slice(1)
+
+      // loop through rows after first row
+      $.each(csv_arrays.slice(1), function(row_id, row){
+        // first element is row name, rest is data
+        var row_name = row[0]
+        var row_data = []
+        // format numbers
+        $.each(row.slice(1), function(i, val){
+            row_data.push(parseInt(val.replace(/,/g,'')));
+        });
+
+        series_data.push({
+          name: row_name,
+          data: row_data,
+        });
+      });
+
+      return [series_data, col_names]
+
+    },
+
+    transpose: function(a){
+      return Object.keys(a[0]).map(
+        function (c) { return a.map(function (r) { return r[c]; }); }
+      );
+    },
 
     load_data: function(csv) {
         $.when($.get(csv)).then(
