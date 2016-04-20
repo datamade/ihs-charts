@@ -19,6 +19,27 @@ var ChartHelper = {
         });
     },
 
+    clean_csv_data: function(data){
+        var obj_data = $.csv.toObjects(data);
+          
+        _cleaned_data = [];
+        _categories = [];
+
+        //format numbers
+        $.each(obj_data, function(row_id, row){
+            var row_data = [];
+            $.each(row, function(col_id, col){
+              row_data.push(parseInt(col.replace(/,/g,'')));
+
+              if(_categories.indexOf(col_id) == -1)
+                _categories.push(col_id);
+            });
+            _cleaned_data.push(row_data);
+        });
+
+        return [_cleaned_data, _categories]
+    }
+
     load_data: function(csv) {
         $.when($.get(csv)).then(
         function(data){
@@ -26,18 +47,6 @@ var ChartHelper = {
           
           cleaned_data = [];
           categories = [];
-
-          //format numbers
-          $.each(obj_data, function(row_id, row){
-            var row_data = [];
-            $.each(row, function(col_id, col){
-              row_data.push(parseInt(col.replace(/,/g,'')));
-
-              if(categories.indexOf(col_id) == -1)
-                categories.push(col_id);
-            });
-            cleaned_data.push(row_data);
-          });
 
           series_data = [];
           series_data.push({
