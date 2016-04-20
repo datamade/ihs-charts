@@ -1,16 +1,23 @@
 ---
-layout: default
+layout: chart
+name: 'Renters Income - Total'
 ---
 
-<div class='col-sm-6 col-sm-offset-1'>
 
-    <p><a href='/'>&laquo; home</a></p>
-    <h2>State of rental housing in Cook County</h2>
-    <h2>Renters Income - Total</h2>
-
-    <div id='chart_0'></div>
-</div>
+<div id='chart_0'></div>
 
 <!-- project-specific js -->
-<script src='js/chart_helper.js'></script>
-<script src='js/2-renters-income-total.js'></script>
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/2-renters-income-total.csv')).then(
+      function(data){
+
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'row');
+
+        ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Shifts in Renter Households by Income level, 2011 to 2014', '', 'Households')
+    });
+  });
+
+</script>
