@@ -22,11 +22,11 @@ var ChartHelper = {
       }
 
       if (num_series == 4){
-        return ['#395A88', '#1769D6', '#82AFF1', '#BDD9FF'];
+        return ['#BDD9FF', '#82AFF1', '#1769D6', '#395A88'];
       }
 
       if (num_series == 3){
-        return ['#395A88', '#1769D6', '#82AFF1'];
+        return ['#82AFF1', '#1769D6', '#395A88'];
       }
 
       if (num_series == 2){
