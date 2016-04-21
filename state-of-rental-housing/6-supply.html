@@ -1,0 +1,23 @@
+---
+layout: chart
+name: 'Supply'
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/6-supply.csv')).then(
+      function(data){
+
+        [series_data, categories] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+
+        ChartHelper.make_composition_chart('#chart_0', series_data, categories, 'Rental Units by Building Type', '', '')
+    });
+  });
+
+</script>

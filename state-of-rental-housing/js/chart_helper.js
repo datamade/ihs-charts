@@ -172,6 +172,7 @@ var ChartHelper = {
             enabled: false
         },
         xAxis: {
+          categories: [chart_title],
           lineWidth: 0,
           tickLength: 0,
           title: {
