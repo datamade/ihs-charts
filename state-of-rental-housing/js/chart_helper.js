@@ -18,7 +18,7 @@ var ChartHelper = {
     get_colors: function(num_series){
 
       if (num_series == 7){
-        return ['#99000d', '#cb181d', '#ef3b2c', '#fb6a4a', '#fc9272', '#fcbba1', '#fee5d9'];
+        return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'];
       }
 
       if (num_series == 4){
@@ -191,7 +191,6 @@ var ChartHelper = {
         },
         tooltip: {
           pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} <br/>',
-          shared: true
         },
         series: series_data
       });
