@@ -1,0 +1,83 @@
+---
+layout: chart
+name: 'Affordable Housing'
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/7-affordability.csv')).then(
+      function(data){
+
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'count');
+
+
+        supply_arr = series_data[0]['data']
+        demand_arr = series_data[1]['data']
+        gap_arr = []
+        $.each(supply_arr, function(i, s){
+          gap_arr.push(demand_arr[i]-supply_arr[i])
+        })
+
+        prepped_series = [
+          {
+            name: 'Gap',
+            data: gap_arr,
+            stack: 's',
+            color: 'transparent',
+            borderColor: '#E26967',
+            borderWidth: 1,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#E26967',
+              style: {
+                textShadow: 'none'
+              }
+            }
+          },
+          {
+            name: 'Supply',
+            data: supply_arr,
+            stack: 's',
+            color: '#527AB8',
+            borderWidth: 0
+          },
+          {
+            name: 'Demand',
+            data: demand_arr,
+            stack: 'd',
+            color: '#C0CAE6',
+            borderWidth: 0
+          }
+        ]
+
+
+        plot_options = {
+            column: {
+              stacking: 'normal'
+            }
+          }
+
+        tooltip = {
+            pointFormat: '{series.name}: {point.y:,.0f} Households<br/>',
+          }
+
+        ChartHelper.make_bar_chart('#chart_0', prepped_series, years, 'Affordable Rental Housing Supply & Demand, 2007-2014', 'Households', plot_options, tooltip)
+
+
+        // hacking legend to have border for gap
+        var chart = $('#chart_0').highcharts()
+        gap_legend_symbol = $(chart.series[0].legendSymbol.element)
+        gap_legend_symbol.attr('stroke-width','1');
+        gap_legend_symbol.attr('stroke','#E26967');
+
+    });
+  });
+
+</script>
