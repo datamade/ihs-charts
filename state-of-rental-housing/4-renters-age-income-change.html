@@ -5,6 +5,9 @@ name: 'Renters Age Income - Change'
 
 <div class="row">
 	<div class="col-sm-4">
+		<div id='chart_0' class='sm-multiple'></div>
+	</div>
+	<div class="col-sm-4">
 		<div id='chart_1' class='sm-multiple'></div>
 	</div>
 	<div class="col-sm-4">
@@ -19,9 +22,6 @@ name: 'Renters Age Income - Change'
 	<div class="col-sm-4">
 		<div id='chart_5' class='sm-multiple'></div>
 	</div>
-	<div class="col-sm-4">
-		<div id='chart_6' class='sm-multiple'></div>
-	</div>
 
 </div>
 
@@ -35,22 +35,18 @@ name: 'Renters Age Income - Change'
 
         [age_data, ami_grps] = ChartHelper.prep_chart_data(data, 'row', 'count');
 
-        multiples = []
+
         $.each(ami_grps, function(idx_ami, ami){
         	sliced_age_data = []
         	$.each(age_data, function(i, age_grp){
         		s = {name: age_grp['name'], data: [age_grp['data'][idx_ami]]}
         		sliced_age_data.push(s)
 	        });
-	        multiples.push([ami, sliced_age_data])
+
+	        chart_id = '#chart_'+idx_ami.toString()
+	        ChartHelper.make_small_chart(chart_id, sliced_age_data, ami+' AMI', -15000, 30000)
         })
 
-        ChartHelper.make_small_chart('#chart_1', multiples[0][1], ami_grps, multiples[0][0])
-        ChartHelper.make_small_chart('#chart_2', multiples[1][1], ami_grps, multiples[1][0])
-        ChartHelper.make_small_chart('#chart_3', multiples[2][1], ami_grps, multiples[2][0])
-        ChartHelper.make_small_chart('#chart_4', multiples[3][1], ami_grps, multiples[3][0])
-        ChartHelper.make_small_chart('#chart_5', multiples[4][1], ami_grps, multiples[4][0])
-        ChartHelper.make_small_chart('#chart_6', multiples[5][1], ami_grps, multiples[5][0])
 
     });
   });

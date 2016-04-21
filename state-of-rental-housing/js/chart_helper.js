@@ -131,10 +131,11 @@ var ChartHelper = {
 
     },
 
-    make_small_chart: function(el, series_data, categories, chart_title){
+    make_small_chart: function(el, series_data, chart_title, ymin, ymax){
 
       $(el).highcharts({
         chart: {
+          spacingTop: 60,
           type: 'column'
         },
         credits: { enabled: false },
@@ -145,17 +146,22 @@ var ChartHelper = {
             enabled: false
         },
         xAxis: {
-          categories: categories,
-          tickmarkPlacement: 'on',
+          lineWidth: 0,
+          tickLength: 0,
           title: {
-              enabled: false
+            enabled: false
+          },
+          labels: {
+            enabled: false
           }
         },
         yAxis: {
           title: {
               enabled: false
           },
-          // min: 0
+          min: ymin,
+          max: ymax,
+          endOnTick: false
         },
         tooltip: {
           pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} <br/>',
