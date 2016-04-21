@@ -93,12 +93,13 @@ var ChartHelper = {
       );
     },
 
-    make_bar_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
+    make_bar_chart: function(el, series_data, categories, chart_title, yaxis_title, plotOptions, tooltip){
 
       $(el).highcharts({
         chart: {
           type: 'column'
         },
+        plotOptions: plotOptions,
         credits: { enabled: false },
         title: {
           text: chart_title
@@ -116,10 +117,7 @@ var ChartHelper = {
           },
           min: 0
         },
-        tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} '+yaxis_title+'<br/>',
-          shared: true
-        },
+        tooltip: tooltip,
         series: series_data
       });
 

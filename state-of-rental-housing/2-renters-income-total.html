@@ -16,7 +16,11 @@ name: 'Renters Income - Total'
 
         [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'count');
 
-        ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Shifts in Renter Households by Income Level, 2011-2014', '', 'Households')
+        tooltip = {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>',
+                    shared: true
+                  }
+        ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Shifts in Renter Households by Income Level, 2011-2014', 'Households', {}, tooltip)
     });
   });
 
