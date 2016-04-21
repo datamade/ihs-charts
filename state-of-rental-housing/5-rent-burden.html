@@ -1,0 +1,24 @@
+---
+layout: chart
+name: 'Rent Burden'
+---
+
+
+<div id='chart_0'></div>
+<div id='chart_1'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/5-rent-burden.csv')).then(
+      function(data){
+
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+
+        ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Rent Burdened Households in Cook County', '', '% Households')
+    });
+  });
+
+</script>
