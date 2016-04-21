@@ -110,6 +110,19 @@ h2 {
   opacity: 0.7;
 }
 
+#legend {
+  margin-top: 100px;
+  padding: 8px 20px;
+  border: 1px solid #eee;
+  font-size: 90%;
+  height: 190px;
+  width: 150px;
+}
+#legend > .legend-item{
+  margin-bottom: 0px;
+  font-size: 80%
+}
+
 
 .sm-multiple {
   height: 300px;
