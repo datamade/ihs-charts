@@ -146,7 +146,8 @@ var ChartHelper = {
           title: {
               text: yaxis_title
           },
-          min: 0
+          min: 0,
+          reversedStacks: false
         },
         tooltip: {
           pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} '+yaxis_title+'<br/>',
