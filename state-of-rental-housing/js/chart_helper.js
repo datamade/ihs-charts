@@ -63,6 +63,8 @@ var ChartHelper = {
             row_data.push(parseInt(val.replace(/,/g,'')));
           } else if (number_type == 'percentage'){
             row_data.push(parseFloat(val)*100);
+          } else if (number_type == 'rate'){
+            row_data.push(parseFloat(val));
           } else{
             // do nothing
             row_data.push(val);

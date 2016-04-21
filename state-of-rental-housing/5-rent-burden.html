@@ -19,6 +19,17 @@ name: 'Rent Burden'
 
         ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Extremely Rent Burdened Households in Cook County', '', '% Households')
     });
+
+
+    $.when($.get('data/5-rent-burden-change.csv')).then(
+      function(data){
+
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'rate');
+
+        ChartHelper.make_line_chart('#chart_1', series_data, years, 'Change in Burdened Households, 2007 - 2014', '', 'Point Change')
+    });
+
+
   });
 
 </script>
