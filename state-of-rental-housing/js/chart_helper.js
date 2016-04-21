@@ -20,6 +20,9 @@ var ChartHelper = {
       if (num_series == 7){
         return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'];
       }
+      if (num_series == 6){
+        return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'];
+      }
 
       if (num_series == 4){
         return ['#BDD9FF', '#82AFF1', '#1769D6', '#395A88'];
@@ -166,6 +169,11 @@ var ChartHelper = {
         chart: {
           spacingTop: 60,
           type: 'column'
+        },
+        plotOptions: {
+          series: {
+            groupPadding: 0
+          }
         },
         credits: { enabled: false },
         title: {

@@ -3,29 +3,32 @@ layout: chart
 name: 'Renters Age Income - Change'
 ---
 <div class="row">
-	<div class="col-sm-12">
-		<h4>Change in Renter Households by Income Level & Age, 2007-2014</h4>
-	</div>
+    <div class="col-sm-12">
+        <h4>Change in Renter Households by Age & Income Level, 2007-2014</h4>
+    </div>
 </div>
 <div class="row">
-	<div class="col-sm-4">
-		<div id='chart_0' class='sm-multiple'></div>
-	</div>
-	<div class="col-sm-4">
-		<div id='chart_1' class='sm-multiple'></div>
-	</div>
-	<div class="col-sm-4">
-		<div id='chart_2' class='sm-multiple'></div>
-	</div>
-	<div class="col-sm-4">
-		<div id='chart_3' class='sm-multiple'></div>
-	</div>
-	<div class="col-sm-4">
-		<div id='chart_4' class='sm-multiple'></div>
-	</div>
-	<div class="col-sm-4">
-		<div id='chart_5' class='sm-multiple'></div>
-	</div>
+    <div class="col-sm-3">
+        <div id='chart_0' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_1' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_2' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_3' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_4' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_5' class='sm-multiple'></div>
+    </div>
+    <div class="col-sm-3">
+        <div id='chart_6' class='sm-multiple'></div>
+    </div>
 
 </div>
 
@@ -37,18 +40,18 @@ name: 'Renters Age Income - Change'
     $.when($.get('data/4-renters-age-income-change.csv')).then(
       function(data){
 
-        [age_data, ami_grps] = ChartHelper.prep_chart_data(data, 'row', 'count');
+        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'count');
 
 
-        $.each(ami_grps, function(idx_ami, ami){
-        	sliced_age_data = []
-        	$.each(age_data, function(i, age_grp){
-        		s = {name: age_grp['name'], data: [age_grp['data'][idx_ami]], color: ChartHelper.get_colors(7)[i]}
-        		sliced_age_data.push(s)
-	        });
+        $.each(age_grps, function(idx_age, age){
+            sliced_ami_data = []
+            $.each(ami_data, function(i, ami_grp){
+                s = {name: ami_grp['name'], data: [ami_grp['data'][idx_age]], color: ami_grp['color']}
+                sliced_ami_data.push(s)
+            });
 
-	        chart_id = '#chart_'+idx_ami.toString()
-	        ChartHelper.make_small_chart(chart_id, sliced_age_data, ami+' AMI', -15000, 30000)
+            chart_id = '#chart_'+idx_age.toString()
+            ChartHelper.make_small_chart(chart_id, sliced_ami_data, 'Ages '+age, -15000, 30000)
         })
 
 
