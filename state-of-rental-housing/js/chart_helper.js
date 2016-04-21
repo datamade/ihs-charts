@@ -196,6 +196,56 @@ var ChartHelper = {
         series: series_data
       });
 
+    },
+
+    make_line_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
+      $(el).highcharts({
+        chart: {
+            type: 'line'
+        },
+        credits: { enabled: false },
+        title: {
+            text: chart_title
+        },
+        xAxis: {
+            categories: years,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: yaxis_title
+            },
+            labels: {
+              formatter: function () {
+                return this.value + '%';
+              }
+            },
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%<br/>',
+            shared: true
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    lineWidth: 1,
+                    lineColor: '#ffffff',
+                    symbol: 'square'
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                      return this.y.toFixed(1) + '%';
+                    }
+                }
+            }
+        },
+        series: series_data
+      });
+
     }
 
 
