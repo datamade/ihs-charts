@@ -16,6 +16,11 @@ var ChartHelper = {
     categories: [],
 
     get_colors: function(num_series){
+
+      if (num_series == 7){
+        return ['#99000d', '#cb181d', '#ef3b2c', '#fb6a4a', '#fc9272', '#fcbba1', '#fee5d9'];
+      }
+
       if (num_series == 4){
         return ['#395A88', '#1769D6', '#82AFF1', '#BDD9FF'];
       }
@@ -29,7 +34,7 @@ var ChartHelper = {
       }
 
       if (num_series == 1)
-        return ['#C0CAE6']
+        return ['#E26967']
     },
 
     prep_chart_data: function(data, primary_dimension, number_type){
@@ -45,7 +50,8 @@ var ChartHelper = {
 
       // loop through rows after first row
       var series_count = 0;
-      var num_series = csv_arrays.length;
+      var num_series = csv_arrays.length - 1;
+
       $.each(csv_arrays.slice(1), function(row_id, row){
         // first element is row name, rest is data
         var row_name = row[0]

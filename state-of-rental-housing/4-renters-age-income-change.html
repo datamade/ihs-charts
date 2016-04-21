@@ -39,7 +39,7 @@ name: 'Renters Age Income - Change'
         $.each(ami_grps, function(idx_ami, ami){
         	sliced_age_data = []
         	$.each(age_data, function(i, age_grp){
-        		s = {name: age_grp['name'], data: [age_grp['data'][idx_ami]]}
+        		s = {name: age_grp['name'], data: [age_grp['data'][idx_ami]], color: ChartHelper.get_colors(7)[i]}
         		sliced_age_data.push(s)
 	        });
 
