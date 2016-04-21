@@ -12,10 +12,25 @@ Highcharts.setOptions({
 var ChartHelper = ChartHelper || {};
 var ChartHelper = {
 
-    colors: ['#C0CAE6', '#527AB8'],
     cleaned_data: [],
     categories: [],
 
+    get_colors: function(num_series){
+      if (num_series == 4){
+        return ['#395A88', '#1769D6', '#82AFF1', '#BDD9FF'];
+      }
+
+      if (num_series == 3){
+        return ['#395A88', '#1769D6', '#82AFF1'];
+      }
+
+      if (num_series == 2){
+        return ['#C0CAE6', '#527AB8'];
+      }
+
+      if (num_series == 1)
+        return ['#C0CAE6']
+    },
 
     prep_chart_data: function(data, primary_dimension, number_type){
       // preps a matrix-esque csv w/ labels for rows & columns
@@ -29,6 +44,8 @@ var ChartHelper = {
       var col_names = csv_arrays[0].slice(1)
 
       // loop through rows after first row
+      var series_count = 0;
+      var num_series = csv_arrays.length;
       $.each(csv_arrays.slice(1), function(row_id, row){
         // first element is row name, rest is data
         var row_name = row[0]
@@ -49,7 +66,10 @@ var ChartHelper = {
         series_data.push({
           name: row_name,
           data: row_data,
+          color: ChartHelper.get_colors(num_series)[series_count]
         });
+
+        series_count = series_count + 1;
       });
 
       return [series_data, col_names]
