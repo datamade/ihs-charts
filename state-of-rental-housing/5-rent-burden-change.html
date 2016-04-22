@@ -1,0 +1,24 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/5-rent-burden-change.csv')).then(
+      function(data){
+
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'rate');
+
+        ChartHelper.make_line_chart('#chart_0', series_data, years, 'Percent Change in Burdened Households, 2007-2014', '', 'Point Change')
+    });
+
+
+  });
+
+</script>

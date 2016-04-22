@@ -4,7 +4,6 @@ layout: chart
 
 
 <div id='chart_0'></div>
-<div id='chart_1'></div>
 
 <!-- project-specific js -->
 <script type='text/javascript'>
@@ -22,16 +21,6 @@ layout: chart
                   }
         ChartHelper.make_bar_chart('#chart_0', series_data, years, 'Share of Cook County Renter Households with Extreme Rent Burden, 2007, 2011, 2014', '% Households', {}, tooltip)
     });
-
-
-    $.when($.get('data/5-rent-burden-change.csv')).then(
-      function(data){
-
-        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'rate');
-
-        ChartHelper.make_line_chart('#chart_1', series_data, years, 'Percent Change in Burdened Households, 2007-2014', '', 'Point Change')
-    });
-
 
   });
 
