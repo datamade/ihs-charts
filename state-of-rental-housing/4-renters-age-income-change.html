@@ -2,35 +2,35 @@
 layout: chart
 ---
 <div class="row">
-    <div class="col-sm-12">
-        <h4>Change in Renter Households by Age & Income Level, 2007-2014</h4>
+    <div class="col-xs-12">
+        <h4>Numeric Change in Cook County Renter Households by Age and Income, 2007-2014</h4>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-3">
-        <div id='legend' class='sm-multiple'>
+    <div class="col-xs-3">
+        <div id='legend' class='xs-multiple'>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_0' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_0' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_1' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_1' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_2' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_2' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_3' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_3' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_4' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_4' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_5' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_5' class='xs-multiple'></div>
     </div>
-    <div class="col-sm-3">
-        <div id='chart_6' class='sm-multiple'></div>
+    <div class="col-xs-3">
+        <div id='chart_6' class='xs-multiple'></div>
     </div>
 
 </div>
@@ -54,7 +54,7 @@ layout: chart
             });
 
             chart_id = '#chart_'+idx_age.toString()
-            ChartHelper.make_small_chart(chart_id, sliced_ami_data, 'Ages '+age, -15000, 30000)
+            ChartHelper.make_xsall_chart(chart_id, sliced_ami_data, 'Ages '+age, -15000, 30000)
         })
 
         
