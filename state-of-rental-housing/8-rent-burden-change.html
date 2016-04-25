@@ -10,7 +10,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/5-rent-burden-change.csv')).then(
+    $.when($.get('data/8-rent-burden-change.csv')).then(
       function(data){
 
         [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'rate');

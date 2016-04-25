@@ -175,7 +175,9 @@ var ChartHelper = {
 
     },
 
-    make_small_bar_chart: function(el, series_data, chart_title, ymin, ymax){
+    make_small_bar_chart: function(el, series_data, chart_title, y_range, data_type){
+
+      if (data_type == 'percent')
 
       $(el).highcharts({
         chart: {
@@ -209,8 +211,8 @@ var ChartHelper = {
           title: {
               enabled: false
           },
-          min: ymin,
-          max: ymax,
+          min: y_range[0],
+          max: y_range[1],
           endOnTick: false
         },
         tooltip: {

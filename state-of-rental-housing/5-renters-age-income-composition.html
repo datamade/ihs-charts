@@ -3,7 +3,7 @@ layout: chart
 ---
 <div class="row">
     <div class="col-xs-12">
-        <h4>Numeric Change in Cook County Renter Households by Age and Income, 2007-2014</h4>
+        <h4>Composition of 2014 Renter Households by Age and Income</h4>
     </div>
 </div>
 <div class="row">
@@ -40,11 +40,10 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/4-renters-age-income-change.csv')).then(
+    $.when($.get('data/5-renters-age-income-composition-2014.csv')).then(
       function(data){
 
-        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'count');
-
+        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
 
         $.each(age_grps, function(idx_age, age){
             sliced_ami_data = []
@@ -54,7 +53,7 @@ layout: chart
             });
 
             chart_id = '#chart_'+idx_age.toString()
-            ChartHelper.make_small_bar_chart(chart_id, sliced_ami_data, 'Ages '+age, [-15000,30000], 'count')
+            ChartHelper.make_small_bar_chart(chart_id, sliced_ami_data, 'Ages '+age, [0,7], 'percent')
         })
 
         
