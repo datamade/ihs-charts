@@ -138,8 +138,8 @@ var ChartHelper = {
               color: '#fff',
               style: {
                 textShadow: 'none',
-                opacity: .6,
-                fontWeight: 'normal'
+                opacity: .8,
+                fontWeight: 'bold'
               }
             },
             states: {
@@ -297,8 +297,7 @@ var ChartHelper = {
             },
         },
         tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%<br/>',
-            shared: true
+            enabled: false
         },
         plotOptions: {
             line: {
@@ -313,6 +312,13 @@ var ChartHelper = {
                       return this.y.toFixed(1) + '%';
                     }
                 }
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
             }
         },
         series: series_data
