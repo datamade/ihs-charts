@@ -270,7 +270,42 @@ var ChartHelper = {
 
     },
 
-    make_line_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
+    make_line_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type){
+      if (data_type == 'percent'){
+        y_min = null
+        y_labels = {
+              formatter: function () {
+                  return this.value + '%';
+              }
+            }
+        data_labels = {
+                    enabled: true,
+                    format: "{point.y:.1f}%"
+                }
+        states = {
+                hover: {
+                  enabled: false
+                }
+              }
+        tooltip = {
+            enabled: false
+        }
+      } else {
+        y_min = 0
+        y_labels = {}
+        data_labels = {
+          enabled: false
+        }
+        states = {}
+        tooltip = {
+          borderColor: '#eee',
+          shadow: false,
+          headerFormat: '',
+          pointFormat: '{point.y:,.0f}',
+        }
+
+      }
+
       $(el).highcharts({
         chart: {
             type: 'line'
@@ -290,15 +325,10 @@ var ChartHelper = {
             title: {
                 text: yaxis_title
             },
-            labels: {
-              formatter: function () {
-                return this.value + '%';
-              }
-            },
+            labels: y_labels,
+            min: y_min
         },
-        tooltip: {
-            enabled: false
-        },
+        tooltip: tooltip,
         plotOptions: {
             line: {
                 marker: {
@@ -306,19 +336,10 @@ var ChartHelper = {
                     lineColor: '#ffffff',
                     symbol: 'square'
                 },
-                dataLabels: {
-                    enabled: true,
-                    formatter: function () {
-                      return this.y.toFixed(1) + '%';
-                    }
-                }
+                dataLabels: data_labels
             },
             series: {
-              states: {
-                hover: {
-                  enabled: false
-                }
-              }
+              states: states
             }
         },
         series: series_data
