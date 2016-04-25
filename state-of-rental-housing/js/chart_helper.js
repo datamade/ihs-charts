@@ -130,9 +130,24 @@ var ChartHelper = {
           type: 'bar'
         },
         plotOptions: {
-            series: {
-                stacking: 'percent'
+          series: {
+            stacking: 'percent',
+            dataLabels: {
+              enabled: true,
+              format: '{y:,.1f}%',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .6,
+                fontWeight: 'normal'
+              }
+            },
+            states: {
+              hover: {
+                enabled: false
+              }
             }
+          }
         },
         credits: { enabled: false },
         title: {
@@ -153,15 +168,14 @@ var ChartHelper = {
           reversedStacks: false
         },
         tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} '+yaxis_title+'<br/>',
-          shared: true
+          enabled: false
         },
         series: series_data
       });
 
     },
 
-    make_small_chart: function(el, series_data, chart_title, ymin, ymax){
+    make_small_bar_chart: function(el, series_data, chart_title, ymin, ymax){
 
       $(el).highcharts({
         chart: {
@@ -200,7 +214,10 @@ var ChartHelper = {
           endOnTick: false
         },
         tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f} <br/>',
+          borderColor: '#eee',
+          shadow: false,
+          headerFormat: '',
+          pointFormat: '{point.y:,.0f}',
         },
         series: series_data
       });
