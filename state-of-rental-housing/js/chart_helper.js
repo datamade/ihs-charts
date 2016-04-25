@@ -177,7 +177,17 @@ var ChartHelper = {
 
     make_small_bar_chart: function(el, series_data, chart_title, y_range, data_type){
 
-      if (data_type == 'percent')
+      if (data_type == 'percent') {
+        num_format = '{point.y:,.1f}%'
+        y_labels = {
+              formatter: function () {
+                  return this.value + '%';
+              }
+            }
+      } else {
+        num_format = '{point.y:,.0f}'
+        y_labels = {}
+      }
 
       $(el).highcharts({
         chart: {
@@ -213,13 +223,14 @@ var ChartHelper = {
           },
           min: y_range[0],
           max: y_range[1],
-          endOnTick: false
+          endOnTick: false,
+          labels: y_labels
         },
         tooltip: {
           borderColor: '#eee',
           shadow: false,
           headerFormat: '',
-          pointFormat: '{point.y:,.0f}',
+          pointFormat: num_format,
         },
         series: series_data
       });
