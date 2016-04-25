@@ -3,7 +3,34 @@ layout: chart
 ---
 
 
-<div id='chart_0'></div>
+<div class="row">
+  <div class="col-xs-3">
+    <div id='legend' class='xs-multiple'>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_0' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_1' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_2' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_3' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_4' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_5' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-3">
+    <div id='chart_6' class='xs-multiple'></div>
+  </div>
+
+</div>
 
 <!-- project-specific js -->
 <script type='text/javascript'>
@@ -13,13 +40,33 @@ layout: chart
     $.when($.get('data/3-renters-age-total.csv')).then(
       function(data){
 
-        [series_data, categories] = ChartHelper.prep_chart_data(data, 'row', 'count');
+        [year_data, age_grps] = ChartHelper.prep_chart_data(data, 'row', 'count');
+        years = ['2007', '2011', '2014']
+
+        $.each(age_grps, function(idx_age, age){
+
+
+          trend_data = []
+          $.each(year_data, function(i, yr){
+            trend_data.push(yr['data'][idx_age])
+          });
+
+          sliced_trend_data = [{
+            color: '#527AB8',
+            data: trend_data,
+            name: 'Households'
+          }]
+
+          chart_id = '#chart_'+idx_age.toString()
+          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, 'Ages '+age, -0, 270000)
+        })
+
 
         tooltip = {
                     pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>',
                     shared: true
                   }
-        ChartHelper.make_bar_chart('#chart_0', series_data, categories, 'Cook County Renter Households by Age of Householder, 2007, 2011, 2014', 'Households', {}, tooltip)
+
     });
   });
 

@@ -224,6 +224,52 @@ var ChartHelper = {
 
     },
 
+    make_small_line_chart: function(el, series_data, categories, chart_title, ymin, ymax){
+
+      $(el).highcharts({
+        chart: {
+          spacingTop: 60,
+          type: 'area'
+        },
+        plotOptions: {
+          area: {
+            fillOpacity: 0.25
+          }
+        },
+        credits: { enabled: false },
+        title: {
+          text: chart_title
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+          categories: categories,
+          lineWidth: 0,
+          tickLength: 0,
+          title: {
+            enabled: false
+          },
+        },
+        yAxis: {
+          title: {
+              enabled: false
+          },
+          min: ymin,
+          max: ymax,
+          endOnTick: false
+        },
+        tooltip: {
+          borderColor: '#eee',
+          shadow: false,
+          headerFormat: '',
+          pointFormat: '{point.y:,.0f}',
+        },
+        series: series_data
+      });
+
+    },
+
     make_line_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
       $(el).highcharts({
         chart: {
