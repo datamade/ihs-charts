@@ -10,10 +10,10 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/2-renters-income-percentage.csv')).then(
+    $.when($.get('data/2-renters-income-composition.csv')).then(
       function(data){
 
-        [series_data, years] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'col', 'rate');
 
         ChartHelper.make_composition_chart('#chart_0', series_data, years, 'Annual Composition of Cook County Renter Households by Income Level, 2007, 2011, 2014', '', '')
     });
