@@ -36,7 +36,7 @@ layout: chart
               verticalAlign: 'top',
               color: '#E26967',
               style: {
-                textShadow: 'none'
+                textShadow: 'none',
               }
             }
           },
@@ -45,14 +45,34 @@ layout: chart
             data: supply_arr,
             stack: 's',
             color: '#527AB8',
-            borderWidth: 0
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .3,
+                fontWeight: 'normal'
+              }
+            }
           },
           {
             name: 'Demand',
             data: demand_arr,
             stack: 'd',
             color: '#C0CAE6',
-            borderWidth: 0
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .6,
+                fontWeight: 'normal'
+              }
+            }
           }
         ]
 
@@ -60,11 +80,18 @@ layout: chart
         plot_options = {
             column: {
               stacking: 'normal'
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
             }
           }
 
         tooltip = {
-            pointFormat: '{series.name}: {point.y:,.0f} Households<br/>',
+            enabled: false
           }
 
         ChartHelper.make_bar_chart('#chart_0', prepped_series, years, "Cook County's Changing Gap between the Supply of and Demand for Affordable Housing, 2007, 2011, 2014", 'Households', plot_options, tooltip)
