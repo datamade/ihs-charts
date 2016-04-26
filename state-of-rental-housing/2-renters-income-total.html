@@ -49,7 +49,7 @@ layout: chart
           }]
 
           chart_id = '#chart_'+idx_income.toString()
-          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, income_grp, -0, 270000)
+          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, income_grp, [0, 270000], 'count')
         })
 
     });

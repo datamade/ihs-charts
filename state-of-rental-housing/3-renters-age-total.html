@@ -53,7 +53,7 @@ layout: chart
           }]
 
           chart_id = '#chart_'+idx_age.toString()
-          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, 'Ages '+age, -0, 270000)
+          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, 'Ages '+age, [0, 270000], 'count')
         })
 
     });

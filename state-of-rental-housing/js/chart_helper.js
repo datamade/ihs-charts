@@ -18,14 +18,21 @@ var ChartHelper = {
     get_colors: function(num_series){
 
       if (num_series == 7){
-        return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'];
+        // age groups
+        return ['#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#6e016b']
+        // return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'];
       }
       if (num_series == 6){
-        return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'];
+        // income groups
+        return ['#f46d43', '#fdae61', '#fdd568', '#c9e052', '#84d279', '#62c6b5']
+        //return ['#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#005a32']
+        //return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'];
       }
 
       if (num_series == 4){
-        return ['#BDD9FF', '#82AFF1', '#1769D6', '#395A88'];
+        // building types
+        return ['#9ecae1', '#6baed6', '#3182bd', '#08519c']
+        //return ['#BDD9FF', '#82AFF1', '#1769D6', '#395A88'];
       }
 
       if (num_series == 3){
@@ -237,7 +244,19 @@ var ChartHelper = {
 
     },
 
-    make_small_line_chart: function(el, series_data, categories, chart_title, ymin, ymax){
+    make_small_line_chart: function(el, series_data, categories, chart_title, y_range, data_type){
+
+      if (data_type=='percent'){
+        num_format = '{point.y:,.1f}%'
+        y_labels = {
+          formatter: function () {
+            return this.value + '%';
+          }
+        }
+      } else {
+        num_format = '{point.y:,.0f}'
+        y_labels = {}
+      }
 
       $(el).highcharts({
         chart: {
@@ -268,15 +287,16 @@ var ChartHelper = {
           title: {
               enabled: false
           },
-          min: ymin,
-          max: ymax,
-          endOnTick: false
+          min: y_range[0],
+          max: y_range[1],
+          endOnTick: false,
+          labels: y_labels
         },
         tooltip: {
           borderColor: '#eee',
           shadow: false,
           headerFormat: '',
-          pointFormat: '{point.y:,.0f}',
+          pointFormat: num_format,
         },
         series: series_data
       });
