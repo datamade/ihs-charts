@@ -131,7 +131,8 @@ var ChartHelper = {
     },
 
     make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
-
+      series_data = series_data.reverse()
+      categories = categories.reverse()
       $(el).highcharts({
         chart: {
           type: 'bar'

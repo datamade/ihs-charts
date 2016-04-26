@@ -2,38 +2,12 @@
 layout: chart
 ---
 <div class="row">
-    <div class="col-xs-12">
-        <h4>Composition of 2014 Renter Households by Age and Income</h4>
-    </div>
+  <div class="col-xs-12">
+    <h4>Composition of 2014 Renter Households by Age and Income</h4>
+    <table id="tbl-age-income" class="table table-bordered"></table>
+  </div>
 </div>
-<div class="row">
-    <div class="col-xs-3">
-        <div id='legend' class='xs-multiple'>
-        </div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_0' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_1' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_2' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_3' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_4' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_5' class='xs-multiple'></div>
-    </div>
-    <div class="col-xs-3">
-        <div id='chart_6' class='xs-multiple'></div>
-    </div>
 
-</div>
 
 <!-- project-specific js -->
 <script type='text/javascript'>
@@ -45,27 +19,49 @@ layout: chart
 
         [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
 
-        $.each(age_grps, function(idx_age, age){
-            sliced_ami_data = []
-            $.each(ami_data, function(i, ami_grp){
-                s = {name: ami_grp['name'], data: [ami_grp['data'][idx_age]], color: ami_grp['color']}
-                sliced_ami_data.push(s)
-            });
+        // make header row (cols = age groups)
+        var header_row = '<tr><th></th>'
+        $.each(age_grps, function(i, age_grp){
+          header_row = header_row + '<th>' + age_grp + '</th>'
+        });
+        header_row = header_row + '<th>Total</th></tr>'
+        $('#tbl-age-income').append(header_row)
 
-            chart_id = '#chart_'+idx_age.toString()
-            ChartHelper.make_small_bar_chart(chart_id, sliced_ami_data, 'Ages '+age, [0,7], 'percent')
-        })
+        // add row for each income group
+        $.each(ami_data, function(i, row_obj){
+          row = '<tr>'
+          row = row + '<th>' + row_obj.name + '</th>'
+          $.each(row_obj.data, function(i, cell){
+            row = row + make_cell_html(cell)
+          });
 
-        
-
-      legend_html = '<p><strong>AMI</strong></p>'
-      $.each(ami_data, function(i, series){
-        legend_item = '<p class="legend-item"><span style="color:'+series.color+'">▆</span> '+series.name+'</p>'
-        legend_html = legend_html+legend_item
-      });
+          sum = row_obj.data.reduce(function(a, b){return a+b;})
+          row = row + '<td>'+sum.toFixed(1)+'%</td></tr>'
+          $('#tbl-age-income').append(row)
+        });
 
 
-      $('#legend').html(legend_html)
+        function make_cell_html(val){
+          if (val < 2){
+            cls = 'bg-low'
+          } else if (val < 4){
+            cls = 'bg-med'
+          } else if (val < 5.9){
+            cls = 'bg-high'
+          } else {
+            cls = 'bg-very-high'
+          }
+
+          return '<td class="' + cls + '"">' + val.toFixed(1) + '%</td>'
+        };
+
+        $('.bg-low').css('background-color', '#FAFAFA');
+        $('.bg-med').css('background-color', '#F0F0F0');
+        $('.bg-high').css('background-color', '#E6E6E6');
+        $('.bg-very-high').css('background-color', '#DCDCDC');
+
+        $('th, td').css('border', '1px solid #fff')
+
 
 
 
