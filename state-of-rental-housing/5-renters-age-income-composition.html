@@ -21,25 +21,35 @@ layout: chart
 
         // make header row (cols = age groups)
         var header_row = '<tr><th></th>'
+        age_grp_totals = []
         $.each(age_grps, function(i, age_grp){
           header_row = header_row + '<th>' + age_grp + '</th>'
+          age_grp_totals.push(0)
         });
-        header_row = header_row + '<th>Total</th></tr>'
+        header_row = header_row + '<th class="text-muted">Total</th></tr>'
         $('#tbl-age-income').append(header_row)
 
         // add row for each income group
         $.each(ami_data, function(i, row_obj){
           row = '<tr>'
           row = row + '<th>' + row_obj.name + '</th>'
-          $.each(row_obj.data, function(i, cell){
+          $.each(row_obj.data, function(age_idx, cell){
             row = row + make_cell_html(cell)
+            age_grp_totals[age_idx] = age_grp_totals[age_idx] + cell
           });
 
           sum = row_obj.data.reduce(function(a, b){return a+b;})
-          row = row + '<td>'+sum.toFixed(1)+'%</td></tr>'
+          row = row + '<td class="text-muted">' + sum.toFixed(1) + '%</td></tr>'
           $('#tbl-age-income').append(row)
         });
 
+        // add row of totals
+        row = '<tr class="text-muted"><th>Total</th>'
+        $.each(age_grp_totals, function(i, tot){
+          row = row + '<td>' + tot.toFixed(1) + '%</td>'
+        });
+        row = row + '<td>100%</td></tr>'
+        $('#tbl-age-income').append(row)
 
         function make_cell_html(val){
           if (val < 2){
@@ -54,13 +64,13 @@ layout: chart
 
           return '<td class="' + cls + '"">' + val.toFixed(1) + '%</td>'
         };
+        $('th, td').css('border', '1px solid #fff')
 
         $('.bg-low').css('background-color', '#FAFAFA');
         $('.bg-med').css('background-color', '#F0F0F0');
         $('.bg-high').css('background-color', '#E6E6E6');
-        $('.bg-very-high').css('background-color', '#DCDCDC');
+        $('.bg-very-high').css('background-color', '#D2D2D2');
 
-        $('th, td').css('border', '1px solid #fff')
 
 
 
