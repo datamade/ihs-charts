@@ -41,8 +41,7 @@ var ChartHelper = {
         return ['#375481', '#8DA7CE'];
       }
 
-      if (num_series == 1)
-        return ['#547BB6']
+      return Array(num_series).fill('#547BB6');
     },
 
     prep_chart_data: function(data, primary_dimension, number_type){
@@ -301,6 +300,68 @@ var ChartHelper = {
           shadow: false,
           headerFormat: '',
           pointFormat: num_format,
+        },
+        series: series_data
+      });
+
+    },
+
+    make_small_composition_chart: function(el, series_data, categories, chart_title){
+
+      $(el).highcharts({
+        chart: {
+          spacingTop: 60,
+          type: 'area'
+        },
+        plotOptions: {
+          area: {
+            marker: {
+              symbol: 'circle',
+              radius: 2
+            },
+            stacking: 'percent',
+            fillOpacity: 0.4
+          },
+          series: {
+            pointPadding: 0
+          }
+        },
+        credits: { enabled: false },
+        title: {
+          text: chart_title
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+          categories: categories,
+          lineWidth: 0,
+          tickLength: 0,
+          title: {
+            enabled: false
+          },
+          min: 0.5,
+          max: 1.5
+        },
+        yAxis: {
+          title: {
+              enabled: false
+          },
+          min: 0,
+          max: 100,
+          endOnTick: false,
+          labels: {
+            formatter: function () {
+              return this.value + '%';
+            }
+          }
+        },
+        tooltip: {
+          shared: true,
+          borderColor: '#eee',
+          shadow: false,
+          headerFormat: '',
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}%<br/>'
         },
         series: series_data
       });

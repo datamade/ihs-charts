@@ -29,27 +29,48 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/8-rent-burden.csv')).then(
+    $.when($.get('data/8-rent-burden-composition.csv')).then(
       function(data){
 
-        [year_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+        [year_status_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'rate');
         years = ['2007', '2011', '2014']
 
         $.each(income_grps, function(idx_income, income_grp){
 
-          trend_data = []
-          $.each(year_data, function(i, yr){
-            trend_data.push(yr['data'][idx_income])
+          trend_not_burdened = []
+          trend_burdened = []
+          trend_severely_burdened = []
+          $.each(year_status_data, function(i, yr_status){
+            if (yr_status.name.indexOf('Severely Burdened') > -1){
+              trend_severely_burdened.push(yr_status.data[idx_income])
+            } else if (yr_status.name.indexOf('Not Burdened') > -1){
+              trend_not_burdened.push(yr_status.data[idx_income])
+            } else {
+              trend_burdened.push(yr_status.data[idx_income])
+            }
           });
 
-          sliced_trend_data = [{
-            color: ChartHelper.get_colors(1)[0],
-            data: trend_data,
-            name: 'Households'
-          }]
+
+          sliced_trend_data = [
+            {
+              color: '#C5C5C5',
+              data: trend_not_burdened,
+              name: 'Not Burdened'
+            },
+            {
+              color: '#EDAB50',
+              data: trend_burdened,
+              name: 'Burdened'
+            },
+            {
+              color: '#CE603B',
+              data: trend_severely_burdened,
+              name: 'Severely Burdened'
+            }
+          ]
 
           chart_id = '#chart_'+idx_income.toString()
-          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, income_grp, [0, 100], 'percent')
+          ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp)
         })
 
     });
