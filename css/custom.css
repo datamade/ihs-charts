@@ -120,7 +120,11 @@ h2 {
 }
 #legend > .legend-item{
   margin-bottom: 0px;
-  font-size: 80%
+  font-size: 80%;
+}
+.legend-item{
+  font-size: 80%;
+  padding-right: 20px;
 }
 
 

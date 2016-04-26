@@ -2,6 +2,11 @@
 layout: chart
 ---
 
+<div class="row">
+    <div class="col-xs-12">
+        <h4>Shifts in Rent Burden Status by Income Level</h4>
+    </div>
+</div>
 
 <div class="row">
   <div class="col-xs-4">
@@ -21,6 +26,13 @@ layout: chart
   </div>
   <div class="col-xs-4">
     <div id='chart_5' class='xs-multiple'></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-9 col-xs-offset-3">
+    <div id='horizontal-legend'></div>
+    <br/><br/>
   </div>
 </div>
 
@@ -65,13 +77,21 @@ layout: chart
             {
               color: '#CE603B',
               data: trend_severely_burdened,
-              name: 'Severely Burdened'
+              name: 'Extremely Burdened'
             }
           ]
 
           chart_id = '#chart_'+idx_income.toString()
           ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp)
         })
+        
+        legend_html = ''
+        $.each(sliced_trend_data, function(i, series){
+          legend_item = '<span class="legend-item"><span style="color:'+series.color+'">▆</span> '+series.name+'</span>'
+          legend_html = legend_html+legend_item
+        });
+
+        $('#horizontal-legend').html(legend_html)
 
     });
 
