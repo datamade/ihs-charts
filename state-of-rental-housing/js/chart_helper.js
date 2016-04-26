@@ -19,32 +19,30 @@ var ChartHelper = {
 
       if (num_series == 7){
         // age groups
-        return ['#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#6e016b']
-        // return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'];
+        return ['#547bb6', '#6e83a5', '#878b94', '#a19383', '#ba9b72', '#d4a361', '#edab50']
+        // return ['#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#6e016b']
       }
       if (num_series == 6){
         // income groups
-        return ['#f46d43', '#fdae61', '#fdd568', '#c9e052', '#84d279', '#62c6b5']
-        //return ['#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#005a32']
-        //return ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'];
+        return ['#ce603b', '#cc893d', '#cab040', '#96c644', '#50b5ba', '#547bb6']
       }
 
       if (num_series == 4){
         // building types
-        return ['#9ecae1', '#6baed6', '#3182bd', '#08519c']
+        return ['#8DA7CE', '#547BB6', '#375481', '#1F2F47']
         //return ['#BDD9FF', '#82AFF1', '#1769D6', '#395A88'];
       }
 
       if (num_series == 3){
-        return ['#82AFF1', '#1769D6', '#395A88'];
+        return ['#375481', '#8DA7CE', '#CE603B'];
       }
 
       if (num_series == 2){
-        return ['#C0CAE6', '#527AB8'];
+        return ['#375481', '#8DA7CE'];
       }
 
       if (num_series == 1)
-        return ['#E26967']
+        return ['#547BB6']
     },
 
     prep_chart_data: function(data, primary_dimension, number_type){
@@ -131,8 +129,13 @@ var ChartHelper = {
     },
 
     make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
-      series_data = series_data.reverse()
+
+      // flipping data so that most recent year comes first
       categories = categories.reverse()
+      $.each(series_data, function(i, group_data){
+        group_data['data'] = group_data['data'].reverse()
+      });
+
       $(el).highcharts({
         chart: {
           type: 'bar'

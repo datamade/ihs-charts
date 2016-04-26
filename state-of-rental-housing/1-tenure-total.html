@@ -13,18 +13,19 @@ layout: chart
         function(data){
 
           [cleaned_data, years] = clean_csv_data(data)
+          colors = ChartHelper.get_colors(2)
 
           var series_data = [];
           series_data.push({
                 name: 'Owner-Occupied',
                 data: cleaned_data[1],
-                color: '#C0CAE6'
+                color: colors[0]
               });
 
           series_data.push({
                 name: 'Renter-Occupied',
                 data: cleaned_data[0],
-                color: '#527AB8'
+                color: colors[1]
               });
 
           tooltip = {

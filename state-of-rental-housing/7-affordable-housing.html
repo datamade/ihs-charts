@@ -23,18 +23,20 @@ layout: chart
           gap_arr.push(demand_arr[i]-supply_arr[i])
         })
 
+        colors = ChartHelper.get_colors(3)
+
         prepped_series = [
           {
             name: 'Gap',
             data: gap_arr,
             stack: 's',
             color: 'transparent',
-            borderColor: '#E26967',
+            borderColor: colors[2],
             borderWidth: 1,
             dataLabels: {
               enabled: true,
               verticalAlign: 'top',
-              color: '#E26967',
+              color: colors[2],
               style: {
                 textShadow: 'none',
               }
@@ -44,7 +46,7 @@ layout: chart
             name: 'Supply',
             data: supply_arr,
             stack: 's',
-            color: '#527AB8',
+            color: colors[0],
             borderWidth: 0,
             dataLabels: {
               enabled: true,
@@ -60,7 +62,7 @@ layout: chart
             name: 'Demand',
             data: demand_arr,
             stack: 'd',
-            color: '#C0CAE6',
+            color: colors[1],
             borderWidth: 0,
             dataLabels: {
               enabled: true,

@@ -34,8 +34,6 @@ layout: chart
 
         [year_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
         years = ['2007', '2011', '2014']
-        console.log(year_data)
-        console.log(income_grps)
 
         $.each(income_grps, function(idx_income, income_grp){
 
@@ -45,7 +43,7 @@ layout: chart
           });
 
           sliced_trend_data = [{
-            color: '#527AB8',
+            color: ChartHelper.get_colors(1)[0],
             data: trend_data,
             name: 'Households'
           }]

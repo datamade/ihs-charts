@@ -18,13 +18,11 @@ layout: chart
           series_data.push({
                 name: 'Owner-Occupied',
                 data: cleaned_data[1],
-                color: '#C0CAE6'
               });
 
           series_data.push({
                 name: 'Renter-Occupied',
                 data: cleaned_data[0],
-                color: '#527AB8'
               });
 
           init_chart('#chart_0', series_data, years);
@@ -62,11 +60,13 @@ layout: chart
           trendline.push(100* (series_data[1]['data'][col_id] / parseFloat(series_data[0]['data'][col_id] + series_data[1]['data'][col_id])));
         });
 
+        colors = ChartHelper.get_colors(3)
+
         var series_percent = [];
         series_percent.push({
           name: 'Percent renter-occupied',
           data: trendline,
-          color: '#E26967'
+          color: colors[2]
         });
 
         ChartHelper.make_line_chart(el, series_percent, years, 'Change in Households that are Renter - or Owner-Occupied in Cook County, 2000-2014', 'Percent Renter-Occupied', 'percent')
