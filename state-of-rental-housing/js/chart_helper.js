@@ -221,7 +221,10 @@ var ChartHelper = {
         },
         credits: { enabled: false },
         title: {
-          text: chart_title
+          text: chart_title,
+          style: {
+                fontSize: '16px'
+            }
         },
         legend: {
             enabled: false
@@ -284,7 +287,10 @@ var ChartHelper = {
         },
         credits: { enabled: false },
         title: {
-          text: chart_title
+          text: chart_title,
+          style: {
+                fontSize: '16px'
+            }
         },
         legend: {
             enabled: false
@@ -340,7 +346,10 @@ var ChartHelper = {
         },
         credits: { enabled: false },
         title: {
-          text: chart_title
+          text: chart_title,
+          style: {
+                fontSize: '16px'
+            }
         },
         legend: {
             enabled: false

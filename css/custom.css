@@ -127,6 +127,18 @@ h2 {
   padding-right: 20px;
 }
 
+.chart-title{
+  text-align: center;
+  font-size: 18px;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+.chart-subtitle{
+  text-align: center;
+  font-size: 12px;
+  color: #555555;
+}
+
 
 .xs-multiple {
   height: 260px;
