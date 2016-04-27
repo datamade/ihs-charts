@@ -102,6 +102,7 @@ var ChartHelper = {
       $(el).highcharts({
         chart: {
           type: 'column',
+          backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 40
         },
         plotOptions: plotOptions,
@@ -143,6 +144,7 @@ var ChartHelper = {
       $(el).highcharts({
         chart: {
           type: 'bar',
+          backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 40
         },
         plotOptions: {
@@ -210,6 +212,7 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
+          backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 30,
           spacingBottom: 30,
           type: 'column'
@@ -276,6 +279,7 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
+          backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 30,
           spacingBottom: 30,
           type: 'area'
@@ -327,6 +331,7 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
+          backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 30,
           spacingBottom: 30,
           type: 'area'
@@ -427,8 +432,9 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-            type: 'line',
-            spacingTop: 40
+          type: 'line',
+          backgroundColor:"rgba(255, 255, 255, 0)",
+          spacingTop: 40
         },
         credits: { enabled: false },
         title: {
