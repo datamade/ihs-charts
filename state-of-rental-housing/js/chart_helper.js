@@ -382,7 +382,7 @@ var ChartHelper = {
           borderColor: '#eee',
           shadow: false,
           headerFormat: '',
-          // pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}%<br/>'
+          pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}%</b><br/>.'
         },
         series: series_data
       });
