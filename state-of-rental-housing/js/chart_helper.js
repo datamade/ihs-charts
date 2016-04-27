@@ -107,7 +107,10 @@ var ChartHelper = {
         plotOptions: plotOptions,
         credits: { enabled: false },
         title: {
-          text: chart_title
+          text: chart_title[0]
+        },
+        subtitle: {
+          text: chart_title[1]
         },
         xAxis: {
           categories: categories,
@@ -120,6 +123,7 @@ var ChartHelper = {
           title: {
               text: yaxis_title
           },
+          endOnTick: false,
           min: 0
         },
         tooltip: tooltip,
@@ -163,7 +167,10 @@ var ChartHelper = {
         },
         credits: { enabled: false },
         title: {
-          text: chart_title
+          text: chart_title[0]
+        },
+        subtitle: {
+          text: chart_title[1]
         },
         xAxis: {
           categories: categories,
@@ -416,7 +423,10 @@ var ChartHelper = {
         },
         credits: { enabled: false },
         title: {
-            text: chart_title
+            text: chart_title[0]
+        },
+        subtitle: {
+            text: chart_title[1]
         },
         xAxis: {
             categories: years,
