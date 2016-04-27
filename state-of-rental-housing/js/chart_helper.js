@@ -101,7 +101,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          type: 'column'
+          type: 'column',
+          spacingTop: 40
         },
         plotOptions: plotOptions,
         credits: { enabled: false },
@@ -137,7 +138,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          type: 'bar'
+          type: 'bar',
+          spacingTop: 40
         },
         plotOptions: {
           series: {
@@ -201,7 +203,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          spacingTop: 60,
+          spacingTop: 30,
+          spacingBottom: 30,
           type: 'column'
         },
         plotOptions: {
@@ -263,7 +266,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          spacingTop: 60,
+          spacingTop: 30,
+          spacingBottom: 30,
           type: 'area'
         },
         plotOptions: {
@@ -310,7 +314,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          spacingTop: 60,
+          spacingTop: 30,
+          spacingBottom: 30,
           type: 'area'
         },
         plotOptions: {
@@ -361,7 +366,7 @@ var ChartHelper = {
           borderColor: '#eee',
           shadow: false,
           headerFormat: '',
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}%<br/>'
+          // pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}%<br/>'
         },
         series: series_data
       });
@@ -406,7 +411,8 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-            type: 'line'
+            type: 'line',
+            spacingTop: 40
         },
         credits: { enabled: false },
         title: {
