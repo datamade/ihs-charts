@@ -24,7 +24,7 @@ var ChartHelper = {
       }
       if (num_series == 6){
         // income groups
-        return ['#ce603b', '#cc893d', '#cab040', '#96c644', '#50b5ba', '#547bb6']
+        return ['#ce603b', '#cc893d', '#cab040', '#AAA646', '#74722F', '#48471E']
       }
 
       if (num_series == 4){
@@ -343,7 +343,7 @@ var ChartHelper = {
               radius: 2
             },
             stacking: 'percent',
-            fillOpacity: 0.4
+            fillOpacity: 0.7
           },
           series: {
             pointPadding: 0
