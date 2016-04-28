@@ -23,13 +23,13 @@ layout: chart
         [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
 
         // make header row (cols = age groups)
-        var header_row = '<tr><th></th>'
+        var header_row = '<tr><th width="14%"></th>'
         age_grp_totals = []
         $.each(age_grps, function(i, age_grp){
-          header_row = header_row + '<th>' + age_grp + '</th>'
+          header_row = header_row + '<th width="10%">' + age_grp + '</th>'
           age_grp_totals.push(0)
         });
-        header_row = header_row + '<th class="text-muted">Total</th></tr>'
+        header_row = header_row + '<th class="text-muted" width="10%">Total</th></tr>'
         $('#tbl-age-income').append(header_row)
 
         // add row for each income group

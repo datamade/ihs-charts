@@ -151,3 +151,20 @@ h2 {
 #text-muted {
   color: #C5C5C5;
 }
+
+
+.table{
+  font-size: 14px;
+}
+.table th{
+  font-size: 12px;
+}
+#tbl-age-income tr:first-child th {
+  text-align: center;
+}
+#tbl-age-income td{
+  padding: 8px 18px;
+}
+#tbl-age-income th{
+  padding: 8px 2px;
+}

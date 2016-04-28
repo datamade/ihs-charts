@@ -186,6 +186,7 @@ var ChartHelper = {
               text: yaxis_title
           },
           min: 0,
+          tickInterval: 100,
           reversedStacks: false
         },
         tooltip: {
