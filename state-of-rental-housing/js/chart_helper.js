@@ -192,6 +192,11 @@ var ChartHelper = {
         tooltip: {
           enabled: false
         },
+        legend: {
+          symbolPadding: 3,
+          itemDistance: 12
+
+        },
         series: series_data
       });
 
