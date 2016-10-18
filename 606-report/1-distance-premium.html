@@ -1,0 +1,57 @@
+---
+layout: default
+---
+
+<div id='premium_map' style='height: 500px'></div>
+
+<link rel="stylesheet" href="/lib/leaflet.css">
+<script type="text/javascript" src="/lib/leaflet.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        
+        var buffers = '/606-report/data/buffers.geojson';
+        var park = '/606-report/data/the_606.geojson';
+
+        map = L.map('premium_map', { scrollWheelZoom: false }).setView([41.9137, -87.7116], 14);
+
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            id: 'datamade.hn83a654',
+            detectRetina: true
+        }).addTo(map);
+    
+        $.when($.getJSON(buffers), $.getJSON(park)).then(function (buffersData, parkData) {
+            var buffersLayer = L.geoJSON(buffersData[0], {
+                                    style: function (feature) {
+                                        return {
+                                            stroke: true,
+                                            weight: 1,
+                                            color: '#A0374F',
+                                            opacity: 0.2,
+                                            fill: true,
+                                            fillOpacity: 1.5*(feature.properties.premium)    
+                                        };
+                                    }
+                                }).bindPopup(function (layer) {
+                                    var premium = layer.feature.properties.premium;
+                                    return premium.toFixed(2).toString();
+                                }).addTo(map);
+            var parkLayer = L.geoJSON(parkData[0], {
+                                    style: function () {
+                                        return {
+                                            stroke: true,
+                                            weight: 5,
+                                            color: '#111913',
+                                            fill: true,
+                                            fillOpacity: 1
+                                        };
+                                    }
+                                }).addTo(map);  
+        });
+
+    });
+
+</script>
