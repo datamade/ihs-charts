@@ -24,6 +24,13 @@ layout: default
             detectRetina: true
         }).addTo(map);
 
+        L.tileLayer('http://tile.mapzen.com/mapzen/vector/v1/{layers}/{z}/{x}/{y}.{format}?api_key={api_key}', {
+            layers: 'buildings',
+            format: 'json',
+            api_key: 'mapzen-zJnDmGn',
+            detectRetina: true
+        }).addTo(map);
+
         /* ----------------------------
            map interaction functions
         ------------------------------*/
@@ -35,7 +42,7 @@ layout: default
             layer.setStyle({
                 stroke: true,
                 weight: 3,
-                color: '#A0374F',
+                color: ihs_colors.main,
                 opacity: 0.8,
                 fill: true,
             });
@@ -62,6 +69,7 @@ layout: default
         var buffers = '/606-report/data/buffers.geojson';
         var east = '/606-report/data/eastern_outline.geojson';
         var park = '/606-report/data/the_606.geojson';
+        var ihs_colors = {'main': '#375481', 'secondary': '#CE603B'};
 
         $.when($.getJSON(buffers), $.getJSON(park), $.getJSON(east))
         .then(function (buffersData, parkData, eastData) {
@@ -71,10 +79,10 @@ layout: default
                                         return {
                                             stroke: true,
                                             weight: 1,
-                                            color: '#A0374F',
+                                            color: ihs_colors.main,
                                             opacity: 0.5,
                                             fill: true,
-                                            fillOpacity: feature.properties.premium   
+                                            fillOpacity: -0.05*(Math.log(feature.properties.premium))   
                                         };
                                     },
                                     onEachFeature: bufferListener 
@@ -84,10 +92,10 @@ layout: default
                                     style: {
                                             stroke: true,
                                             weight: 1,
-                                            color: '#5B373B',
+                                            color: ihs_colors.secondary,
                                             opacity: 0.5,
                                             fill: true,
-                                            fillOpacity: 0.3
+                                            fillOpacity: 0.2
                                     }
                                 }).addTo(map);
 
@@ -127,11 +135,12 @@ layout: default
                 var steps = [0.05, 0.08, 0.1, 0.13, 0.18, 0.2, 0.23, 0.25];
                 var labels = ['5%', '8%', '10%', '13%', '18%', '20%', '23%', '25%'];
 
-                div.innerHTML = '<i style= "background:#5B373B;opacity:0.5"></i><p>No change</p><br'
+                div.innerHTML = '<i style= "background:' + ihs_colors.secondary + ';opacity:0.2"></i><p>No change</p><br'
 
                 for (var i = 0; i < steps.length; i++) {
                     div.innerHTML += 
-                        '<i style= "background:#A0374F;opacity:' + steps[i] + '"></i>' +
+                        '<i style= "background:' + ihs_colors.main + ';' +
+                                   'opacity:' + steps.slice(0,i).reduce(function(a,b) {return a+b},0) + '"></i>' +
                         labels[i] + '<br>';
                 }
 
