@@ -15,7 +15,7 @@ layout: default
            initialize map 
         ---------------------*/
 
-        map = L.map('premium_map', { scrollWheelZoom: false }).setView([41.9137, -87.7116], 14);
+        map = L.map('premium_map', { scrollWheelZoom: false }).setView([41.9137, -87.6922], 14);
 
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -38,12 +38,7 @@ layout: default
                 color: '#A0374F',
                 opacity: 0.8,
                 fill: true,
-                fillOpacity: 0.8
             });
-
-            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                layer.bringToFront();
-            };
 
             infobox.update(premium.toFixed(0).toString())
         }
@@ -65,9 +60,11 @@ layout: default
         ------------------------*/
 
         var buffers = '/606-report/data/buffers.geojson';
+        var east = '/606-report/data/eastern_outline.geojson';
         var park = '/606-report/data/the_606.geojson';
 
-        $.when($.getJSON(buffers), $.getJSON(park)).then(function (buffersData, parkData) {
+        $.when($.getJSON(buffers), $.getJSON(park), $.getJSON(east))
+        .then(function (buffersData, parkData, eastData) {
 
             buffersLayer = L.geoJSON(buffersData[0], {
                                     style: function (feature) {
@@ -83,7 +80,18 @@ layout: default
                                     onEachFeature: bufferListener 
                                 }).addTo(map);
 
-            var parkLayer = L.geoJSON(parkData[0], {
+            eastLayer = L.geoJSON(eastData[0], {
+                                    style: {
+                                            stroke: true,
+                                            weight: 1,
+                                            color: '#5B373B',
+                                            opacity: 0.5,
+                                            fill: true,
+                                            fillOpacity: 0.3
+                                    }
+                                }).addTo(map);
+
+            parkLayer = L.geoJSON(parkData[0], {
                                     style: function () {
                                         return {
                                             stroke: true,
@@ -118,6 +126,8 @@ layout: default
                 var div = L.DomUtil.create('div', 'legend');
                 var steps = [0.05, 0.08, 0.1, 0.13, 0.18, 0.2, 0.23, 0.25];
                 var labels = ['5%', '8%', '10%', '13%', '18%', '20%', '23%', '25%'];
+
+                div.innerHTML = '<i style= "background:#5B373B;opacity:0.5"></i><p>No change</p><br'
 
                 for (var i = 0; i < steps.length; i++) {
                     div.innerHTML += 
