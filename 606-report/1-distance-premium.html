@@ -11,34 +11,78 @@ layout: default
 
     $(function () {
         
-        var buffers = '/606-report/data/buffers.geojson';
-        var park = '/606-report/data/the_606.geojson';
+        /* -------------------
+           initialize map 
+        ---------------------*/
 
         map = L.map('premium_map', { scrollWheelZoom: false }).setView([41.9137, -87.7116], 14);
 
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/datamade.hn83a654/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             id: 'datamade.hn83a654',
             detectRetina: true
         }).addTo(map);
-    
+
+        /* ----------------------------
+           map interaction functions
+        ------------------------------*/
+
+        function highlightBuffer (e) {
+            var layer = e.target;
+            var premium = layer.feature.properties.premium * 100;
+
+            layer.setStyle({
+                stroke: true,
+                weight: 3,
+                color: '#A0374F',
+                opacity: 0.8,
+                fill: true,
+                fillOpacity: 0.8
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            };
+
+            infobox.update(premium.toFixed(0).toString())
+        }
+
+        function resetHighlight (e) {
+            buffersLayer.resetStyle(e.target);
+            infobox.update();
+        }
+
+        function bufferListener (feature, layer) {
+            layer.on({
+                mouseover: highlightBuffer,
+                mouseout: resetHighlight
+            });
+        }
+ 
+        /* ----------------------
+           import geojson data 
+        ------------------------*/
+
+        var buffers = '/606-report/data/buffers.geojson';
+        var park = '/606-report/data/the_606.geojson';
+
         $.when($.getJSON(buffers), $.getJSON(park)).then(function (buffersData, parkData) {
-            var buffersLayer = L.geoJSON(buffersData[0], {
+
+            buffersLayer = L.geoJSON(buffersData[0], {
                                     style: function (feature) {
                                         return {
                                             stroke: true,
                                             weight: 1,
                                             color: '#A0374F',
-                                            opacity: 0.2,
+                                            opacity: 0.5,
                                             fill: true,
-                                            fillOpacity: 1.5*(feature.properties.premium)    
+                                            fillOpacity: feature.properties.premium   
                                         };
-                                    }
-                                }).bindPopup(function (layer) {
-                                    var premium = layer.feature.properties.premium;
-                                    return premium.toFixed(2).toString();
+                                    },
+                                    onEachFeature: bufferListener 
                                 }).addTo(map);
+
             var parkLayer = L.geoJSON(parkData[0], {
                                     style: function () {
                                         return {
@@ -50,8 +94,71 @@ layout: default
                                         };
                                     }
                                 }).addTo(map);  
-        });
 
+            /* --------------------------
+               build infobox and legend 
+            ----------------------------*/
+
+            infobox = L.control();
+
+            infobox.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'infobox');
+                this.update();
+                return this._div;
+            };
+
+            infobox.update = function (premium) {
+                this._div.innerHTML = '<h4>Change in price premium around the 606</h4>' + (premium ? '<h5>' + premium + '% increase</h5>' : '<h5><i>Hover over a section</i></h5>');
+            };
+
+            legend = L.control({position: 'bottomright'});
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'legend');
+                var steps = [0.05, 0.08, 0.1, 0.13, 0.18, 0.2, 0.23, 0.25];
+                var labels = ['5%', '8%', '10%', '13%', '18%', '20%', '23%', '25%'];
+
+                for (var i = 0; i < steps.length; i++) {
+                    div.innerHTML += 
+                        '<i style= "background:#A0374F;opacity:' + steps[i] + '"></i>' +
+                        labels[i] + '<br>';
+                }
+
+                return div;
+            };
+
+            infobox.addTo(map);
+            legend.addTo(map);
+
+            /* -----------------
+               set box styles 
+            -------------------*/
+
+            $('.infobox').css({
+                "padding": "8px 10px",
+                "width": "365px",
+                "background": "white",
+                "background": "rgba(255,255,255,0.8)",
+                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
+                "border-radius": "5px"
+            });
+
+            $('.legend').css({
+                "background": "white",
+                "line-height": "18px",
+                "padding": "10px",
+                "color": "#555",
+                "border-radius": "5px"
+            });
+
+            $('.legend i').css({
+                "width": "18px",
+                "height": "18px",
+                "float": "left",
+                "margin-right": "8px"
+            });
+        });
     });
 
 </script>
