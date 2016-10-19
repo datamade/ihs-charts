@@ -24,13 +24,6 @@ layout: default
             detectRetina: true
         }).addTo(map);
 
-        L.tileLayer('http://tile.mapzen.com/mapzen/vector/v1/{layers}/{z}/{x}/{y}.{format}?api_key={api_key}', {
-            layers: 'buildings',
-            format: 'json',
-            api_key: 'mapzen-zJnDmGn',
-            detectRetina: true
-        }).addTo(map);
-
         /* ----------------------------
            map interaction functions
         ------------------------------*/
@@ -45,21 +38,44 @@ layout: default
                 color: ihs_colors.main,
                 opacity: 0.8,
                 fill: true,
+                fillOpacity: 0
             });
 
             infobox.update(premium.toFixed(0).toString())
         }
 
-        function resetHighlight (e) {
+        function highlightEast (e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                opacity: 1
+            });
+
+            infobox.update(0)
+        }
+
+        function resetBuffer (e) {
             buffersLayer.resetStyle(e.target);
+            infobox.update();
+        }
+
+        function resetEast (e) {
+            eastLayer.resetStyle(e.target);
             infobox.update();
         }
 
         function bufferListener (feature, layer) {
             layer.on({
                 mouseover: highlightBuffer,
-                mouseout: resetHighlight
+                mouseout: resetBuffer
             });
+        }
+
+        function eastListener (feature, layer) {
+            layer.on({
+                mouseover: highlightEast,
+                mouseout: resetEast
+            })
         }
  
         /* ----------------------
@@ -67,12 +83,24 @@ layout: default
         ------------------------*/
 
         var buffers = '/606-report/data/buffers.geojson';
+        var donuts = '/606-report/data/buffers_donuts.geojson';
         var east = '/606-report/data/eastern_outline.geojson';
         var park = '/606-report/data/the_606.geojson';
         var ihs_colors = {'main': '#375481', 'secondary': '#CE603B'};
 
-        $.when($.getJSON(buffers), $.getJSON(park), $.getJSON(east))
-        .then(function (buffersData, parkData, eastData) {
+        $.when($.getJSON(buffers), $.getJSON(donuts), $.getJSON(park), $.getJSON(east))
+        .then(function (buffersData, donutsData, parkData, eastData) {
+
+            donutsLayer = L.geoJSON(donutsData[0], {
+                                    style: function (feature) {
+                                        return {
+                                            stroke: false,
+                                            fill: true,
+                                            fillColor: ihs_colors.main,
+                                            fillOpacity: 2*(feature.properties.premium)
+                                        };
+                                    }
+                                }).addTo(map);
 
             buffersLayer = L.geoJSON(buffersData[0], {
                                     style: function (feature) {
@@ -82,7 +110,7 @@ layout: default
                                             color: ihs_colors.main,
                                             opacity: 0.5,
                                             fill: true,
-                                            fillOpacity: -0.05*(Math.log(feature.properties.premium))   
+                                            fillOpacity: 0
                                         };
                                     },
                                     onEachFeature: bufferListener 
@@ -91,12 +119,14 @@ layout: default
             eastLayer = L.geoJSON(eastData[0], {
                                     style: {
                                             stroke: true,
-                                            weight: 1,
-                                            color: ihs_colors.secondary,
+                                            weight: 4,
+                                            dashArray: '10 5',
+                                            color: ihs_colors.main,
                                             opacity: 0.5,
                                             fill: true,
-                                            fillOpacity: 0.2
-                                    }
+                                            fillOpacity: 0
+                                    },
+                                    onEachFeature: eastListener
                                 }).addTo(map);
 
             parkLayer = L.geoJSON(parkData[0], {
@@ -123,8 +153,8 @@ layout: default
                 return this._div;
             };
 
-            infobox.update = function (premium) {
-                this._div.innerHTML = '<h4>Change in price premium around the 606</h4>' + (premium ? '<h5>' + premium + '% increase</h5>' : '<h5><i>Hover over a section</i></h5>');
+            infobox.update = function (premium, change) {
+                this._div.innerHTML = '<h4>Change in price premium around the 606</h4>' + (premium == 0 ? '<h5>No change</h5>' : premium ? '<h5>' + premium + '% increase</h5>' : '<h5><i>Hover over a section</i></h5>');
             };
 
             legend = L.control({position: 'bottomright'});
@@ -135,12 +165,12 @@ layout: default
                 var steps = [0.05, 0.08, 0.1, 0.13, 0.18, 0.2, 0.23, 0.25];
                 var labels = ['5%', '8%', '10%', '13%', '18%', '20%', '23%', '25%'];
 
-                div.innerHTML = '<i style= "background:' + ihs_colors.secondary + ';opacity:0.2"></i><p>No change</p><br'
+                div.innerHTML = '<span style="border:2px dashed #375481"></span><p>No change</p><br'
 
                 for (var i = 0; i < steps.length; i++) {
                     div.innerHTML += 
-                        '<i style= "background:' + ihs_colors.main + ';' +
-                                   'opacity:' + steps.slice(0,i).reduce(function(a,b) {return a+b},0) + '"></i>' +
+                        '<span style= "background:' + ihs_colors.main + ';' +
+                                   'opacity:' + 2*(steps[i]) + '"></span>' +
                         labels[i] + '<br>';
                 }
 
@@ -171,7 +201,7 @@ layout: default
                 "border-radius": "5px"
             });
 
-            $('.legend i').css({
+            $('.legend span').css({
                 "width": "18px",
                 "height": "18px",
                 "float": "left",
