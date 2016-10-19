@@ -15,14 +15,17 @@ layout: default
            initialize map 
         ---------------------*/
 
-        map = L.map('premium_map', { scrollWheelZoom: false }).setView([41.9137, -87.6922], 14);
-
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        var lightBasemap = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             id: 'datamade.hn83a654',
             detectRetina: true
-        }).addTo(map);
+        });
+
+        map = L.map('premium_map', {scrollWheelZoom: false})
+                .setView([41.9137, -87.6922], 14);
+
+        lightBasemap.addTo(map);
 
         /* ----------------------------
            map interaction functions
@@ -196,9 +199,11 @@ layout: default
             $('.legend').css({
                 "background": "white",
                 "line-height": "18px",
+                "width": "105px",
                 "padding": "10px",
                 "color": "#555",
-                "border-radius": "5px"
+                "border-radius": "5px",
+                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
             });
 
             $('.legend span').css({
