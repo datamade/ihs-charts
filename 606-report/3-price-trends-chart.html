@@ -11,9 +11,9 @@ layout: default
     $.when($.get('data/Price_Trend_2016Q2.csv')).then(
       function(data){
         _clean_data = clean_csv_data(data);
-        colors = ChartHelper.get_colors(2)
-
+        var colors = ChartHelper.get_colors(2)
         var series_data = [];
+
         series_data.push({
           name: '606 East',
           data: _clean_data[0],
@@ -32,22 +32,31 @@ layout: default
           color: colors[2]
         });
 
-        plot_options = {
-              spline: {
-                  marker: {
-                    enabled: false,
-                  },
-                  dataLabels: {
-                      enabled: true,
-                      format: "{point.y:.1f}%"
-                  }
-              },
-              series: {
-                states: states
-              }
+        $('#price_trends').highcharts({
+          chart: {
+            type: "spline",
+            backgroundColor:"rgba(255, 255, 255, 0)",
+            spacingTop: 40
           },
-
-        ChartHelper.make_line_chart("#price_trends", series_data, _clean_data[3], ['Price trends along The 606'], 'Values', 'count', 'spline', plot_options)
+          credits: { enabled: false },
+          title: {
+            text: 'Price trends along The 606'
+          },
+          subtitle: {
+            text: 'Quarterly price trends for single family homes within ½ mile of The 606, 1997 to 2016 1Q'
+          },
+          xAxis: {
+              categories: _clean_data[3]
+          },
+          plotOptions: {
+            spline: {
+              marker: {
+                enabled: false,
+              }
+            },
+          },
+          series: series_data
+        });
     });
   });
 

@@ -400,7 +400,7 @@ var ChartHelper = {
 
     },
 
-    make_line_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type, chart_type, line_options){
+    make_line_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type){
       if (data_type == 'percent'){
         y_min = null
         y_labels = {
@@ -408,6 +408,10 @@ var ChartHelper = {
                   return this.value + '%';
               }
             }
+        data_labels = {
+                    enabled: true,
+                    format: "{point.y:.1f}%"
+                }
         states = {
                 hover: {
                   enabled: false
@@ -434,7 +438,7 @@ var ChartHelper = {
 
       $(el).highcharts({
         chart: {
-          type: chart_type,
+          type: 'line',
           backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 40
         },
@@ -461,19 +465,13 @@ var ChartHelper = {
         },
         tooltip: tooltip,
         plotOptions: {
-            spline: {
-                // marker: {
-                //     lineWidth: 1,
-                //     lineColor: '#ffffff',
-                //     symbol: 'square'
-                // },
+            line: {
                 marker: {
-                  enabled: false,
+                    lineWidth: 1,
+                    lineColor: '#ffffff',
+                    symbol: 'square'
                 },
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y:.1f}%"
-                }
+                dataLabels: data_labels
             },
             series: {
               states: states

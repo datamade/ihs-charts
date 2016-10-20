@@ -69,27 +69,7 @@ layout: chart
           color: colors[2]
         });
 
-        plot_options = {
-            spline: {
-                marker: {
-                    lineWidth: 1,
-                    lineColor: '#ffffff',
-                    symbol: 'square'
-                },
-                marker: {
-                  enabled: false,
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y:.1f}%"
-                }
-            },
-            series: {
-              states: states
-            }
-        },
-
-        ChartHelper.make_line_chart(el, series_percent, years, ['Change in Percentage of Renter-Occupied Households', 'Cook County - 2000 to 2014'], 'Percent Renter-Occupied', 'percent', 'line', plot_options)
+        ChartHelper.make_line_chart(el, series_percent, years, ['Change in Percentage of Renter-Occupied Households', 'Cook County - 2000 to 2014'], 'Percent Renter-Occupied', 'percent')
 
     }
 

@@ -32,27 +32,8 @@ layout: chart
                       pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>',
                       shared: true
                     }
-          plot_options = {
-            spline: {
-                marker: {
-                    lineWidth: 1,
-                    lineColor: '#ffffff',
-                    symbol: 'square'
-                },
-                marker: {
-                  enabled: false,
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: "{point.y:.1f}%"
-                }
-            },
-            series: {
-              states: states
-            }
-        },
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter - or Owner-Occupied', 'Cook County - 2000 to 2014'], 'Households', 'count', 'line', plot_options)
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter - or Owner-Occupied', 'Cook County - 2000 to 2014'], 'Households', 'count')
 
       });
     });
