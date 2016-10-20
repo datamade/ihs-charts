@@ -40,15 +40,15 @@ layout: default
                 },
             },
             plotOptions: {
-            line: {
-                dataLabels: {
-                    enabled: true,
-                    formatter: function () {
-                        return Math.round(this.y * 1000) / 10;
+                line: {
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return Math.round(this.y * 1000) / 10;
+                        }
                     }
                 }
-            }
-        },
+            },
             series: []
         };
 
@@ -62,6 +62,7 @@ layout: default
           return data;
         });
 
+        console.log(lines)
         var series = {
           data: lines,
           name: 'Price premium'

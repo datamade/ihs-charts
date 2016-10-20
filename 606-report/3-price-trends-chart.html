@@ -1,0 +1,72 @@
+---
+layout: default
+---
+
+<div id='price_trends'></div>
+<script src='/state-of-rental-housing/js/chart_helper.js'></script>
+<!-- project-specific js -->
+<script type='text/javascript'>
+    $(function () {
+
+    $.when($.get('data/Price_Trend_2016Q2.csv')).then(
+      function(data){
+        _clean_data = clean_csv_data(data);
+        colors = ChartHelper.get_colors(2)
+
+        var series_data = [];
+        series_data.push({
+          name: '606 East',
+          data: _clean_data[0],
+          color: colors[0]
+        });
+
+        series_data.push({
+          name: '606 West',
+          data: _clean_data[1],
+          color: colors[1]
+        });
+
+        series_data.push({
+          name: 'Chicago',
+          data: _clean_data[2],
+          color: colors[2]
+        });
+
+        plot_options = {
+              spline: {
+                  marker: {
+                    enabled: false,
+                  },
+                  dataLabels: {
+                      enabled: true,
+                      format: "{point.y:.1f}%"
+                  }
+              },
+              series: {
+                states: states
+              }
+          },
+
+        ChartHelper.make_line_chart("#price_trends", series_data, _clean_data[3], ['Price trends along The 606'], 'Values', 'count', 'spline', plot_options)
+    });
+  });
+
+  function clean_csv_data(data){
+        var obj_data = $.csv.toObjects(data);
+
+        cleaned_data_east    = [];
+        cleaned_data_west    = [];
+        cleaned_data_chicago = [];
+        _categories          = [];
+
+        $.each(obj_data, function(row_id, row){
+            var _year = row['Quarter'];
+            _categories.push(_year);
+            cleaned_data_east.push(parseFloat(row['606 East']))
+            cleaned_data_west.push(parseFloat(row['606 West']))
+            cleaned_data_chicago.push(parseFloat(row['CHICAGO']))
+        });
+
+        return [cleaned_data_east, cleaned_data_west, cleaned_data_chicago, _categories]
+    }
+</script>
