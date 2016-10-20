@@ -1,0 +1,75 @@
+---
+layout: default
+---
+
+<div id='premium_chart'></div>
+<!-- project-specific js -->
+<script type='text/javascript'>
+  $(function () {
+
+    $.when($.get('data/Distance_Premium.csv')).then(
+      function(data){
+
+        var mapOptions = {
+            chart: {
+                renderTo: 'premium_chart',
+                defaultSeriesType: 'line'
+            },
+            tooltip: {
+              enabled: false
+            },
+            title: {
+                text: 'Change in the distance premium in 606 West'
+            },
+            xAxis: {
+                title: {
+                    text: 'Distance in miles from 606'
+                },
+                labels: {
+                    step: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Price premium'
+                },
+                labels: {
+                    formatter: function() {
+                        return (this.value * 100) + ' %';
+                    }
+                },
+            },
+            plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Math.round(this.y * 1000) / 10;
+                    }
+                }
+            }
+        },
+            series: []
+        };
+
+        var lines = data.split('\n');
+        lines.shift()
+        lines = lines.map(function(line) {
+          var line_arr = line.split(',');
+          data = line_arr.map(function(el) {
+            return parseFloat(el);
+          });
+          return data;
+        });
+
+        var series = {
+          data: lines,
+          name: 'Price premium'
+        };
+
+        mapOptions.series.push(series);
+        var chart = new Highcharts.Chart(mapOptions);
+    });
+  });
+
+</script>
