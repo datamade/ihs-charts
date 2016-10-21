@@ -55,8 +55,8 @@ DePaul IHS
     font-style: normal;
 }
 
-    
-body { 
+
+body {
   font: 18px/1.3em 'ColaborateThinRegular', sans-serif;
   background-color: #FBFBF9;
 }
@@ -168,3 +168,7 @@ h2 {
 #tbl-age-income th{
   padding: 8px 2px;
 }
+
+/*div#highcharts-0 span {
+  margin-left: -10px;
+}*/

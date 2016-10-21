@@ -45,8 +45,78 @@ layout: default
           subtitle: {
             text: 'Quarterly price trends for single family homes within ½ mile of The 606, 1997 to 2016 1Q'
           },
+          tooltip: {
+            shared: true,
+            borderColor: '#eee',
+            shadow: false,
+            headerFormat: '',
+            pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}%</b><br/>.'
+          },
+          yAxis: {
+            labels: {
+                    formatter: function() {
+                        return (this.value - 100) + ' %';
+                    }
+                },
+          },
           xAxis: {
-              categories: _clean_data[3]
+              categories: _clean_data[3],
+              plotLines: [{
+                color: '#DD8D16',
+                dashStyle: 'ShortDot', // Style of the plot line.
+                value: 49, // Value of where the line will appear.
+                width: 2, // Width of the line.
+                label: {
+                  useHTML: true,
+                  text: '2012 Q2 </br> 606 funding secured',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor:'#DD8D16',
+                    marginLeft: "15px"
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              {
+              color: '#963E17',
+                dashStyle: 'ShortDot',
+                value: 54,
+                width: 2,
+                label: {
+                  useHTML: true,
+                  text: '2013 Q3 <br/> Groundbreaking',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor: '#963E17',
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              {
+              color: '#72712E',
+                dashStyle: 'ShortDot',
+                value: 61,
+                width: 2,
+                label: {
+                  useHTML: true,
+                  text: '2015 Q2 <br/> Trail opens',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor:'#72712E',
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              ]
           },
           plotOptions: {
             spline: {
@@ -56,9 +126,16 @@ layout: default
             },
           },
           series: series_data
-        });
+      //   }, function (chart) { // on complete
+      //       chart.renderer.text('Index value 100 = 2000 Q1 levels', 70, 210)
+      //       .css({
+      //         fontSize: '14px'
+      //       })
+      //       .add();
+      // });
+      });
     });
-  });
+ });
 
   function clean_csv_data(data){
         var obj_data = $.csv.toObjects(data);
