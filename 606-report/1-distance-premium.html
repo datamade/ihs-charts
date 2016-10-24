@@ -26,63 +26,9 @@ layout: default
         });
 
         map = L.map('premium_map', {scrollWheelZoom: false})
-                .setView([41.919, -87.687], 13);
+                .setView([41.9139, -87.7056], 14);
 
         lightBasemap.addTo(map);
-
-        /* ----------------------------
-           map interaction functions
-        ------------------------------*/
-
-        function highlightBuffer (e) {
-            var layer = e.target;
-            var premium = layer.feature.properties.premium * 100;
-
-            layer.setStyle({
-                stroke: true,
-                weight: 3,
-                color: ihs_colors.main,
-                opacity: 0.8,
-                fill: true,
-                fillOpacity: 0
-            });
-
-            infobox.update(premium.toFixed(1).toString())
-        }
-
-        function highlightEast (e) {
-            var layer = e.target;
-
-            layer.setStyle({
-                opacity: 1
-            });
-
-            infobox.update(0)
-        }
-
-        function resetBuffer (e) {
-            buffersLayer.resetStyle(e.target);
-            infobox.update();
-        }
-
-        function resetEast (e) {
-            eastLayer.resetStyle(e.target);
-            infobox.update();
-        }
-
-        function bufferListener (feature, layer) {
-            layer.on({
-                mouseover: highlightBuffer,
-                mouseout: resetBuffer
-            });
-        }
-
-        function eastListener (feature, layer) {
-            layer.on({
-                mouseover: highlightEast,
-                mouseout: resetEast
-            })
-        }
  
         /* ----------------------
            import geojson data 
@@ -118,8 +64,7 @@ layout: default
                                             fill: true,
                                             fillOpacity: 0
                                         };
-                                    },
-                                    onEachFeature: bufferListener 
+                                    }
                                 }).addTo(map);
 
             eastLayer = L.geoJSON(eastData[0], {
@@ -131,8 +76,7 @@ layout: default
                                             opacity: 0.5,
                                             fill: true,
                                             fillOpacity: 0
-                                    },
-                                    onEachFeature: eastListener
+                                    }
                                 }).addTo(map);
 
             parkLayer = L.geoJSON(parkData[0], {
@@ -148,20 +92,8 @@ layout: default
                                 }).addTo(map);  
 
             /* --------------------------
-               build infobox and legend 
+               build legend 
             ----------------------------*/
-
-            infobox = L.control();
-
-            infobox.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'infobox');
-                this.update();
-                return this._div;
-            };
-
-            infobox.update = function (premium, change) {
-                this._div.innerHTML = '<h4>How the 606 increases housing prices</h4>' + (premium == 0 ? '<h5>No change</h5>' : premium ? '<h5>' + premium + '% increase</h5>' : '<h5><i>Hover over a section to see its price increase</i></h5>');
-            };
 
             legend = L.control({position: 'bottomright'});
 
@@ -183,21 +115,11 @@ layout: default
                 return div;
             };
 
-            infobox.addTo(map);
             legend.addTo(map);
 
             /* -----------------
                set box styles 
             -------------------*/
-
-            $('.infobox').css({
-                "padding": "8px 10px",
-                "width": "365px",
-                "background": "white",
-                "background": "rgba(255,255,255,0.8)",
-                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
-                "border-radius": "5px"
-            });
 
             $('.legend').css({
                 "background": "white",
