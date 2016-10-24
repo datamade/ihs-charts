@@ -2,12 +2,14 @@
 layout: default
 ---
 
-<div id='premium_map' style='height: 500px'></div>
+<div id='premium_map' style='height: 400px'></div>
 
 <link rel="stylesheet" href="/lib/leaflet.css">
 <script type="text/javascript" src="/lib/leaflet.js"></script>
 
 <script type="text/javascript">
+
+    var map;
 
     $(function () {
         
@@ -24,7 +26,7 @@ layout: default
         });
 
         map = L.map('premium_map', {scrollWheelZoom: false})
-                .setView([41.9137, -87.6922], 14);
+                .setView([41.919, -87.687], 13);
 
         lightBasemap.addTo(map);
 
