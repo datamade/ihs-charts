@@ -1,0 +1,222 @@
+---
+layout: default
+---
+
+<div id='premium_map' style='height: 400px'></div>
+
+<link rel="stylesheet" href="/lib/leaflet.css">
+<script type="text/javascript" src="/lib/leaflet.js"></script>
+
+<script type="text/javascript">
+
+    var map;
+
+    $(function () {
+        
+        /* -------------------
+           initialize map 
+        ---------------------*/
+
+        var basemap = 'https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGF0YW1hZGUiLCJhIjoiaXhhVGNrayJ9.0yaccougI3vSAnrKaB00vA';
+
+        var lightBasemap = L.tileLayer(basemap, {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            detectRetina: true
+        });
+
+        map = L.map('premium_map', {scrollWheelZoom: false})
+                .setView([41.919, -87.687], 13);
+
+        lightBasemap.addTo(map);
+
+        /* ----------------------------
+           map interaction functions
+        ------------------------------*/
+
+        function highlightBuffer (e) {
+            var layer = e.target;
+            var premium = layer.feature.properties.premium * 100;
+
+            layer.setStyle({
+                stroke: true,
+                weight: 3,
+                color: ihs_colors.main,
+                opacity: 0.8,
+                fill: true,
+                fillOpacity: 0
+            });
+
+            infobox.update(premium.toFixed(1).toString())
+        }
+
+        function highlightEast (e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                opacity: 1
+            });
+
+            infobox.update(0)
+        }
+
+        function resetBuffer (e) {
+            buffersLayer.resetStyle(e.target);
+            infobox.update();
+        }
+
+        function resetEast (e) {
+            eastLayer.resetStyle(e.target);
+            infobox.update();
+        }
+
+        function bufferListener (feature, layer) {
+            layer.on({
+                mouseover: highlightBuffer,
+                mouseout: resetBuffer
+            });
+        }
+
+        function eastListener (feature, layer) {
+            layer.on({
+                mouseover: highlightEast,
+                mouseout: resetEast
+            })
+        }
+ 
+        /* ----------------------
+           import geojson data 
+        ------------------------*/
+
+        var buffers = '/606-report/data/buffers.geojson';
+        var donuts = '/606-report/data/buffers_donuts.geojson';
+        var east = '/606-report/data/eastern_outline.geojson';
+        var park = '/606-report/data/the_606.geojson';
+        var ihs_colors = {'main': '#375481', 'secondary': '#CE603B'};
+
+        $.when($.getJSON(buffers), $.getJSON(donuts), $.getJSON(park), $.getJSON(east))
+        .then(function (buffersData, donutsData, parkData, eastData) {
+
+            donutsLayer = L.geoJSON(donutsData[0], {
+                                    style: function (feature) {
+                                        return {
+                                            stroke: false,
+                                            fill: true,
+                                            fillColor: ihs_colors.main,
+                                            fillOpacity: 2*(feature.properties.premium)
+                                        };
+                                    }
+                                }).addTo(map);
+
+            buffersLayer = L.geoJSON(buffersData[0], {
+                                    style: function (feature) {
+                                        return {
+                                            stroke: true,
+                                            weight: 1.5,
+                                            color: ihs_colors.main,
+                                            opacity: 0.5,
+                                            fill: true,
+                                            fillOpacity: 0
+                                        };
+                                    },
+                                    onEachFeature: bufferListener 
+                                }).addTo(map);
+
+            eastLayer = L.geoJSON(eastData[0], {
+                                    style: {
+                                            stroke: true,
+                                            weight: 3,
+                                            dashArray: '10 5',
+                                            color: ihs_colors.main,
+                                            opacity: 0.5,
+                                            fill: true,
+                                            fillOpacity: 0
+                                    },
+                                    onEachFeature: eastListener
+                                }).addTo(map);
+
+            parkLayer = L.geoJSON(parkData[0], {
+                                    style: function () {
+                                        return {
+                                            stroke: true,
+                                            weight: 5,
+                                            color: '#111913',
+                                            fill: true,
+                                            fillOpacity: 1
+                                        };
+                                    }
+                                }).addTo(map);  
+
+            /* --------------------------
+               build infobox and legend 
+            ----------------------------*/
+
+            infobox = L.control();
+
+            infobox.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'infobox');
+                this.update();
+                return this._div;
+            };
+
+            infobox.update = function (premium, change) {
+                this._div.innerHTML = '<h4>How the 606 increases housing prices</h4>' + (premium == 0 ? '<h5>No change</h5>' : premium ? '<h5>' + premium + '% increase</h5>' : '<h5><i>Hover over a section to see its price increase</i></h5>');
+            };
+
+            legend = L.control({position: 'bottomright'});
+
+            legend.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'legend');
+                var steps = [0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25];
+                var labels = ['+5.0%', '+7.5%', '+10.0%', '+12.5%', '+15.0%', '+17.5%', '+20.0%', '+22.5%', '+25.0%'];
+
+                div.innerHTML = '<span style="border:2px dashed #375481"></span><p>No change</p><br'
+
+                for (var i = 0; i < steps.length; i++) {
+                    div.innerHTML += 
+                        '<span style= "background:' + ihs_colors.main + ';' +
+                                   'opacity:' + 2*(steps[i]) + '"></span>' +
+                        labels[i] + '<br>';
+                }
+
+                return div;
+            };
+
+            infobox.addTo(map);
+            legend.addTo(map);
+
+            /* -----------------
+               set box styles 
+            -------------------*/
+
+            $('.infobox').css({
+                "padding": "8px 10px",
+                "width": "365px",
+                "background": "white",
+                "background": "rgba(255,255,255,0.8)",
+                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
+                "border-radius": "5px"
+            });
+
+            $('.legend').css({
+                "background": "white",
+                "line-height": "18px",
+                "width": "105px",
+                "padding": "10px",
+                "color": "#555",
+                "border-radius": "5px",
+                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
+                "text-align": "right"
+            });
+
+            $('.legend span').css({
+                "width": "18px",
+                "height": "18px",
+                "float": "left",
+                "margin-right": "8px"
+            });
+        });
+    });
+
+</script>

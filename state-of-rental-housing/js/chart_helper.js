@@ -450,7 +450,7 @@ var ChartHelper = {
             text: chart_title[1]
         },
         xAxis: {
-            categories: years,
+            categories: categories,
             tickmarkPlacement: 'on',
             title: {
                 enabled: false

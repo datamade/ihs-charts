@@ -1,0 +1,151 @@
+---
+layout: default
+---
+
+<div id='price_trends'></div>
+<script src='/state-of-rental-housing/js/chart_helper.js'></script>
+<!-- project-specific js -->
+<script type='text/javascript'>
+    $(function () {
+
+    $.when($.get('data/Price_Trend_2016Q2.csv')).then(
+      function(data){
+        _clean_data = clean_csv_data(data);
+        var colors = ChartHelper.get_colors(2)
+        var series_data = [];
+
+        series_data.push({
+          name: '606 East',
+          data: _clean_data[0],
+          color: colors[0]
+        });
+
+        series_data.push({
+          name: '606 West',
+          data: _clean_data[1],
+          color: colors[1]
+        });
+
+        series_data.push({
+          name: 'Chicago',
+          data: _clean_data[2],
+          color: colors[2]
+        });
+
+        $('#price_trends').highcharts({
+          chart: {
+            type: "spline",
+            backgroundColor:"rgba(255, 255, 255, 0)",
+            spacingTop: 40
+          },
+          credits: { enabled: false },
+          title: {
+            text: 'Price trends along The 606'
+          },
+          subtitle: {
+            text: 'Quarterly price trends for single family homes within ½ mile of The 606, 1997 to 2016 1Q'
+          },
+          tooltip: {
+            shared: true,
+            borderColor: '#eee',
+            shadow: false,
+            headerFormat: '',
+            pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}%</b><br/>.'
+          },
+          yAxis: {
+            labels: {
+                    formatter: function() {
+                        return (this.value - 100) + ' %';
+                    }
+                },
+          },
+          xAxis: {
+              categories: _clean_data[3],
+              plotLines: [{
+                color: '#DD8D16',
+                dashStyle: 'ShortDot', // Style of the plot line.
+                value: 49, // Value of where the line will appear.
+                width: 2, // Width of the line.
+                label: {
+                  useHTML: true,
+                  text: '2012 Q2 </br> Funding secured',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor:'#DD8D16',
+                    marginLeft: "15px"
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              {
+              color: '#963E17',
+                dashStyle: 'ShortDot',
+                value: 54,
+                width: 2,
+                label: {
+                  useHTML: true,
+                  text: '2013 Q3 <br/> Groundbreaking',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor: '#963E17',
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              {
+              color: '#72712E',
+                dashStyle: 'ShortDot',
+                value: 61,
+                width: 2,
+                label: {
+                  useHTML: true,
+                  text: '2015 Q2 <br/> Trail opens',
+                  style: {
+                    color: '#FFF',
+                    padding: '3px',
+                    borderRadius: '3px',
+                    backgroundColor:'#72712E',
+                  },
+                  align: 'right',
+                  rotation: 360,
+                }
+              },
+              ]
+          },
+          plotOptions: {
+            spline: {
+              marker: {
+                enabled: false,
+              }
+            },
+          },
+          series: series_data,
+      });
+    });
+ });
+
+  function clean_csv_data(data){
+        var obj_data = $.csv.toObjects(data);
+
+        cleaned_data_east    = [];
+        cleaned_data_west    = [];
+        cleaned_data_chicago = [];
+        _categories          = [];
+
+        $.each(obj_data, function(row_id, row){
+            var _year = row['Quarter'];
+            _categories.push(_year);
+            cleaned_data_east.push(parseFloat(row['606 East']))
+            cleaned_data_west.push(parseFloat(row['606 West']))
+            cleaned_data_chicago.push(parseFloat(row['CHICAGO']))
+        });
+
+        return [cleaned_data_east, cleaned_data_west, cleaned_data_chicago, _categories]
+    }
+</script>
