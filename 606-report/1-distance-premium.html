@@ -35,34 +35,35 @@ layout: default
         ------------------------*/
 
         var buffers = '/606-report/data/buffers.geojson';
-        // var donuts = '/606-report/data/buffers_donuts.geojson';
         var east = '/606-report/data/eastern_outline.geojson';
         var park = '/606-report/data/the_606.geojson';
         var ihs_colors = {'main': '#375481', 'secondary': '#CE603B'};
 
+        function getColor(d) {
+            return d > 0.22 ? '#08519c' :
+                   d > 0.18 ? '#3182bd' :
+                   d > 0.14 ? '#6baed6' :
+                   d > 0.11 ? '#9ecae1' :
+                              '#c6dbef' ;
+        }
+
+        function toPercentage(d) {
+            return Math.round(d * 100);
+        }
+
         $.when($.getJSON(buffers), $.getJSON(park), $.getJSON(east))
         .then(function (buffersData, parkData, eastData) {
-
-            // donutsLayer = L.geoJSON(donutsData[0], {
-            //                         style: function (feature) {
-            //                             return {
-            //                                 stroke: false,
-            //                                 fill: true,
-            //                                 fillColor: ihs_colors.main,
-            //                                 fillOpacity: 2*(feature.properties.premium)
-            //                             };
-            //                         }
-            //                     }).addTo(map);
 
             buffersLayer = L.geoJSON(buffersData[0], {
                                     style: function (feature) {
                                         return {
                                             stroke: true,
-                                            weight: 1.5,
-                                            color: ihs_colors.main,
-                                            opacity: 0.5,
+                                            weight: 0.5,
+                                            color: '#3182bd',
+                                            fillColor: getColor(feature.properties.premium),
+                                            opacity: .9,
                                             fill: true,
-                                            fillOpacity: 2*(feature.properties.premium)
+                                            fillOpacity: 0.5
                                         };
                                     }
                                 }).addTo(map);
@@ -70,12 +71,12 @@ layout: default
             eastLayer = L.geoJSON(eastData[0], {
                                     style: {
                                             stroke: true,
-                                            weight: 3,
-                                            dashArray: '10 5',
-                                            color: ihs_colors.main,
-                                            opacity: 0.5,
+                                            weight: 0.5,
+                                            color: '#3182bd',
+                                            opacity: 0.9,
                                             fill: true,
-                                            fillOpacity: 0
+                                            fillColor: '#eff3ff',
+                                            fillOpacity: 0.5
                                     }
                                 }).addTo(map);
 
@@ -100,44 +101,20 @@ layout: default
             legend.onAdd = function (map) {
 
                 var div = L.DomUtil.create('div', 'legend');
-                var steps = [0.05, 0.1, 0.15, 0.2, 0.25];
-                var labels = ['+5.0%', '+10.0%', '+15.0%', '+20.0%', '+25.0%'];
-
-                div.innerHTML = '<span style="border:2px dashed #375481"></span><p>No change</p><br'
+                var steps = [[0.2, .223], [0.3, .183], [0.4, .146], [0.5, .112], [0.6, .079]];
+                div.innerHTML = '<h4>Distance<br />premium</h4>';
 
                 for (var i = 0; i < steps.length; i++) {
                     div.innerHTML += 
-                        '<span style= "background:' + ihs_colors.main + ';' +
-                                   'opacity:' + 2*(steps[i]) + '"></span>' +
-                        labels[i] + '<br>';
+                        '<span style= "background:' + getColor(steps[i][1]) + '; opacity: 0.5;"></span> +' + toPercentage(steps[i][1]) + '%<br />';
                 }
+
+                div.innerHTML += '<span style="background:#eff3ff; opacity: 0.5;"></span> No change<br />';
 
                 return div;
             };
 
             legend.addTo(map);
-
-            /* -----------------
-               set box styles 
-            -------------------*/
-
-            $('.legend').css({
-                "background": "white",
-                "line-height": "18px",
-                "width": "105px",
-                "padding": "10px",
-                "color": "#555",
-                "border-radius": "5px",
-                "box-shadow": "0 0 15px rgba(0,0,0,0.2)",
-                "text-align": "right"
-            });
-
-            $('.legend span').css({
-                "width": "18px",
-                "height": "18px",
-                "float": "left",
-                "margin-right": "8px"
-            });
         });
     });
 

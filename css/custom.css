@@ -111,21 +111,18 @@ h2 {
   opacity: 0.7;
 }
 
-#legend {
+.legend {
   margin-top: 34px;
   padding: 8px 20px;
   border: 1px solid #eee;
-  font-size: 90%;
-  height: 190px;
-  width: 150px;
+  background: white;
 }
-#legend > .legend-item{
-  margin-bottom: 0px;
-  font-size: 80%;
-}
-.legend-item{
-  font-size: 80%;
-  padding-right: 20px;
+
+.legend span {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
 }
 
 .chart-title{
