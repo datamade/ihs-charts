@@ -10,6 +10,16 @@ layout: default
     $.when($.get('data/Distance_Premium.csv')).then(
       function(data){
 
+        var lines = data.split('\n');
+        lines.shift()
+        lines = lines.map(function(line) {
+          var line_arr = line.split(',');
+          data = line_arr.map(function(el) {
+            return parseFloat(el);
+          });
+          return data;
+        });
+
         var mapOptions = {
             chart: {
                 renderTo: 'premium_chart',
@@ -52,25 +62,16 @@ layout: default
                     }
                 }
             },
-            series: []
+            series: [{
+              data: lines,
+              name: 'Price premium',
+              zoneAxis: 'x',
+              zones: [
+                { value: 0.6, dashStyle: 'solid' },
+                { value: 0.8, dashStyle: 'dot' }
+              ]
+            }]
         };
-
-        var lines = data.split('\n');
-        lines.shift()
-        lines = lines.map(function(line) {
-          var line_arr = line.split(',');
-          data = line_arr.map(function(el) {
-            return parseFloat(el);
-          });
-          return data;
-        });
-
-        var series = {
-          data: lines,
-          name: 'Price premium'
-        };
-
-        mapOptions.series.push(series);
         var chart = new Highcharts.Chart(mapOptions);
     });
   });
