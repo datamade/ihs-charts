@@ -22,11 +22,12 @@ layout: default
           return data;
         });
 
-        var mapOptions = {
+        var chartOptions = {
             chart: {
                 renderTo: 'premium_chart',
                 defaultSeriesType: 'line'
             },
+            credits: { enabled: false },
             tooltip: {
               enabled: false
             },
@@ -74,7 +75,7 @@ layout: default
               ]
             }]
         };
-        var chart = new Highcharts.Chart(mapOptions);
+        var chart = new Highcharts.Chart(chartOptions);
     });
   });
 
