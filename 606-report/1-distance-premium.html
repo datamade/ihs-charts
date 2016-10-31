@@ -26,7 +26,7 @@ layout: default
         });
 
         map = L.map('premium_map', {scrollWheelZoom: false})
-                .setView([41.9139, -87.7036], 14);
+                .setView([41.9139, -87.7033], 14);
 
         lightBasemap.addTo(map);
  
@@ -102,15 +102,26 @@ layout: default
 
                 var div = L.DomUtil.create('div', 'legend');
                 var steps = [[0.2, .223], [0.3, .183], [0.4, .146], [0.5, .112], [0.6, .079]];
-                div.innerHTML = '<h4>Distance<br />premium</h4>';
+                var html = '';
+                html = '<h4>Distance<br />premium</h4><table><tbody>';
 
                 for (var i = 0; i < steps.length; i++) {
-                    div.innerHTML += 
-                        '<span style= "background:' + getColor(steps[i][1]) + '; opacity: 0.5;"></span> +' + toPercentage(steps[i][1]) + '%<br />';
+                    html += 
+                        '<tr>\
+                            <td><span style= "background:' + getColor(steps[i][1]) + '; opacity: 0.5;"></span></td>\
+                            <td>+' + toPercentage(steps[i][1]) + '%</td>\
+                            <td>' + steps[i][0] + ' mi</td>\
+                         </tr>';
                 }
 
-                div.innerHTML += '<span style="background:#eff3ff; opacity: 0.5;"></span> No change<br />';
+                html += '<tr><td><span style="background:#eff3ff; opacity: 0.5;"></span></td>\
+                    <td>No change</td>\
+                    <td></td>\
+                    </tr>\
+                    </tbody>\
+                    </table>';
 
+                div.innerHTML = html;
                 return div;
             };
 

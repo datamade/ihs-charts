@@ -15,15 +15,15 @@ layout: default
         var series_data = [];
 
         series_data.push({
-          name: '606 East',
-          data: _clean_data[0],
-          color: colors[0]
-        });
-
-        series_data.push({
           name: '606 West',
           data: _clean_data[1],
           color: colors[1]
+        });
+
+        series_data.push({
+          name: '606 East',
+          data: _clean_data[0],
+          color: colors[0]
         });
 
         series_data.push({
@@ -43,14 +43,19 @@ layout: default
             text: 'Price trends along The 606'
           },
           subtitle: {
-            text: 'Quarterly price trends for single family homes within ½ mile of The 606, 1997 to 2016 1Q'
+            text: 'Quarterly price trends for single family homes within ½ mile of The 606, 2000 to 2016 2Q'
           },
           tooltip: {
+            formatter: function () {
+              var s = '<b>' + this.x + '</b><br />';
+              $.each(this.points, function () {
+                s += '<span style="color:' + this.series.color + '">\u25CF</span> ' + this.series.name + ': <b>' + Highcharts.numberFormat((this.y -100),1) + '%</b><br/>';
+              });
+              return s;
+            },
             shared: true,
             borderColor: '#eee',
             shadow: false,
-            headerFormat: '',
-            pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}%</b><br/>.'
           },
           yAxis: {
             labels: {
