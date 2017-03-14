@@ -17,7 +17,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/5-renters-age-income-composition-2014.csv')).then(
+    $.when($.get('data/output/5-renters-age-income-composition-2014.csv')).then(
       function(data){
 
         [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');

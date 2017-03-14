@@ -9,7 +9,7 @@ layout: chart
 
     $(function () {
 
-      $.when($.get('data/1-tenure.csv')).then(
+      $.when($.get('data/output/1-tenure.csv')).then(
         function(data){
 
           [cleaned_data, years] = clean_csv_data(data)
@@ -33,7 +33,7 @@ layout: chart
                       shared: true
                     }
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter - or Owner-Occupied', 'Cook County - 2000 to 2014'], 'Households', 'count')
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter- or Owner-Occupied', 'Cook County - 1990 to 2015'], 'Households', 'count')
 
       });
     });

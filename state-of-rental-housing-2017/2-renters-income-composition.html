@@ -10,12 +10,12 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/2-renters-income-composition.csv')).then(
+    $.when($.get('data/output/2-renters-income-composition.csv')).then(
       function(data){
 
-        [series_data, years] = ChartHelper.prep_chart_data(data, 'col', 'rate');
+        [series_data, years] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
 
-        ChartHelper.make_composition_chart('#chart_0', series_data, years, ['Annual Composition of Renter Households by Income Level', 'Cook County - 2007, 2011, 2014'], '', '')
+        ChartHelper.make_composition_chart('#chart_0', series_data, years, ['Annual Composition of Renter Households by Income Level', 'Cook County - 2007 to 2015'], '', '')
     });
   });
 

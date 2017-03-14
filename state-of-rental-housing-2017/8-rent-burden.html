@@ -5,7 +5,7 @@ layout: chart
 <div class="row">
     <div class="col-xs-12">
         <p class="chart-title">Shifts in Rent Burden Status by Income</p>
-        <p class="chart-subtitle">Cook County - 2007, 2011, 2014</p>
+        <p class="chart-subtitle">Cook County - 2007 to 2015</p>
     </div>
 </div>
 
@@ -41,11 +41,11 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/8-rent-burden-composition.csv')).then(
+    $.when($.get('data/output/8-rent-burden-composition.csv')).then(
       function(data){
 
-        [year_status_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'rate');
-        years = ['2007', '2011', '2014']
+        [year_status_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+        years = ['2007', '2012', '2013', '2014', '2015']
 
         $.each(income_grps, function(idx_income, income_grp){
 
@@ -82,7 +82,7 @@ layout: chart
           ]
 
           chart_id = '#chart_'+idx_income.toString()
-          ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp)
+          ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp, 'percent')
         })
         
         legend_html = ''

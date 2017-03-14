@@ -333,7 +333,13 @@ var ChartHelper = {
 
     },
 
-    make_small_composition_chart: function(el, series_data, categories, chart_title){
+    make_small_composition_chart: function(el, series_data, categories, chart_title, data_type){
+
+      if (data_type=='percent'){
+        num_format = '{point.y:,.1f}%';
+      } else {
+        num_format = '{point.y:,.0f}';
+      }
 
       $(el).highcharts({
         chart: {
@@ -373,7 +379,7 @@ var ChartHelper = {
             enabled: false
           },
           min: 0.5,
-          max: 1.5
+          max: 3.5
         },
         yAxis: {
           title: {
@@ -393,7 +399,7 @@ var ChartHelper = {
           borderColor: '#eee',
           shadow: false,
           headerFormat: '',
-          pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}%</b><br/>.'
+          pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>' + num_format + '</b><br/>.'
         },
         series: series_data
       });

@@ -10,7 +10,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/7-affordability.csv')).then(
+    $.when($.get('data/output/7-affordability.csv')).then(
       function(data){
 
         [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'count');
@@ -103,7 +103,7 @@ layout: chart
             enabled: false
           }
 
-        ChartHelper.make_bar_chart('#chart_0', prepped_series, years, ["The Changing Gap between the Supply of and Demand for Affordable Housing", "Cook County - 2007, 2011, 2012, 2013, 2014"], 'Households', plot_options, tooltip)
+        ChartHelper.make_bar_chart('#chart_0', prepped_series, years, ["The Changing Gap between the Supply of and Demand for Affordable Housing", "Cook County - 2007 to 2015"], 'Households', plot_options, tooltip)
 
 
         // hacking legend to have border for gap

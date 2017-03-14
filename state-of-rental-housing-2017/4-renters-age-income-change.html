@@ -41,7 +41,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/4-renters-age-income-change.csv')).then(
+    $.when($.get('data/output/4-renters-age-income-change.csv')).then(
       function(data){
 
         [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'count');

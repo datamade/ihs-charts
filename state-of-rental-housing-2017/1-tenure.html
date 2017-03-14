@@ -9,7 +9,7 @@ layout: chart
 
     $(function () {
 
-      $.when($.get('data/1-tenure.csv')).then(
+      $.when($.get('data/output/1-tenure.csv')).then(
         function(data){
 
           [cleaned_data, years] = clean_csv_data(data)
@@ -69,7 +69,7 @@ layout: chart
           color: colors[2]
         });
 
-        ChartHelper.make_line_chart(el, series_percent, years, ['Change in Percentage of Renter-Occupied Households', 'Cook County - 2000 to 2014'], 'Percent Renter-Occupied', 'percent')
+        ChartHelper.make_line_chart(el, series_percent, years, ['Change in Percentage of Renter-Occupied Households', 'Cook County - 1990 to 2015'], 'Percent Renter-Occupied', 'percent')
 
     }
 
