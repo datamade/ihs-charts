@@ -2,13 +2,24 @@
 
 ## Running locally
 
-``` bash
+The IHS Charts run on [Jekyll](https://jekyllrb.com/), a Ruby-based web framework. Make sure you have Ruby 2.0+ installed (we recommend using [RVM](https://rvm.io/) or [rbenv](http://rbenv.org/) to manage Ruby versions) and then run the following commands to serve the site locally:
+
+```bash
+# Install from GitHub via SSH
 git clone git@github.com:datamade/ihs-charts.git
 cd ihs-charts
-python -m SimpleHTTPServer
+
+# Make sure you have Bundler (Ruby package manager) installed
+gem install bundler
+
+# Install this repo's Ruby dependencies
+bundle install
+
+# Start the webserver
+bundle exec jekyll serve
 ```
 
-navigate to http://localhost:8000/
+To view the site, navigate to http://localhost:5000/ (or whatever address Jekyll printed to your console.)
 
 # Web dependencies
 We used the following open source tools:
