@@ -1,0 +1,64 @@
+---
+layout: chart
+---
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">Shifts in Renter Households by Income</p>
+        <p class="chart-subtitle">Cook County - 2007, 2011, 2014</p>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <div id='chart_0' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_1' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_2' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_3' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_4' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_5' class='xs-multiple'></div>
+  </div>
+</div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/2-renters-income-total.csv')).then(
+      function(data){
+
+        [year_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'count');
+        years = ['2007', '2011', '2014']
+
+        $.each(income_grps, function(idx_income, income_grp){
+
+          trend_data = []
+          $.each(year_data, function(i, yr){
+            trend_data.push(yr['data'][idx_income])
+          });
+
+          sliced_trend_data = [{
+            color: ChartHelper.get_colors(1)[0],
+            data: trend_data,
+            name: 'Households'
+          }]
+
+          chart_id = '#chart_'+idx_income.toString()
+          ChartHelper.make_small_line_chart(chart_id, sliced_trend_data, years, income_grp, [0, 270000], 'count')
+        })
+
+    });
+  });
+
+</script>

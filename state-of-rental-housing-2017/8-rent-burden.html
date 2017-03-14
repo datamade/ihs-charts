@@ -1,0 +1,100 @@
+---
+layout: chart
+---
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">Shifts in Rent Burden Status by Income</p>
+        <p class="chart-subtitle">Cook County - 2007, 2011, 2014</p>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <div id='chart_0' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_1' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_2' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_3' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_4' class='xs-multiple'></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_5' class='xs-multiple'></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-9 col-xs-offset-3">
+    <div id='horizontal-legend'></div>
+  </div>
+</div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/8-rent-burden-composition.csv')).then(
+      function(data){
+
+        [year_status_data, income_grps] = ChartHelper.prep_chart_data(data, 'row', 'rate');
+        years = ['2007', '2011', '2014']
+
+        $.each(income_grps, function(idx_income, income_grp){
+
+          trend_not_burdened = []
+          trend_burdened = []
+          trend_severely_burdened = []
+          $.each(year_status_data, function(i, yr_status){
+            if (yr_status.name.indexOf('Severely Burdened') > -1){
+              trend_severely_burdened.push(yr_status.data[idx_income])
+            } else if (yr_status.name.indexOf('Not Burdened') > -1){
+              trend_not_burdened.push(yr_status.data[idx_income])
+            } else {
+              trend_burdened.push(yr_status.data[idx_income])
+            }
+          });
+
+
+          sliced_trend_data = [
+            {
+              color: '#C5C5C5',
+              data: trend_not_burdened,
+              name: 'Not Burdened'
+            },
+            {
+              color: '#EDAB50',
+              data: trend_burdened,
+              name: 'Burdened'
+            },
+            {
+              color: '#CE603B',
+              data: trend_severely_burdened,
+              name: 'Extremely Burdened'
+            }
+          ]
+
+          chart_id = '#chart_'+idx_income.toString()
+          ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp)
+        })
+        
+        legend_html = ''
+        $.each(sliced_trend_data, function(i, series){
+          legend_item = '<span class="legend-item"><span style="color:'+series.color+' !important">▆</span> '+series.name+'</span>'
+          legend_html = legend_html+legend_item
+        });
+
+        $('#horizontal-legend').html(legend_html)
+
+    });
+
+  });
+
+</script>

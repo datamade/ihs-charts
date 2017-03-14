@@ -1,0 +1,85 @@
+---
+layout: chart
+---
+<div class="row">
+  <div class="col-xs-12">
+    
+    <p class="chart-title">Composition of Renter Households by Age and Income</p>
+    <p class="chart-subtitle">Cook County - 2014</p>
+
+    <table id="tbl-age-income" class="table table-bordered"></table>
+  </div>
+</div>
+
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/5-renters-age-income-composition-2014.csv')).then(
+      function(data){
+
+        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+
+        // make header row (cols = age groups)
+        var header_row = '<tr><th width="14%"></th>'
+        age_grp_totals = []
+        $.each(age_grps, function(i, age_grp){
+          header_row = header_row + '<th width="10%">' + age_grp + '</th>'
+          age_grp_totals.push(0)
+        });
+        header_row = header_row + '<th class="text-muted" width="10%">Total</th></tr>'
+        $('#tbl-age-income').append(header_row)
+
+        // add row for each income group
+        $.each(ami_data, function(i, row_obj){
+          row = '<tr>'
+          row = row + '<th>' + row_obj.name + '</th>'
+          $.each(row_obj.data, function(age_idx, cell){
+            row = row + make_cell_html(cell)
+            age_grp_totals[age_idx] = age_grp_totals[age_idx] + cell
+          });
+
+          sum = row_obj.data.reduce(function(a, b){return a+b;})
+          row = row + '<td class="text-muted">' + sum.toFixed(1) + '%</td></tr>'
+          $('#tbl-age-income').append(row)
+        });
+
+        // add row of totals
+        row = '<tr class="text-muted"><th>Total</th>'
+        $.each(age_grp_totals, function(i, tot){
+          row = row + '<td>' + tot.toFixed(1) + '%</td>'
+        });
+        row = row + '<td>100%</td></tr>'
+        $('#tbl-age-income').append(row)
+
+        function make_cell_html(val){
+          if (val < 2){
+            cls = 'bg-low'
+          } else if (val < 4){
+            cls = 'bg-med'
+          } else if (val < 5.9){
+            cls = 'bg-high'
+          } else {
+            cls = 'bg-very-high'
+          }
+
+          return '<td class="' + cls + '"">' + val.toFixed(1) + '%</td>'
+        };
+        $('th, td').css('border', '1px solid #FBFBF9')
+
+        $('.bg-low').css('background-color', '#ecf0f7');
+        $('.bg-med').css('background-color', '#d0daeb');
+        $('.bg-high').css('background-color', '#b3c4de');
+        $('.bg-very-high').css('background-color', '#8da7ce');
+
+
+
+
+
+
+    });
+  });
+
+</script>

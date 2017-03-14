@@ -1,0 +1,78 @@
+---
+layout: chart
+---
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">Numeric Change in Renter Households by Age and Income</p>
+        <p class="chart-subtitle">Cook County - 2007 to 2014</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-3">
+        <div id='legend' class='xs-multiple'>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_0' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_1' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_2' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_3' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_4' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_5' class='xs-multiple'></div>
+    </div>
+    <div class="col-xs-3">
+        <div id='chart_6' class='xs-multiple'></div>
+    </div>
+
+</div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/4-renters-age-income-change.csv')).then(
+      function(data){
+
+        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'count');
+
+
+        $.each(age_grps, function(idx_age, age){
+            sliced_ami_data = []
+            $.each(ami_data, function(i, ami_grp){
+                s = {name: ami_grp['name'], data: [ami_grp['data'][idx_age]], color: ami_grp['color']}
+                sliced_ami_data.push(s)
+            });
+
+            chart_id = '#chart_'+idx_age.toString()
+            ChartHelper.make_small_bar_chart(chart_id, sliced_ami_data, 'Ages '+age, [-15000,30000], 'count')
+        })
+
+        
+
+      legend_html = '<p><strong>AMI</strong></p>'
+      $.each(ami_data, function(i, series){
+        legend_item = '<p class="legend-item"><span style="color:'+series.color+' !important">▆</span> '+series.name+'</p>'
+        legend_html = legend_html+legend_item
+      });
+
+
+      $('#legend').html(legend_html)
+
+
+
+
+    });
+  });
+
+</script>
