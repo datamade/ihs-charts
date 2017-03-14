@@ -9,5 +9,3 @@ Requires a Posix environment (Mac OS X, Linux).
 2. `make all` will generate CSVs in the `output/` directory
 
 3. `make clean` will remove everything in `output/`
-
-*Note: The CSVs that are in this repo but **not** in `output/` are old, and only here for temporary debugging purposes.* 
