@@ -6,6 +6,8 @@ RENT_BURDEN_COMPOSITION_HEADER = ,2007 Not Burdened,2007 Burdened,2007 Severely 
 
 AMI_FORMAT = sed -e '2s/\</0-/' -e 's/ to /-/' -e '7s/Greater than 200\%/200\%\+/'
 
+ROUND = python3 scripts/round.py
+
 .PHONY: all clean
 all: output/1-tenure.csv \
 	output/2-renters-income-composition.csv \
@@ -23,7 +25,7 @@ clean:
 
 output/1-tenure.csv: $(SOURCE)
 	in2csv --sheet "Tenure_2000_2015" "$<" | csvcut -c 2,3,4,5,6,7,8,9,10,11,12,13,14 | \
-		head -3 > $@
+		head -3 | $(ROUND) 0,1,2,3,4,5,6,7,8,9,10,11,12 > $@
 
 output/2-renters-income-composition.csv: $(SOURCE)
 	in2csv --sheet "Renter_Income_2007_2012_2015" "$<" |  sed '1s/^.\{1\}//' | \
@@ -31,13 +33,13 @@ output/2-renters-income-composition.csv: $(SOURCE)
 
 output/2-renters-income-total.csv: $(SOURCE)
 	in2csv --sheet "Renter_Income_2007_2012_2015" "$<" | tail -8 | head -7 | \
-		$(AMI_FORMAT) > $@
+		$(AMI_FORMAT) | $(ROUND) 1,2,3,4,5 > $@
 
 output/3-renters-age-composition.csv: $(SOURCE)
 	in2csv --sheet "Renters_Age_2007_2012_2015" "$<" | head -9 | tail -8 > $@
 
 output/3-renters-age-total.csv: $(SOURCE)
-	in2csv --sheet "Renters_Age_2007_2012_2015" "$<" | tail -9 | head -8 > $@
+	in2csv --sheet "Renters_Age_2007_2012_2015" "$<" | tail -9 | head -8 | $(ROUND) 1,2,3,4,5 > $@
 
 output/6-supply.csv: $(SOURCE)
 	in2csv --sheet "Stock_2007_2012_2015" "$<" | csvcut -c 1,2,3,4,5 | \
