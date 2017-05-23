@@ -20,7 +20,9 @@ layout: chart
     $.when($.get('data/output/5-renters-age-income-composition-2014.csv')).then(
       function(data){
 
-        [ami_data, age_grps] = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        prep_data = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        ami_data = prep_data[0];
+        age_grps = prep_data[1];
 
         // make header row (cols = age groups)
         var header_row = '<tr><th width="14%"></th>'

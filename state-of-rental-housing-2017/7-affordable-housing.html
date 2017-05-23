@@ -13,8 +13,9 @@ layout: chart
     $.when($.get('data/output/7-affordability.csv')).then(
       function(data){
 
-        [series_data, years] = ChartHelper.prep_chart_data(data, 'row', 'count');
-
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
+        series_data = prep_data[0];
+        years = prep_data[1];
 
         supply_arr = series_data[0]['data']
         demand_arr = series_data[1]['data']

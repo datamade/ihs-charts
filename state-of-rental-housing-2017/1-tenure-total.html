@@ -12,8 +12,10 @@ layout: chart
       $.when($.get('data/output/1-tenure.csv')).then(
         function(data){
 
-          [cleaned_data, years] = clean_csv_data(data)
-          colors = ChartHelper.get_colors(2)
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
+          colors = ChartHelper.get_colors(2);
 
           var series_data = [];
           series_data.push({
@@ -33,7 +35,7 @@ layout: chart
                       shared: true
                     }
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter- or Owner-Occupied', 'Cook County - 1990 to 2015'], 'Households', 'count')
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Change in Households that are Renter- or Owner-Occupied', 'Cook County - 1990 to 2015'], 'Households', 'count');
 
       });
     });
@@ -57,7 +59,7 @@ layout: chart
             _cleaned_data.push(row_data);
         });
 
-        return [_cleaned_data, _categories]
+        return [_cleaned_data, _categories];
     }
 
 </script>

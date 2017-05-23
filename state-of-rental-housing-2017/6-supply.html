@@ -13,7 +13,9 @@ layout: chart
     $.when($.get('data/output/6-supply.csv')).then(
       function(data){
 
-        [series_data, categories] = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+        series_data = prep_data[0];
+        categories = prep_data[1];
 
         ChartHelper.make_composition_chart('#chart_0', series_data, categories, ["Distribution of Rental Supply by Building Size", 'Cook County - 2007 to 2015'], '', '')
     });

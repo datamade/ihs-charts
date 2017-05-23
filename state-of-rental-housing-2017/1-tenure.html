@@ -12,7 +12,9 @@ layout: chart
       $.when($.get('data/output/1-tenure.csv')).then(
         function(data){
 
-          [cleaned_data, years] = clean_csv_data(data)
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
 
           var series_data = [];
           series_data.push({

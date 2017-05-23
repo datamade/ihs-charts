@@ -41,7 +41,7 @@ var ChartHelper = {
         return ['#375481', '#8DA7CE'];
       }
 
-      return Array(num_series).fill('#547BB6');
+      return ['#547BB6'];
     },
 
     prep_chart_data: function(data, primary_dimension, number_type){
