@@ -1,0 +1,24 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/3-renters-age-composition.csv')).then(
+      function(data){
+
+        prep_data = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        series_data = prep_data[0];
+        categories = prep_data[1];
+
+        ChartHelper.make_composition_chart('#chart_0', series_data, categories, ['Annual Composition of Renter Households by Age', 'Cook County - 2007 to 2016'], '', '')
+    });
+  });
+
+</script>
