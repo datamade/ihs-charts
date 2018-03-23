@@ -1,0 +1,89 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/7-affordability-suburban-cook-v-chicago.csv')).then(
+      function(data){
+
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
+        series_data = prep_data[0];
+        years = prep_data[1];
+
+        demand_arr = series_data[0]['data']
+        supply_arr = series_data[1]['data']
+
+        colors = ChartHelper.get_colors(2)
+
+        prepped_series = [
+          {
+            name: 'Change in Demand',
+            data: demand_arr,
+            stack: 'd',
+            color: colors[1],
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .7,
+              },
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            }
+          },
+          {
+            name: 'Change in Supply',
+            data: supply_arr,
+            stack: 's',
+            color: colors[0],
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .4,
+              },
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            }
+          }
+        ]
+
+
+        plot_options = {
+            column: {
+              stacking: 'normal'
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
+            }
+          }
+
+        tooltip = {
+            enabled: false
+          }
+
+        ChartHelper.make_negative_bar_chart('#chart_0', prepped_series, years, ["Change in Composition of Affordability Gap", "Suburban Cook County and Chicago - 2015 to 2016"], 'Households', plot_options, tooltip)
+
+    });
+  });
+
+</script>

@@ -138,6 +138,41 @@ var ChartHelper = {
 
     },
 
+    make_negative_bar_chart: function(el, series_data, categories, chart_title, yaxis_title, plotOptions, tooltip){
+
+      $(el).highcharts({
+        chart: {
+          type: 'column',
+          backgroundColor:"rgba(255, 255, 255, 0)",
+          spacingTop: 40
+        },
+        plotOptions: plotOptions,
+        credits: { enabled: false },
+        title: {
+          text: chart_title[0]
+        },
+        subtitle: {
+          text: chart_title[1]
+        },
+        xAxis: {
+          categories: categories,
+          tickmarkPlacement: 'on',
+          title: {
+              enabled: false
+          }
+        },
+        yAxis: {
+          title: {
+              text: yaxis_title
+          },
+          endOnTick: false
+        },
+        tooltip: tooltip,
+        series: series_data
+      });
+
+    },
+
     make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
 
       // flipping data so that most recent year comes first
