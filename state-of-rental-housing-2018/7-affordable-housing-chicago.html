@@ -17,16 +17,17 @@ layout: chart
           years = csv_stuff[1];
           colors = ChartHelper.get_colors(2);
 
+          console.log(cleaned_data[0]);
           var series_data = [];
           series_data.push({
                 name: 'Chicago supply',
-                data: cleaned_data[1],
+                data: cleaned_data[0],
                 color: colors[0]
               });
 
           series_data.push({
                 name: 'Chicago demand',
-                data: cleaned_data[0],
+                data: cleaned_data[1],
                 color: ChartHelper.get_colors(3)[2]
               });
 
@@ -35,7 +36,7 @@ layout: chart
                       shared: true
                     }
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Index of housing supply and demand', 'Chicago 2012 to 2016'], 'Index', 'percent');
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent chante in affordable housing supply and demand', 'Chicago 2012 to 2016'], 'Percent', 'percent');
 
       });
     });
@@ -51,7 +52,7 @@ layout: chart
         $.each(obj_data, function(row_id, row){
             var row_data = [];
             $.each(row, function(col_id, col){
-              row_data.push(parseInt(col.replace(/,/g,'')));
+              row_data.push(parseFloat(col.replace(/,/g,'')));
 
               if(_categories.indexOf(col_id) == -1)
                 _categories.push(col_id);
