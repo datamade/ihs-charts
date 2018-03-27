@@ -327,7 +327,7 @@ var ChartHelper = {
         chart: {
           backgroundColor:"rgba(255, 255, 255, 0)",
           spacingTop: 15,
-          spacingBottom: 15,
+          spacingBottom: 30,
           type: 'area'
         },
         plotOptions: {
