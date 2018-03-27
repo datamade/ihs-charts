@@ -326,8 +326,8 @@ var ChartHelper = {
       $(el).highcharts({
         chart: {
           backgroundColor:"rgba(255, 255, 255, 0)",
-          spacingTop: 30,
-          spacingBottom: 30,
+          spacingTop: 15,
+          spacingBottom: 15,
           type: 'area'
         },
         plotOptions: {
