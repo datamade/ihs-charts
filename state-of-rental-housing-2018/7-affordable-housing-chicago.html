@@ -20,13 +20,13 @@ layout: chart
           console.log(cleaned_data[0]);
           var series_data = [];
           series_data.push({
-                name: 'Chicago supply',
+                name: 'Change in Supply',
                 data: cleaned_data[0],
                 color: colors[0]
               });
 
           series_data.push({
-                name: 'Chicago demand',
+                name: 'Change in Demand',
                 data: cleaned_data[1],
                 color: ChartHelper.get_colors(3)[2]
               });
@@ -36,7 +36,7 @@ layout: chart
                       shared: true
                     }
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent chante in affordable housing supply and demand', 'Chicago 2012 to 2016'], 'Percent', 'percent');
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent Change in Affordable Housing Supply and Demand Since 2012', 'Chicago 2012 to 2016'], 'Percent', 'percent');
 
       });
     });
