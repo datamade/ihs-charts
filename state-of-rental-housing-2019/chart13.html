@@ -10,79 +10,30 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/output/13-affordable-supply-dynamics.csv')).then(
-      function(data){
+    var my_data = [{
+      name: 'Percentage change',
+      data: [-4.9, -2.7, 4.1],
+      color: ChartHelper.get_colors(3)[0]
+    }];
 
-        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
-        series_data = prep_data[0];
-        years = prep_data[1];
-
-        demand_arr = series_data[0]['data']
-
-        colors = ChartHelper.get_colors(2)
-
-        prepped_series = [
-          {
-            name: 'Change in Demand',
-            data: demand_arr,
-            stack: 'd',
-            color: colors[1],
-            borderWidth: 0,
-            dataLabels: {
-              enabled: true,
-              verticalAlign: 'top',
-              color: '#fff',
-              style: {
-                textShadow: 'none',
-                opacity: .7,
-              },
-              formatter: function () {
-                return ChartHelper.formatAmount(this.y);
-              }
-            }
-          },
-          {
-            name: 'Change in Supply',
-            data: supply_arr,
-            stack: 's',
-            color: colors[0],
-            borderWidth: 0,
-            dataLabels: {
-              enabled: true,
-              verticalAlign: 'top',
-              color: '#fff',
-              style: {
-                textShadow: 'none',
-                opacity: .4,
-              },
-              formatter: function () {
-                return ChartHelper.formatAmount(this.y);
-              }
+    plot_options = {
+        column: {
+          stacking: 'normal'
+        },
+        series: {
+          states: {
+            hover: {
+              enabled: false
             }
           }
-        ]
+        }
+      }
 
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}%'
+    }
 
-        plot_options = {
-            column: {
-              stacking: 'normal'
-            },
-            series: {
-              states: {
-                hover: {
-                  enabled: false
-                }
-              }
-            }
-          }
-
-        tooltip = {
-            enabled: false
-          }
-
-        ChartHelper.make_negative_bar_chart('#chart_0', prepped_series, years, ["The Change in Composition of the Rental Affordability Gap", "Suburban Cook County and City of Chicago, 2015 to 2016"], 'Households', plot_options, tooltip)
-
-    });
+    ChartHelper.make_negative_bar_chart('#chart_0', my_data, ["Change in Share of Units that are Affordable","Change in Share of Renters that are Low Income","Change in Share of Lower-income Renters with Unaffordable Rent"], ["Shifting Dynamics of Affordable Supply and Lower-Income Demand", "City of Chicago - 2012-2014 to 2015-2017"], '', plot_options, tooltip)
   });
 
 </script>
