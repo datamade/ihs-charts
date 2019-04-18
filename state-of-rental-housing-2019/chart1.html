@@ -62,8 +62,6 @@ layout: chart
           trendline.push(100* (series_data[1]['data'][col_id] / parseFloat(series_data[0]['data'][col_id] + series_data[1]['data'][col_id])));
         });
 
-        console.log(trendline)
-
         colors = ChartHelper.get_colors(3)
 
         var series_percent = [];

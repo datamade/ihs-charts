@@ -9,26 +9,36 @@ layout: chart
 
     $(function () {
 
-      $.when($.get('data/output/7-affordability-chicago.csv')).then(
+      $.when($.get('data/output/8-rental-supply-building-size.csv')).then(
         function(data){
 
           csv_stuff = clean_csv_data(data);
           cleaned_data = csv_stuff[0];
           years = csv_stuff[1];
-          colors = ChartHelper.get_colors(2);
 
-          console.log(cleaned_data[0]);
           var series_data = [];
           series_data.push({
-                name: 'Change in Supply',
+                name: 'Single-Unit',
                 data: cleaned_data[0],
-                color: colors[0]
+                color: '#547BB6'
               });
 
           series_data.push({
-                name: 'Change in Demand',
+                name: '2-to-4 Unit',
                 data: cleaned_data[1],
-                color: ChartHelper.get_colors(3)[2]
+                color: '#AAA646'
+              });
+
+          series_data.push({
+                name: '5-to-49 Unit',
+                data: cleaned_data[2],
+                color: '#edab50'
+              });
+
+          series_data.push({
+                name: '50+ Units',
+                data: cleaned_data[3],
+                color: '#CE603B'
               });
 
           tooltip = {
@@ -36,7 +46,7 @@ layout: chart
                       shared: true
                     }
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent Change in Affordable Rental Supply and Demand Since 2012', 'City of Chicago, 2012 to 2017'], 'Percent', 'percent');
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent Change in Rental Supply by Building Size', 'Cook County, 2012 to 2017'], 'Percent', 'percent');
 
       });
     });
