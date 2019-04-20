@@ -1,0 +1,34 @@
+---
+layout: chart
+---
+
+<table class='table table-striped table-condensed' id='puma-table'>
+  <thead>
+    <tr>
+      <th><span data-content="PUMAs, or Public Use Microdata Areas, are subdivisions of roughly 100,000 residents defined by the US Census.">Sub-market (PUMA)</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="3-Year Average, 2012-2014">Share Affordable Units</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="3-Year Average, 2012-2014">Share Renters Low Income</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="3-Year Average, 2012-2014">Share Low Income Renters in Unaffordable Units</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="Submarket Level Changes in the Dynamics of Affordable Supply and Lower-Income Demand, 2012 to 2014 and 2015 to 2017">Change in Share of Units that are Affordable</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="Submarket Level Changes in the Dynamics of Affordable Supply and Lower-Income Demand, 2012 to 2014 and 2015 to 2017">Change in Share of 150 Percent Poverty Renters</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="Submarket Level Changes in the Dynamics of Affordable Supply and Lower-Income Demand, 2012 to 2014 and 2015 to 2017">Change in Share of 150 Percent Poverty Renters with Not Affordable Rents</span></th>
+    </tr>
+  </thead>
+</table>
+
+<script type="text/javascript" src="js/csv_to_html_table.js"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    CsvToHtmlTable.init({
+      csv_path: 'data/output/14-puma-table.csv',
+      element: 'puma-table',
+      csv_options: {separator: ',', delimiter: '"'},
+      datatables_options: {"bFilter": false, "paging": false, "aaSorting": [ [0,'asc'] ],}
+    });
+
+    $('#puma-table span').popover({trigger: "hover", placement: "bottom"})
+  });
+</script>
