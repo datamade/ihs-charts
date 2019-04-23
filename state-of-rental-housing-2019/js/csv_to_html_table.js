@@ -23,7 +23,7 @@ CsvToHtmlTable = {
                         var style = 'danger';
                         if (cell_value >= 0) {
                             style = 'success';
-                            cell_value = "+" + cell_value;
+                            cell_value = cell_value;
                         }
                         var $tableBodyRowTd = $("<td class='" + style + "' style='text-align: right;'></td>");
                         $tableBodyRowTd.text(cell_value + "%");
