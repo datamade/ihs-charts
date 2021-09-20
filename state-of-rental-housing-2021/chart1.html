@@ -1,0 +1,78 @@
+---
+layout: chart
+---
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type="text/javascript">
+
+    $(function () {
+
+      $.when($.get('data/output/1-tenure.csv')).then(
+        function(data){
+
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
+
+          var series_data = [];
+          series_data.push({
+                name: 'Owner-Occupied',
+                data: cleaned_data[1],
+              });
+
+          series_data.push({
+                name: 'Renter-Occupied',
+                data: cleaned_data[0],
+              });
+
+          init_chart('#chart_0', series_data, years);
+
+      });
+    });
+
+    function clean_csv_data(data){
+      // this is just for the first chart, where there are only col labels
+        var obj_data = $.csv.toObjects(data);
+
+        _cleaned_data = [];
+        _categories = [];
+
+        //format numbers
+        $.each(obj_data, function(row_id, row){
+            var row_data = [];
+            $.each(row, function(col_id, col){
+              row_data.push(parseInt(col.replace(/,/g,'')));
+
+              if(_categories.indexOf(col_id) == -1)
+                _categories.push(col_id);
+            });
+            _cleaned_data.push(row_data);
+        });
+
+        return [_cleaned_data, _categories]
+    }
+
+
+    function init_chart(el, series_data, years){
+
+        var trendline = []
+        $.each(series_data[0]['data'], function(col_id, col){
+          trendline.push(100* (series_data[1]['data'][col_id] / parseFloat(series_data[0]['data'][col_id] + series_data[1]['data'][col_id])));
+        });
+
+        colors = ChartHelper.get_colors(3)
+
+        var series_percent = [];
+        series_percent.push({
+          name: 'Percent Renter-Occupied',
+          data: trendline,
+          color: colors[2]
+        });
+
+        ChartHelper.make_line_chart(el, series_percent, years, ['Change in Percentage of Renter-Occupied Households', 'Cook County, 1990, 2000, 2005 to 2017'], 'Percent Renter-Occupied', 'percent')
+
+    }
+
+</script>

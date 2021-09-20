@@ -1,0 +1,65 @@
+---
+layout: chart
+---
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type="text/javascript">
+
+    $(function () {
+
+      $.when($.get('data/output/7-affordability-chicago.csv')).then(
+        function(data){
+
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
+          colors = ChartHelper.get_colors(2);
+
+          var series_data = [];
+          series_data.push({
+                name: 'Change in Supply',
+                data: cleaned_data[0],
+                color: colors[0]
+              });
+
+          series_data.push({
+                name: 'Change in Demand',
+                data: cleaned_data[1],
+                color: ChartHelper.get_colors(3)[2]
+              });
+
+          tooltip = {
+                      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>',
+                      shared: true
+                    }
+
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent Change in Affordable Rental Supply and Demand Since 2012', 'City of Chicago, 2012 to 2017'], 'Percent', 'percent');
+
+      });
+    });
+
+    function clean_csv_data(data){
+      // this is just for the first chart, where there are only col labels
+        var obj_data = $.csv.toObjects(data);
+
+        _cleaned_data = [];
+        _categories = [];
+
+        //format numbers
+        $.each(obj_data, function(row_id, row){
+            var row_data = [];
+            $.each(row, function(col_id, col){
+              row_data.push(parseFloat(col.replace(/,/g,'')));
+
+              if(_categories.indexOf(col_id) == -1)
+                _categories.push(col_id);
+            });
+            _cleaned_data.push(row_data);
+        });
+
+        return [_cleaned_data, _categories];
+    }
+
+</script>

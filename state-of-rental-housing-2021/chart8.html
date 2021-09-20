@@ -1,0 +1,76 @@
+---
+layout: chart
+---
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type="text/javascript">
+
+    $(function () {
+
+      $.when($.get('data/output/8-rental-supply-building-size.csv')).then(
+        function(data){
+
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
+
+          var series_data = [];
+          series_data.push({
+                name: 'Single-Unit',
+                data: cleaned_data[0],
+                color: '#547BB6'
+              });
+
+          series_data.push({
+                name: '2-to-4 Unit',
+                data: cleaned_data[1],
+                color: '#AAA646'
+              });
+
+          series_data.push({
+                name: '5-to-49 Unit',
+                data: cleaned_data[2],
+                color: '#edab50'
+              });
+
+          series_data.push({
+                name: '50+ Units',
+                data: cleaned_data[3],
+                color: '#CE603B'
+              });
+
+          tooltip = {
+                      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y}%<br/>',
+                      shared: true
+                    }
+
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Percent Change in Rental Supply by Building Size Since 2012', 'Cook County, 2012 to 2017'], 'Percent', 'percent');
+
+      });
+    });
+
+    function clean_csv_data(data){
+      // this is just for the first chart, where there are only col labels
+        var obj_data = $.csv.toObjects(data);
+
+        _cleaned_data = [];
+        _categories = [];
+
+        //format numbers
+        $.each(obj_data, function(row_id, row){
+            var row_data = [];
+            $.each(row, function(col_id, col){
+              row_data.push(parseFloat(col.replace(/,/g,'')));
+
+              if(_categories.indexOf(col_id) == -1)
+                _categories.push(col_id);
+            });
+            _cleaned_data.push(row_data);
+        });
+
+        return [_cleaned_data, _categories];
+    }
+
+</script>
