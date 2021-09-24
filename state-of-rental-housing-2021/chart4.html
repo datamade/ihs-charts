@@ -10,7 +10,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/output/2-renters-income-composition.csv')).then(
+    $.when($.get('data/output/4-renters-income-composition.csv')).then(
       function(data){
 
         csv_stuff = ChartHelper.prep_chart_data(data, 'col', 'percentage');

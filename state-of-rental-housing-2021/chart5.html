@@ -39,14 +39,14 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/output/3-renters-age-total.csv')).then(
+    $.when($.get('data/output/5-renters-age-total.csv')).then(
       function(data){
 
         prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
         year_data = prep_data[0];
         age_grps = prep_data[1];
 
-        years = ['2007', '2012', '2013', '2014', '2015', '2016', '2017']
+        years = ['2007', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
 
         $.each(age_grps, function(idx_age, age){
 
