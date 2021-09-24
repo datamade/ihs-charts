@@ -419,7 +419,7 @@ var ChartHelper = {
             enabled: false
           },
           min: 0.5,
-          max: 5.5
+          max: years.length - 1.5
         },
         yAxis: {
           title: {
