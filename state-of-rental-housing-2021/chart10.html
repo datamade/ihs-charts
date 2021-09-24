@@ -38,7 +38,7 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/output/10-rent-burden-0.csv')).then(
+    $.when($.get('data/output/10-rent-burden.csv')).then(
       function(data){
 
         prep_data = ChartHelper.prep_chart_data(data, 'row', 'percentage');
