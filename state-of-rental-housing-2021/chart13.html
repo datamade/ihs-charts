@@ -1,0 +1,39 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: 'Percent Change',
+      data: [-5.20,-4.30,2.50],
+      color: ChartHelper.get_colors(3)[0]
+    }];
+
+    plot_options = {
+        column: {
+          stacking: 'normal'
+        },
+        series: {
+          states: {
+            hover: {
+              enabled: false
+            }
+          }
+        }
+      }
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
+    }
+
+    ChartHelper.make_negative_bar_chart('#chart_0', my_data, ["Change in Share of Units that are Affordable","Change in Share of Renters that are Low Income","Change in Share of Lower-income Renters with Unaffordable Rent"], ["Shifting Dynamics of Affordable Supply and Lower-Income Demand", "City of Chicago - 2012-2014 and 2017-2019"], '', plot_options, tooltip)
+  });
+
+</script>

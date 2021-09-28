@@ -1,0 +1,24 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/7-supply-distribution.csv')).then(
+      function(data){
+
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'percentage');
+        series_data = prep_data[0];
+        categories = prep_data[1];
+
+        ChartHelper.make_composition_chart('#chart_0', series_data, categories, ["Distribution of Rental Supply by Building Size", 'Cook County, 2007, 2012, 2015, and 2019'], '', '')
+    });
+  });
+
+</script>
