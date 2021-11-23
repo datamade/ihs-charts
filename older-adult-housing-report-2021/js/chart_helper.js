@@ -49,6 +49,10 @@ var ChartHelper = {
       return ['#547BB6'];
     },
 
+    get_colors_race: function(){
+      return ['#ce603b', '#375481', '#cab040', '#8DA7CE', '#cc893d']
+    },
+
     prep_chart_data: function(data, primary_dimension, number_type){
       // preps a matrix-esque csv w/ labels for rows & columns
       if(primary_dimension == 'row'){

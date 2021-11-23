@@ -1,0 +1,31 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "All Chicago Households",
+      data: [37576],
+      color: ChartHelper.get_colors(3)[0]
+    },
+    {
+      name: "Older Adult (65+) Chicago Households",
+      data: [26643],
+      color: ChartHelper.get_colors(3)[1]
+    }];
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}'
+    }
+
+    ChartHelper.make_bar_chart('#chart_0', my_data, ["Households who Live Alone"], ["Figure 11. Net Change in the Number of Total Households and Older Adult (65+) Households who Live Alone", "City of Chicago, 2012 to 2019"], '', {}, tooltip)
+  });
+
+</script>

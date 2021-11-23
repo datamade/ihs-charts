@@ -1,0 +1,41 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "White",
+      data: [12.5,7.9,9.2],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [19.4,34.8,23.3],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [83.6,71.5,80.3],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [32.7,97.2,59.0],
+      color: ChartHelper.get_colors_race()[3]
+    }];
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
+    }
+
+    ChartHelper.make_bar_chart('#chart_0', my_data, ["City of Chicago","Suburban Cook County","Cook County"], ["Figure 4.  Percent Change in the Number of Older Adult (65+) Headed Households by Head of Householder Race/Ethnicity", "Cook County, 2012 to 2019"], '', {}, tooltip)
+  });
+
+</script>
