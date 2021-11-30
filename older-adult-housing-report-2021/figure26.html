@@ -1,0 +1,108 @@
+---
+layout: chart
+---
+
+<p class="chart-title">Figure 26. Share of Older Adult (65+) Owner Households with a Mortgage in Cook County, 2012 and 2019
+</p>
+
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3">
+    <div class='horizontal-legend-race'>
+    </div>
+    <br />
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-4">
+    <div id='chart_chi' class="xs-multiple"></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_sub' class="xs-multiple"></div>
+  </div>
+  <div class="col-xs-4">
+    <div id='chart_cook' class="xs-multiple"></div>
+  </div>
+</div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    legend_html = ''
+    $.each(["White","African American/Black","Hispanic/Latinx","Asian"], function(i, cat){
+      legend_item = '<span class="legend-item"><span style="color:'+ChartHelper.get_colors_race()[i]+' !important">▆</span> '+cat+'</span>'
+      legend_html = legend_html+legend_item
+    });
+
+    $('.horizontal-legend-race').html(legend_html)
+
+    var my_data_chi = [{
+      name: "White",
+      data: [34.2,33.8],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [51.4,47.7],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [51.0,43.3],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [38.5,33.5],
+      color: ChartHelper.get_colors_race()[3]
+    }];
+
+    var my_data_sub = [{
+      name: "White",
+      data: [31.9,33.2],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [61.3,62.4],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [54.8,49.1],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [43.2,39.5],
+      color: ChartHelper.get_colors_race()[3]
+    }];
+
+    var my_data_cook = [{
+      name: "White",
+      data: [32.5,33.4],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [54.5,53.1],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [52.1,45.4],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [41.1,37.2],
+      color: ChartHelper.get_colors_race()[3]
+    }];
+
+    ChartHelper.make_slope_chart_small('#chart_chi', my_data_chi, [2012,2019], "Chicago", '', 'percent')
+    ChartHelper.make_slope_chart_small('#chart_sub', my_data_sub, [2012,2019], "Suburban Cook County", '', 'percent')
+    ChartHelper.make_slope_chart_small('#chart_cook', my_data_cook, [2012,2019], "Cook County", '', 'percent')
+  });
+
+</script>

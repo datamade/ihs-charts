@@ -540,7 +540,7 @@ var ChartHelper = {
         }
         data_labels = {
                     enabled: true,
-                    format: "{point.y:.1f}%"
+                    format: "{point.y:,.1f}%"
                 }
       }
       else if (data_type == 'rate'){
@@ -607,7 +607,115 @@ var ChartHelper = {
                 },
                 dataLabels: {
                     enabled: true,
-                    format: "{point.y:.1f}%",
+                    format: "{point.y:,.1f}%",
+                    align: function(d) {
+                      if (d.series.data.indexOf(d.point.y) == 0)
+                         return 'left';
+                      return 'right';
+                    },
+                    style: {
+                      fontWeight: 'normal'
+                    }
+                }
+            }
+        },
+        series: series_data
+      });
+
+    },
+
+    make_slope_chart_small: function(el, series_data, categories, chart_title, yaxis_title, data_type){
+      pointFormat = '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%<br/>';
+      dataLabels_format = "{point.y:.1f}%";
+      
+      if (data_type == 'percent'){
+        y_min = 0
+        y_labels = {
+          enabled: false
+        }
+        data_labels = {
+                    enabled: true,
+                    format: "{point.y:.1f}%"
+                }
+      }
+      else if (data_type == 'rate'){
+        y_min = null
+        y_labels = {
+              formatter: function () {
+                  return this.value;
+              }
+            }
+      } else if (data_type == 'raw'){
+        y_min = null
+        y_labels = {
+          enabled: false
+        }
+        data_labels = {
+          enabled: false
+        }
+        pointFormat = '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>'
+        dataLabels_format = "{point.y:,.0f}"
+      } else {
+        y_min = 0
+        y_labels = {}
+      }
+
+      $(el).highcharts({
+        chart: {
+          type: 'line',
+          backgroundColor:"rgba(255, 255, 255, 0)",
+          spacingBottom: 0
+        },
+        credits: { enabled: false },
+        title: {
+            text: chart_title
+        },
+        xAxis: {
+            categories: categories,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            },
+            opposite: false,
+            lineWidth: 1,
+            tickWidth: 0,
+            labels: {
+              style: {
+                fontSize: '12px',
+                fontWeight: 'bold'
+              }
+            }
+        },
+        yAxis: {
+            title: {
+                text: yaxis_title
+            },
+            labels: y_labels,
+            min: y_min,
+            gridLineWidth: 0
+        },
+        tooltip: {
+          pointFormat: pointFormat,
+          shared: true,
+          backgroundColor: 'rgba(247,247,247,0.95)',
+          style: {
+            'font-weight': 'bold'
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    lineWidth: 0,
+                    lineColor: '#ffffff',
+                    symbol: 'circle',
+                    radius: 2
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: dataLabels_format,
                     align: function(d) {
                       if (d.series.data.indexOf(d.point.y) == 0)
                          return 'left';
