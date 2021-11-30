@@ -532,6 +532,98 @@ var ChartHelper = {
 
     },
 
+    make_slope_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type){
+      if (data_type == 'percent'){
+        y_min = 0
+        y_labels = {
+          enabled: true
+        }
+        data_labels = {
+                    enabled: true,
+                    format: "{point.y:.1f}%"
+                }
+      }
+      else if (data_type == 'rate'){
+        y_min = null
+        y_labels = {
+              formatter: function () {
+                  return this.value;
+              }
+            }
+      } else {
+        y_min = 0
+        y_labels = {}
+      }
+
+      $(el).highcharts({
+        chart: {
+          type: 'line',
+          backgroundColor:"rgba(255, 255, 255, 0)",
+          spacingBottom: 0
+        },
+        credits: { enabled: false },
+        title: {
+            text: chart_title
+        },
+        xAxis: {
+            categories: categories,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            },
+            opposite: false,
+            lineWidth: 1,
+            tickWidth: 0,
+            labels: {
+              style: {
+                fontSize: '12px',
+                fontWeight: 'bold'
+              }
+            }
+        },
+        yAxis: {
+            title: {
+                text: yaxis_title
+            },
+            labels: y_labels,
+            min: y_min,
+            gridLineWidth: 0
+        },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%<br/>',
+          shared: true,
+          backgroundColor: 'rgba(247,247,247,0.95)',
+          style: {
+            'font-weight': 'bold'
+          }
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    lineWidth: 0,
+                    lineColor: '#ffffff',
+                    symbol: 'circle',
+                    radius: 2
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.1f}%",
+                    align: function(d) {
+                      if (d.series.data.indexOf(d.point.y) == 0)
+                         return 'left';
+                      return 'right';
+                    },
+                    style: {
+                      fontWeight: 'normal'
+                    }
+                }
+            }
+        },
+        series: series_data
+      });
+
+    },
+
     formatAmount: function(value) {
       if (value >= 1000000000)
         return Math.round(value / 1000000000) + "B";

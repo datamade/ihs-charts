@@ -11,13 +11,18 @@ layout: chart
   $(function () {
 
     var my_data = [{
-      name: "2012",
-      data: [18.4,24.5,21.3],
+      name: "City of Chicago",
+      data: [18.4,21.8],
       color: ChartHelper.get_colors(2)[0]
     },
     {
-      name: "2019",
-      data: [21.8,28.2,24.8],
+      name: "Suburban Cook County",
+      data: [24.5,28.2],
+      color: ChartHelper.get_colors(3)[1]
+    },
+    {
+      name: "Cook County",
+      data: [21.3,24.8],
       color: ChartHelper.get_colors(3)[2]
     }];
 
@@ -25,7 +30,7 @@ layout: chart
       pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
     }
 
-    ChartHelper.make_bar_chart('#chart_0', my_data, ["City of Chicago","Suburban Cook County","Cook County"], ["Figure 3. Share of All Households Headed by an Older Adult (65+)", "Cook County, 2012 to 2019"], '', {}, tooltip)
+    ChartHelper.make_slope_chart('#chart_0', my_data, [2012,2019], "Figure 3. Share of All Households Headed by an Older Adult (65+)", '', 'percent')
   });
 
 </script>

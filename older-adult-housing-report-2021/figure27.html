@@ -1,0 +1,41 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "Single-Unit",
+      data: [81.4,81.8],
+      color: ChartHelper.get_colors(4)[0]
+    },
+    {
+      name: "2 to 4 Unit",
+      data: [5.7,5.3],
+      color: ChartHelper.get_colors(4)[1]
+    },
+    {
+      name: "5 to 49 Unit",
+      data: [8.7,7.9],
+      color: ChartHelper.get_colors(4)[2]
+    },
+    {
+      name: "50+Unit",
+      data: [4.1,5.0],
+      color: ChartHelper.get_colors(4)[3]
+    }];
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
+    }
+
+    ChartHelper.make_slope_chart('#chart_0', my_data, [2012,2019], "Figure 27. Older Adult Owner Households by Building Size in Suburban Cook County, 2012 to 2019", '', 'percent')
+  });
+
+</script>
