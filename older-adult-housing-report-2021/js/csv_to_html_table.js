@@ -25,6 +25,8 @@ CsvToHtmlTable = {
                             style = 'success';
                             cell_value = cell_value;
                         }
+                        if (colIdx == 6 || rowIdx == 3)
+                            style = '';
                         var $tableBodyRowTd = $("<td class='" + style + "' style='text-align: right;'></td>");
                         $tableBodyRowTd.text(cell_value + "%");
                         $tableBodyRow.append($tableBodyRowTd);

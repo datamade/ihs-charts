@@ -177,13 +177,15 @@ var ChartHelper = {
 
     },
 
-    make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title){
+    make_composition_chart: function(el, series_data, categories, chart_title, xaxis_title, yaxis_title, reverse){
 
-      // flipping data so that most recent year comes first
-      categories = categories.reverse()
-      $.each(series_data, function(i, group_data){
-        group_data['data'] = group_data['data'].reverse()
-      });
+      if (reverse === true) {
+        // flipping data so that most recent year comes first
+        categories = categories.reverse()
+        $.each(series_data, function(i, group_data){
+          group_data['data'] = group_data['data'].reverse()
+        });
+      }
 
       $(el).highcharts({
         chart: {
