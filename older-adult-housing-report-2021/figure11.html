@@ -11,21 +11,27 @@ layout: chart
   $(function () {
 
     var my_data = [{
-      name: "All Chicago Households",
-      data: [37576],
-      color: ChartHelper.get_colors(3)[0]
-    },
-    {
       name: "Older Adult (65+) Chicago Households",
-      data: [26643],
+      data: [96079,122722],
       color: ChartHelper.get_colors(3)[1]
-    }];
+    },{
+      name: "All Other Chicago Households",
+      data: [374602,412178],
+      color: ChartHelper.get_colors(3)[0]
+    }
+    ];
+
+    plot_options = {
+        column: {
+          stacking: 'normal'
+        }
+      }
 
     tooltip = {
       pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}'
     }
 
-    ChartHelper.make_bar_chart('#chart_0', my_data, ["Households who Live Alone"], ["Figure 11. Net Change in the Number of Total Households and Older Adult (65+) Households who Live Alone", "City of Chicago, 2012 to 2019"], '', {}, tooltip)
+    ChartHelper.make_bar_chart('#chart_0', my_data, ["2012", "2019"], ["Figure 11. Net Change in the Number of Total Households and Older Adult (65+) Households who Live Alone", "City of Chicago, 2012 to 2019"], '', plot_options, tooltip)
   });
 
 </script>
