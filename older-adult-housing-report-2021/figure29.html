@@ -1,0 +1,41 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "Single-Unit",
+      data: [64.6,57.2],
+      color: ChartHelper.get_colors(4)[0]
+    },
+    {
+      name: "2 to 4 Unit",
+      data: [20.4,22.3],
+      color: ChartHelper.get_colors(4)[1]
+    },
+    {
+      name: "5 to 49 Unit",
+      data: [4.7,6.0],
+      color: ChartHelper.get_colors(4)[2]
+    },
+    {
+      name: "50+Unit",
+      data: [10.3,14.5],
+      color: ChartHelper.get_colors(4)[3]
+    }];
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
+    }
+
+    ChartHelper.make_slope_chart('#chart_0', my_data, [2012,2019], "Figure 29. Older Adult Owner Households by Building Size in the City of Chicago, 2012 to 2019", '', 'percent')
+  });
+
+</script>

@@ -1,0 +1,41 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "White",
+      data: [28.9,28.2],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [44.4,52.9],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [37.1,52.1],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [48.2,47.6],
+      color: ChartHelper.get_colors_race()[3]
+    }];
+
+    tooltip = {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.1f}%'
+    }
+
+    ChartHelper.make_slope_chart('#chart_0', my_data, [2012,2019], "Figure 15. Share of Older Adult (65+) Households that Rent by Head of Householder Race/Ethnicity in the City of Chicago, 2012 and 2019", '', 'percent')
+  });
+
+</script>

@@ -1,0 +1,43 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    var my_data = [{
+      name: "White",
+      data: [37.2,76.1,58.0],
+      color: ChartHelper.get_colors_race()[0]
+    },
+    {
+      name: "African American/Black",
+      data: [39.2,13.2,25.4],
+      color: ChartHelper.get_colors_race()[1]
+    },
+    {
+      name: "Hispanic/Latinx",
+      data: [17.6,5.4,11.1],
+      color: ChartHelper.get_colors_race()[2]
+    },
+    {
+      name: "Asian",
+      data: [5.1,4.6,4.9],
+      color: ChartHelper.get_colors_race()[3]
+    },
+    {
+      name: "All Other Race/Ethnicity",
+      data: [0.8,0.7,0.7],
+      color: ChartHelper.get_colors_race()[4]
+    }];
+
+    ChartHelper.make_composition_chart('#chart_0', my_data, ["City of Chicago","Suburban Cook County","Cook County"], ["Figure 5. Distribution of Older Adult (65+) Headed Households by Head of Householder Race/Ethnicity", "Cook County, 2019"], '', '')
+
+  });
+
+</script>

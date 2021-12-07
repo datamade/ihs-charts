@@ -1,0 +1,72 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {			
+
+    var my_data = [{
+      name: "Less than 30 Percent AMI",
+      data: [23.3,
+        43.0,
+        41.8,
+        40.3,
+        35.4],
+      color: ChartHelper.get_colors(6)[0]
+    },
+    {
+      name: "30 to 50 Percent AMI",
+      data: [16.9,
+        19.3,
+        25.2,
+        18.2,
+        19.2],
+      color: ChartHelper.get_colors(6)[1]
+    },
+    {
+      name: "50 to 80 Percent AMI",
+      data: [15.1,
+        14.6,
+        11.6,
+        13.0,
+        14.1],
+      color: ChartHelper.get_colors(6)[2]
+    },
+    {
+      name: "80 to 120 Percent AMI",
+      data: [15.5,
+        11.8,
+        9.4,
+        9.2,
+        12.7],
+      color: ChartHelper.get_colors(6)[3]
+    },
+    {
+      name: "120 to 200 Percent AMI",
+      data: [13.9,
+        6.1,
+        6.6,
+        5.2,
+        9.1],
+      color: ChartHelper.get_colors(6)[4]
+    },
+    {
+      name: "More than 200 Percent AMI",
+      data: [15.2,
+        5.2,
+        5.4,
+        14.2,
+        9.5],
+      color: ChartHelper.get_colors(6)[5]
+    }];
+
+    ChartHelper.make_composition_chart('#chart_0', my_data, ["White","African American/Black","Hispanic/Latinx","Asian","All Older Adult Households"], ["Figure 6. Distribution of Older Adult (65+) Households by Income Range and by Head of Householder Race/Ethnicity", "City of Chicago, 2019"], '', '')
+
+  });
+
+</script>

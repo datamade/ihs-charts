@@ -1,0 +1,39 @@
+---
+layout: chart
+---
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">Figure 14. Composition of Older Adult Total Household (65+) Net Change by Head of Householder Race/Ethnicity and Tenure</p>
+        <p class="chart-subtitle">City of Chicago, 2012 to 2019</p>
+    </div>
+</div>
+
+<table class='table table-striped table-condensed' id='table0'>
+  <thead>
+    <tr>
+      <th></th>
+      <th style='width: 10%; text-align: right;'>White</th>
+      <th style='width: 10%; text-align: right;'>African American/Black</th>
+      <th style='width: 10%; text-align: right;'>Hispanic/Latinx</th>
+      <th style='width: 10%; text-align: right;'>Asian</th>
+      <th style='width: 10%; text-align: right;'>All Other Race/Ethnicity</th>
+      <th style='width: 10%; text-align: right;'>All Older Adult Households</th>
+    </tr>
+  </thead>
+</table>
+
+<script type="text/javascript" src="js/csv_to_html_table.js"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    CsvToHtmlTable.init({
+      csv_path: 'data/output/figure14.csv',
+      element: 'table0',
+      csv_options: {separator: ',', delimiter: '"'},
+      datatables_options: {"bFilter": false, "paging": false, "aaSorting": [ [0,'desc'] ], "info": false,}
+    });
+  });
+</script>
