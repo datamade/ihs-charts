@@ -29,7 +29,7 @@ layout: chart
   $(function () {
 
     legend_html = ''
-    $.each(["White","African American/Black","Hispanic/Latinx","Asian"], function(i, cat){
+    $.each(["White","African American/Black","Hispanic/Latino","Asian"], function(i, cat){
       legend_item = '<span class="legend-item"><span style="color:'+ChartHelper.get_colors_race()[i]+' !important">▆</span> '+cat+'</span>'
       legend_html = legend_html+legend_item
     });
@@ -47,7 +47,7 @@ layout: chart
       color: ChartHelper.get_colors_race()[1]
     },
     {
-      name: "Hispanic/Latinx",
+      name: "Hispanic/Latino",
       data: [62.9,47.9],
       color: ChartHelper.get_colors_race()[2]
     },
@@ -68,7 +68,7 @@ layout: chart
       color: ChartHelper.get_colors_race()[1]
     },
     {
-      name: "Hispanic/Latinx",
+      name: "Hispanic/Latino",
       data: [70.7,79.6],
       color: ChartHelper.get_colors_race()[2]
     },
@@ -89,7 +89,7 @@ layout: chart
       color: ChartHelper.get_colors_race()[1]
     },
     {
-      name: "Hispanic/Latinx",
+      name: "Hispanic/Latino",
       data: [65.0,56.1],
       color: ChartHelper.get_colors_race()[2]
     },
@@ -99,7 +99,7 @@ layout: chart
       color: ChartHelper.get_colors_race()[3]
     }];
 
-    ChartHelper.make_slope_chart_small('#chart_chi', my_data_chi, [2012,2019], "Chicago", '', 'percent')
+    ChartHelper.make_slope_chart_small('#chart_chi', my_data_chi, [2012,2019], "City of Chicago", '', 'percent')
     ChartHelper.make_slope_chart_small('#chart_sub', my_data_sub, [2012,2019], "Suburban Cook County", '', 'percent')
     ChartHelper.make_slope_chart_small('#chart_cook', my_data_cook, [2012,2019], "Cook County", '', 'percent')
   });
