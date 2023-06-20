@@ -1,0 +1,41 @@
+---
+layout: chart
+---
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">Shifting Dynamics of Affordable Supply and Lower-Income Demand</p>
+        <p class="chart-subtitle">Current Conditions (2019-21) and Percentage Point Change (2012-2014 to 2019-21)</p>
+    </div>
+</div>
+
+<table class='table table-striped table-condensed' id='puma-table'>
+  <thead>
+    <tr>
+      <th><span data-content="PUMAs, or Public Use Microdata Areas, are subdivisions of roughly 100,000 residents defined by the US Census.">Sub-market (PUMA)</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The share of rental units that would be affordable at 30 percent of monthly income for a household earning 150 percent of the federal poverty level in 2017-2019.">Share Affordable Units</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The share of renter households earning 150 percent of the federal poverty level in 2017-2019.">Share of Renters that are Lower-Income</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The share of lower-income renters living in units that are not affordable at 30 percent of monthly income for a household earning 150 percent of the federal poverty level in 2017-2019.">Share of Lower-Income Renters in Unaffordable Units</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The percentage point change in the share of rental units that would be affordable at 30 percent of monthly income for a household earning 150 percent of the federal poverty level since 2012-2014.">Change in Share of Units that are Affordable</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The percentage point change in the share of renter households earning 150 percent of the federal poverty level since 2012-2014.">Change in Share of Renters that are Lower- Income</span></th>
+      <th style='width: 10%; text-align: right;'><span data-content="The percentage point change in the share of lower-income renters living in units that are not affordable at 30 percent of monthly income for a household earning 150 percent of the federal poverty level since 2012-2014.">Change in Share of Lower-Income Renters in Unaffordable Units</span></th>
+    </tr>
+  </thead>
+</table>
+
+<script type="text/javascript" src="js/csv_to_html_table.js"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    CsvToHtmlTable.init({
+      csv_path: 'data/output/8-puma.csv',
+      element: 'puma-table',
+      csv_options: {separator: ',', delimiter: '"'},
+      datatables_options: {"bFilter": false, "paging": false, "aaSorting": [ [0,'asc'] ], "info": false,}
+    });
+
+    $('#puma-table span').popover({trigger: "hover", placement: "bottom"})
+  });
+</script>

@@ -1,0 +1,119 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/4-supply-demand-gap.csv')).then(
+      function(data){
+
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
+        series_data = prep_data[0];
+        years = prep_data[1];
+
+        supply_arr = series_data[0]['data']
+        demand_arr = series_data[1]['data']
+        gap_arr = []
+        $.each(supply_arr, function(i, s){
+          gap_arr.push(demand_arr[i]-supply_arr[i])
+        })
+
+        colors = ChartHelper.get_colors(3)
+
+        prepped_series = [
+          {
+            name: 'Gap',
+            data: gap_arr,
+            stack: 's',
+            color: 'transparent',
+            borderColor: colors[2],
+            borderWidth: 1,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: colors[2],
+              style: {
+                textShadow: 'none',
+              },
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            }
+          },
+          {
+            name: 'Supply',
+            data: supply_arr,
+            stack: 's',
+            color: colors[0],
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .4,
+              },
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            }
+          },
+          {
+            name: 'Demand',
+            data: demand_arr,
+            stack: 'd',
+            color: colors[1],
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              verticalAlign: 'top',
+              color: '#fff',
+              style: {
+                textShadow: 'none',
+                opacity: .7,
+              },
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            }
+          }
+        ]
+
+
+        plot_options = {
+            column: {
+              stacking: 'normal'
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
+            }
+          }
+
+        tooltip = {
+            enabled: false
+          }
+
+        ChartHelper.make_bar_chart('#chart_0', prepped_series, years, ["Affordability", "City of Chicago, 2012-2019, 2021"], 'Households', plot_options, tooltip)
+
+
+        // hacking legend to have border for gap
+        var chart = $('#chart_0').highcharts()
+        gap_legend_symbol = $(chart.series[0].legendSymbol.element)
+        gap_legend_symbol.attr('stroke-width','1');
+        gap_legend_symbol.attr('stroke','#E26967');
+
+    });
+  });
+
+</script>
