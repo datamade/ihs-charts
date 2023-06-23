@@ -1,0 +1,24 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/1-renters-income-composition.csv')).then(
+      function(data){
+
+        csv_stuff = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        series_data = csv_stuff[0];
+        years = csv_stuff[1];
+
+        ChartHelper.make_composition_chart('#chart_0', series_data, years, ['Annual Composition of Renter Households by Income', 'City of Chicago, 2012-2019, 2021'], '', '')
+    });
+  });
+
+</script>
