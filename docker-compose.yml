@@ -6,7 +6,7 @@ services:
       - ./:/usr/local/src
     working_dir: /usr/local/src
     ports:
-      - 5000:5000
+      - 5001:5000
     environment:
       - JEKYLL_ENV=development
     entrypoint: jekyll
