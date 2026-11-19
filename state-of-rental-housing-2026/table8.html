@@ -45,7 +45,7 @@ layout: chart
       csv_options: {separator: ',', delimiter: '"'},
       // shade each cell by its column quintile (2 greens, white, 2 reds): 1 = higher is better, -1 = higher is worse, 0 = none
       // Supply, Demand, Gap, Share Unmet, Share Affordable Units, Share Lower-Income, Share in Unaffordable Units
-      column_direction: [1, 0, -1, -1, 1, 0, -1],
+      column_direction: [1, -1, -1, -1, 1, -1, -1],
       datatables_options: {"bFilter": false, "paging": false, "aaSorting": [ [0,'asc'] ], "info": false,}
     });
 
