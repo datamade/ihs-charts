@@ -1,0 +1,51 @@
+---
+layout: chart
+---
+
+<div class="row">
+    <div class="col-xs-12">
+        <p class="chart-title">The Gap Between the Supply of and Demand for Affordable Rental Housing</p>
+        <p class="chart-subtitle">Chicago Submarkets, 2022-2024</p>
+    </div>
+</div>
+
+<style>
+  /* quintile shading, set in js/csv_to_html_table.js */
+  #puma-table td.shade-good-2  { background-color: #a9d6a0; }
+  #puma-table td.shade-good-1  { background-color: #dff0d8; }
+  #puma-table td.shade-neutral { background-color: #ffffff; }
+  #puma-table td.shade-bad-1   { background-color: #f2dede; }
+  #puma-table td.shade-bad-2   { background-color: #e5a5a5; }
+</style>
+
+<table class='table table-striped table-condensed' id='puma-table'>
+  <thead>
+    <tr>
+      <th><span data-content="PUMAs, or Public Use Microdata Areas, are subdivisions of roughly 100,000 residents defined by the US Census.">Sub-market (PUMA)</span></th>
+      <th style='width: 15%; text-align: right;'><span data-content="The number of rental units that would be affordable at 30 percent of monthly income for a household earning 150 percent of the federal poverty level, averaged over 2022-2024.">Affordable Supply</span></th>
+      <th style='width: 15%; text-align: right;'><span data-content="The number of renter households earning 150 percent of the federal poverty level, averaged over 2022-2024.">Affordable Demand</span></th>
+      <th style='width: 15%; text-align: right;'><span data-content="The difference between the demand for and the supply of affordable rental units, averaged over 2022-2024.">Gap</span></th>
+      <th style='width: 15%; text-align: right;'><span data-content="The share of lower-income renter households that the affordable supply could not accommodate (the gap divided by demand) in 2022-2024.">Share of Demand Unmet by Supply</span></th>
+    </tr>
+  </thead>
+</table>
+
+<script type="text/javascript" src="js/csv_to_html_table.js"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+
+    CsvToHtmlTable.init({
+      csv_path: 'data/output/13-submarkets.csv',
+      element: 'puma-table',
+      csv_options: {separator: ',', delimiter: '"'},
+      // shade each cell by its column quintile (2 greens, white, 2 reds): 1 = higher is better, -1 = higher is worse, 0 = none
+      // Supply, Demand, Gap, Share of Demand Unmet
+      column_direction: [1, -1, -1, -1],
+      datatables_options: {"bFilter": false, "paging": false, "aaSorting": [ [0,'asc'] ], "info": false,}
+    });
+
+    $('#puma-table span').popover({trigger: "hover", placement: "bottom"})
+  });
+</script>

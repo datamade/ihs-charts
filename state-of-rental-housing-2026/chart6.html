@@ -9,51 +9,49 @@ layout: chart
 
     $(function () {
 
-      $.when($.get('data/output/6-rent-more-than-30-pct-income.csv')).then(
+      $.when($.get('data/output/6-indexed-change-building-size.csv')).then(
         function(data){
 
-          csv_stuff = clean_csv_data(data);
-          cleaned_data = csv_stuff[0];
-          years = csv_stuff[1];
-          colors = ChartHelper.get_colors(2);
+          var csv_arrays = $.csv.toArrays(data);
+          var years = csv_arrays[0].slice(1);
+          var rows = csv_arrays.slice(1);
+          // Single-Unit, 2-to-4 Unit, 5-to-49 Unit, 50+ Units
+          var colors = ['#EEA250', '#CC563A', '#7F9AC2', '#375481'];
 
-          var series_data = [];
-          series_data.push({
-                name: 'More than 30% Income Spent on Rent',
-                data: cleaned_data[0],
-                color: colors[0]
-              });
+          var series_data = $.map(rows, function(row, i){
+            return [{
+              name: row[0],
+              data: $.map(row.slice(1), function(v){ return parseFloat(v); }),
+              color: colors[i]
+            }];
+          });
 
-          tooltip = {
-                      pointFormat: '<span style="color:{series.color}">{series.name}</span>: {point.y:,.0f}<br/>',
-                      shared: true
-                    }
+          // four lines: hide per-point labels and use a shared tooltip instead
+          var overrides = {
+            plotOptions: {
+              line: {
+                dataLabels: { enabled: false }
+              },
+              series: {
+                states: { hover: { enabled: true } }
+              }
+            },
+            tooltip: {
+              enabled: true,
+              shared: true,
+              borderColor: '#eee',
+              shadow: false,
+              headerFormat: '<b>{point.key}</b><br/>',
+              pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.y:.1f}%</b><br/>'
+            },
+            yAxis: {
+              plotLines: [{ value: 0, color: '#999', width: 1, zIndex: 2 }]
+            }
+          };
 
-          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Share of Renter Households that were Cost Burdened', 'City of Chicago, 2012-2019, 2021-2024'], 'Percent', 'percent');
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Indexed Change in Rental Units by Building Size', 'City of Chicago, percent change since 2012'], 'Percent', 'percent', overrides);
 
       });
     });
-
-    function clean_csv_data(data){
-      // this is just for the first chart, where there are only col labels
-        var obj_data = $.csv.toObjects(data);
-
-        _cleaned_data = [];
-        _categories = [];
-
-        //format numbers
-        $.each(obj_data, function(row_id, row){
-            var row_data = [];
-            $.each(row, function(col_id, col){
-              row_data.push(parseFloat(col.replace(/,/g,'')));
-
-              if(_categories.indexOf(col_id) == -1)
-                _categories.push(col_id);
-            });
-            _cleaned_data.push(row_data);
-        });
-
-        return [_cleaned_data, _categories];
-    }
 
 </script>

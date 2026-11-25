@@ -10,14 +10,38 @@ layout: chart
 
   $(function () {
 
-    $.when($.get('data/output/1-renters-income-composition.csv')).then(
+    $.when($.get('data/output/1-renter-owner-households.csv')).then(
       function(data){
 
-        csv_stuff = ChartHelper.prep_chart_data(data, 'col', 'percentage');
-        series_data = csv_stuff[0];
-        years = csv_stuff[1];
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
+        series_data = prep_data[0];
+        years = prep_data[1];
 
-        ChartHelper.make_composition_chart('#chart_0', series_data, years, ['Annual Composition of Renter Households by Income', 'City of Chicago, 2012-2019, 2021-2024'], '', '')
+        colors = ChartHelper.get_colors(2)
+        $.each(series_data, function(i, series){
+          series.color = colors[i];
+        });
+
+        // label each point in thousands (e.g. 567K), with a shared tooltip for exact counts
+        overrides = {
+          plotOptions: {
+            line: {
+              dataLabels: {
+                enabled: true,
+                formatter: function () {
+                  return ChartHelper.formatAmount(this.y);
+                }
+              }
+            }
+          },
+          tooltip: {
+            shared: true,
+            headerFormat: '<b>{point.key}</b><br/>',
+            pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.y:,.0f}</b><br/>'
+          }
+        }
+
+        ChartHelper.make_line_chart('#chart_0', series_data, years, ["Number of Renter and Owner Households", "City of Chicago, 2012-2019, 2021-2024"], 'Households', 'count', overrides)
     });
   });
 

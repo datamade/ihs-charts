@@ -2,23 +2,54 @@
 layout: chart
 ---
 
-
 <div id='chart_0'></div>
 
 <!-- project-specific js -->
-<script type='text/javascript'>
+<script type="text/javascript">
 
-  $(function () {
+    $(function () {
 
-    $.when($.get('data/output/2-renters-age-composition.csv')).then(
-      function(data){
+      $.when($.get('data/output/2-share-households-rent.csv')).then(
+        function(data){
 
-        prep_data = ChartHelper.prep_chart_data(data, 'col', 'percentage');
-        series_data = prep_data[0];
-        categories = prep_data[1];
+          csv_stuff = clean_csv_data(data);
+          cleaned_data = csv_stuff[0];
+          years = csv_stuff[1];
+          colors = ChartHelper.get_colors(2);
 
-        ChartHelper.make_composition_chart('#chart_0', series_data, categories, ['Annual Composition of Renters by Age of Householder', 'City of Chicago, 2012-2019, 2021-2024'], '', '')
+          var series_data = [];
+          series_data.push({
+                name: 'Share of Households that Rent',
+                data: cleaned_data[0],
+                color: colors[0]
+              });
+
+          ChartHelper.make_line_chart('#chart_0', series_data, years, ['Share of Households that Rent', 'City of Chicago, 2012-2019, 2021-2024'], 'Percent', 'percent');
+
+      });
     });
-  });
+
+    function clean_csv_data(data){
+      // rows are series, columns are years
+        var obj_data = $.csv.toObjects(data);
+
+        _cleaned_data = [];
+        _categories = [];
+
+        //format numbers
+        $.each(obj_data, function(row_id, row){
+            var row_data = [];
+            $.each(row, function(col_id, col){
+              if (col_id === '') return;  // first column is the series name, not a year
+              row_data.push(parseFloat(col.replace(/,/g,'')));
+
+              if(_categories.indexOf(col_id) == -1)
+                _categories.push(col_id);
+            });
+            _cleaned_data.push(row_data);
+        });
+
+        return [_cleaned_data, _categories];
+    }
 
 </script>
