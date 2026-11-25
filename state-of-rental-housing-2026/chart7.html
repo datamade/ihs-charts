@@ -2,105 +2,118 @@
 layout: chart
 ---
 
-<div class="row">
-    <div class="col-xs-12">
-        <p class="chart-title">Shifts in Rent Burdened Status by Income</p>
-        <p class="chart-subtitle">City of Chicago, 2012-2019, 2021-2024</p>
-    </div>
-</div>
 
-<div class="row">
-  <div class="col-xs-4">
-    <div id='chart_0' class='xs-multiple'></div>
-  </div>
-  <div class="col-xs-4">
-    <div id='chart_1' class='xs-multiple'></div>
-  </div>
-  <div class="col-xs-4">
-    <div id='chart_2' class='xs-multiple'></div>
-  </div>
-  <div class="col-xs-4">
-    <div id='chart_3' class='xs-multiple'></div>
-  </div>
-  <div class="col-xs-4">
-    <div id='chart_4' class='xs-multiple'></div>
-  </div>
-  <div class="col-xs-4">
-    <div id='chart_5' class='xs-multiple'></div>
-  </div>
-</div>
-
-<style>
-  #horizontal-legend .legend-item { font-size: 15px; }
-</style>
-
-<div class="row">
-  <div class="col-xs-9 col-xs-offset-3">
-    <div id='horizontal-legend'></div>
-  </div>
-</div>
+<div id='chart_0'></div>
 
 <!-- project-specific js -->
 <script type='text/javascript'>
 
   $(function () {
 
-    $.when($.get('data/output/7-rent-burden.csv')).then(
+    $.when($.get('data/output/7-supply-demand-gap.csv')).then(
       function(data){
 
-        prep_data = ChartHelper.prep_chart_data(data, 'row', 'percentage');
-        year_status_data = prep_data[0];
-        income_grps = prep_data[1];
+        prep_data = ChartHelper.prep_chart_data(data, 'row', 'count');
+        series_data = prep_data[0];
+        years = prep_data[1];
 
-        years = ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']
-
-        $.each(income_grps, function(idx_income, income_grp){
-
-          trend_not_burdened = []
-          trend_burdened = []
-          trend_severely_burdened = []
-          $.each(year_status_data, function(i, yr_status){
-            if (yr_status.name.indexOf('More than 50% Income Spent on Rent') > -1){
-              trend_severely_burdened.push(yr_status.data[idx_income])
-            } else if (yr_status.name.indexOf('Not Rent-Burdened') > -1){
-              trend_not_burdened.push(yr_status.data[idx_income])
-            } else {
-              trend_burdened.push(yr_status.data[idx_income])
-            }
-          });
-
-          sliced_trend_data = [
-            {
-              color: '#C5C5C5',
-              data: trend_not_burdened,
-              name: 'Not Burdened'
-            },
-            {
-              color: '#EDAB50',
-              data: trend_burdened,
-              name: 'Burdened'
-            },
-            {
-              color: '#CE603B',
-              data: trend_severely_burdened,
-              name: 'Extremely Burdened'
-            }
-          ]
-
-          chart_id = '#chart_'+idx_income.toString()
-          ChartHelper.make_small_composition_chart(chart_id, sliced_trend_data, years, income_grp, 'percent')
+        supply_arr = series_data[0]['data']
+        demand_arr = series_data[1]['data']
+        gap_arr = []
+        $.each(supply_arr, function(i, s){
+          gap_arr.push(demand_arr[i]-supply_arr[i])
         })
 
-        legend_html = ''
-        $.each(sliced_trend_data, function(i, series){
-          legend_item = '<span class="legend-item"><span style="color:'+series.color+' !important">▆</span> '+series.name+'</span>'
-          legend_html = legend_html+legend_item
-        });
+        colors = ChartHelper.get_colors(3)
 
-        $('#horizontal-legend').html(legend_html)
+        // vertical labels at the top of each bar; bars are too narrow for horizontal text
+        label_opts = {
+          enabled: true,
+          inside: true,
+          rotation: -90,
+          align: 'right',
+          verticalAlign: 'top',
+          y: 4,
+          style: {
+            fontFamily: '"GibsonSemiBold", sans-serif',
+            fontSize: '12px',
+            fontWeight: 'normal',
+            textOutline: 'none',
+            textShadow: 'none'
+          }
+        }
+
+        prepped_series = [
+          {
+            name: 'Gap',
+            data: gap_arr,
+            stack: 's',
+            color: 'transparent',
+            borderColor: colors[2],
+            borderWidth: 1,
+            dataLabels: $.extend({}, label_opts, {
+              color: '#a8432a',
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            })
+          },
+          {
+            name: 'Supply',
+            data: supply_arr,
+            stack: 's',
+            color: colors[0],
+            borderWidth: 0,
+            dataLabels: $.extend({}, label_opts, {
+              color: ChartHelper.label_color(colors[0]),
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            })
+          },
+          {
+            name: 'Demand',
+            data: demand_arr,
+            stack: 'd',
+            color: colors[1],
+            borderWidth: 0,
+            dataLabels: $.extend({}, label_opts, {
+              color: ChartHelper.label_color(colors[1]),
+              formatter: function () {
+                return ChartHelper.formatAmount(this.y);
+              }
+            })
+          }
+        ]
+
+
+        plot_options = {
+            column: {
+              stacking: 'normal'
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
+            }
+          }
+
+        tooltip = {
+            enabled: false
+          }
+
+        ChartHelper.make_bar_chart('#chart_0', prepped_series, years, ["Changing Gap Between the Supply of and Demand for Affordable Rental Housing", "City of Chicago, 2012-2019, 2021-2024"], 'Households', plot_options, tooltip)
+
+
+        // hacking legend to have border for gap
+        var chart = $('#chart_0').highcharts()
+        gap_legend_symbol = $(chart.series[0].legendSymbol.element)
+        gap_legend_symbol.attr('stroke-width','1');
+        gap_legend_symbol.attr('stroke','#E26967');
 
     });
-
   });
 
 </script>

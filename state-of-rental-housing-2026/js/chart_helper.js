@@ -126,9 +126,9 @@ var ChartHelper = {
       );
     },
 
-    make_bar_chart: function(el, series_data, categories, chart_title, yaxis_title, plotOptions, tooltip){
+    make_bar_chart: function(el, series_data, categories, chart_title, yaxis_title, plotOptions, tooltip, overrides){
 
-      $(el).highcharts({
+      $(el).highcharts($.extend(true, {
         chart: {
           type: 'column',
           backgroundColor:"rgba(255, 255, 255, 0)",
@@ -158,7 +158,7 @@ var ChartHelper = {
         },
         tooltip: tooltip,
         series: series_data
-      });
+      }, overrides || {}));
 
     },
 
@@ -482,7 +482,7 @@ var ChartHelper = {
 
     },
 
-    make_line_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type){
+    make_line_chart: function(el, series_data, categories, chart_title, yaxis_title, data_type, overrides){
       if (data_type == 'percent'){
         y_min = null
         y_labels = {
@@ -518,7 +518,7 @@ var ChartHelper = {
 
       }
 
-      $(el).highcharts({
+      $(el).highcharts($.extend(true, {
         chart: {
           type: 'line',
           backgroundColor:"rgba(255, 255, 255, 0)",
@@ -560,7 +560,7 @@ var ChartHelper = {
             }
         },
         series: series_data
-      });
+      }, overrides || {}));
 
     },
 

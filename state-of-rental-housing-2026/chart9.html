@@ -1,0 +1,78 @@
+---
+layout: chart
+---
+
+
+<div id='chart_0'></div>
+
+<!-- project-specific js -->
+<script type='text/javascript'>
+
+  $(function () {
+
+    $.when($.get('data/output/9-affordability-gap-characteristics.csv')).then(
+      function(data){
+
+        // one series per period, grouped by measure
+        prep_data = ChartHelper.prep_chart_data(data, 'col', 'percentage');
+        series_data = prep_data[0];
+        measures = prep_data[1];
+
+        // 2012-14, 2017-19, 2022-24
+        colors = ['#7F9AC2', '#EEA250', '#CC563A'];
+        $.each(series_data, function(i, series){
+          series.color = colors[i];
+          series.borderWidth = 0;
+        });
+
+        plot_options = {
+            column: {
+              groupPadding: 0.15,
+              pointPadding: 0.03,
+              dataLabels: {
+                enabled: true,
+                format: '{y:.1f}%',
+                color: '#333',
+                style: {
+                  fontFamily: '"GibsonSemiBold", sans-serif',
+                  fontSize: '13px',
+                  fontWeight: 'normal',
+                  textOutline: 'none',
+                  textShadow: 'none'
+                }
+              }
+            },
+            series: {
+              states: {
+                hover: {
+                  enabled: false
+                }
+              }
+            }
+          }
+
+        tooltip = {
+            enabled: false
+          }
+
+        overrides = {
+          xAxis: {
+            labels: {
+              style: { fontSize: '13px' }
+            }
+          },
+          yAxis: {
+            maxPadding: 0.15,  // room for the labels above the tallest bars
+            labels: {
+              formatter: function () {
+                return this.value + '%';
+              }
+            }
+          }
+        }
+
+        ChartHelper.make_bar_chart('#chart_0', series_data, measures, ["Affordability Gap Characteristics", "City of Chicago, 2012-14, 2017-19, 2022-24"], 'Percent', plot_options, tooltip, overrides)
+    });
+  });
+
+</script>
